@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TreeView?>
+<?import javafx.scene.control.TreeItem?>
+
+<fx:root type="cz.spiffyk.flpmanager.application.screens.songs.SongsView" showRoot="false" xmlns:fx="http://javafx.com/fxml/1">
+	<TreeItem fx:id="songsRoot">
+		<children>
+		</children>
+	</TreeItem>
+</fx:root>
+
