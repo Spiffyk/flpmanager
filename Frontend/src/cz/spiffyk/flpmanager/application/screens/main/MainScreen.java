@@ -1,27 +1,24 @@
 package cz.spiffyk.flpmanager.application.screens.main;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-import cz.spiffyk.flpmanager.SongManager;
 import cz.spiffyk.flpmanager.application.controls.SongTreeItem;
 import cz.spiffyk.flpmanager.application.screens.generator.SongGeneratorDialog;
 import cz.spiffyk.flpmanager.application.screens.songs.SongsView;
 import cz.spiffyk.flpmanager.data.Song;
+import cz.spiffyk.flpmanager.data.Workspace;
 import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
 import javafx.scene.layout.BorderPane;
 
 public class MainScreen extends BorderPane {
+	
+	private Workspace songManager;
 	
 	public MainScreen() {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScreen.fxml"));
@@ -42,11 +39,12 @@ public class MainScreen extends BorderPane {
 	@FXML private SongsView songsView;
 	
 	/**
-	 * Sets the song manager to work with
-	 * @param songManager
+	 * Sets the workspace to work with
+	 * @param workspace
 	 */
-	public void setSongManager(SongManager songManager) {
-		songsView.setSongManager(songManager);
+	public void setWorkspace(Workspace workspace) {
+		this.songManager = workspace;
+		songsView.setWorkspace(workspace);
 	}
 	
 	/**
@@ -78,7 +76,8 @@ public class MainScreen extends BorderPane {
 	@FXML protected void newSongAction(ActionEvent e) {
 		SongGeneratorDialog dialog = new SongGeneratorDialog();
 		dialog.showAndWait().ifPresent(s -> {
-			System.out.println(s);
+			songManager.getSongs().add(s);
+			songsView.updateSongs();
 		});
 	}
 	

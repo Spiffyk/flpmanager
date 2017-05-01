@@ -1,12 +1,10 @@
 package cz.spiffyk.flpmanager.data;
 
-import java.io.Serializable;
+import java.util.Observable;
 
 import javafx.scene.paint.Color;
 
-public class Tag implements Serializable {
-
-	private static final long serialVersionUID = -7846257058776452951L;
+public class Tag extends Observable {
 
 	/**
 	 * The lower-case tag name
@@ -45,6 +43,8 @@ public class Tag implements Serializable {
 		}
 		
 		this.color = color;
+		this.setChanged();
+		this.notifyObservers();
 	}
 	
 	/**

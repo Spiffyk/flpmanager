@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import cz.spiffyk.flpmanager.SongManager;
 import cz.spiffyk.flpmanager.application.controls.SongTreeItem;
 import cz.spiffyk.flpmanager.data.Song;
+import cz.spiffyk.flpmanager.data.Workspace;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,7 +15,7 @@ import javafx.scene.control.TreeView;
 
 public final class SongsView extends TreeView<ObservableList<Song>> {
 	
-	private SongManager songManager;
+	private Workspace songManager;
 	
 	@FXML private TreeView<ObservableList<Song>> songsView;
 	@FXML private TreeItem<Object> songsRoot;
@@ -33,11 +33,11 @@ public final class SongsView extends TreeView<ObservableList<Song>> {
 	}
 	
 	/**
-	 * Sets the song manager to work with
-	 * @param songManager
+	 * Sets the workspace to work with
+	 * @param workspace
 	 */
-	public void setSongManager(SongManager songManager) {
-		this.songManager = songManager;
+	public void setWorkspace(Workspace workspace) {
+		this.songManager = workspace;
 		updateSongs();
 	}
 	

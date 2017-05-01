@@ -1,39 +1,38 @@
 package cz.spiffyk.flpmanager.data;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.Observable;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.ObservableSet;
 
 /**
  * Contains song metadata.
  * @author spiffyk
  */
-public class Song implements Serializable {
+public class Song extends Observable {
 
-	private static final long serialVersionUID = -7202442899449549401L;
-
-	private final List<Project> projects = new ArrayList<>();
-	private final Set<Tag> tags = new HashSet<>();
+	private final ObservableList<Project> projects = FXCollections.observableArrayList();
+	private final ObservableSet<Tag> tags = FXCollections.observableSet();
 	
-	private boolean favorite = false;
-	private String name = "";
-	private String author = "";
+	private boolean favorite;
+	private String name;
+	private String author;
 	
 	/**
-	 * Creates a song with empty name, author and not marked as favourite.
+	 * Creates a song with empty name, author and not marked as favorite.
 	 */
 	public Song() {
 		this.setName("");
 		this.setAuthor("");
+		this.setFavorite(false);
 	}
 	
 	/**
 	 * Gets the list of contained projects.
 	 * @return {@code List} of contained projects
 	 */
-	public List<Project> getProjects() {
+	public ObservableList<Project> getProjects() {
 		return projects;
 	}
 	
@@ -41,7 +40,7 @@ public class Song implements Serializable {
 	 * Gets the set of tags this project is marked with
 	 * @return {@code Set} of tags
 	 */
-	public Set<Tag> getTags() {
+	public ObservableSet<Tag> getTags() {
 		return tags;
 	}
 	
@@ -59,6 +58,8 @@ public class Song implements Serializable {
 	 */
 	public void setName(String songName) {
 		this.name = (songName == null) ? "" : songName;
+		this.setChanged();
+		this.notifyObservers();
 	}
 
 	/**
@@ -75,6 +76,8 @@ public class Song implements Serializable {
 	 */
 	public void setAuthor(String author) {
 		this.author = (author == null) ? "" : author;
+		this.setChanged();
+		this.notifyObservers();
 	}
 
 	/**
@@ -87,10 +90,12 @@ public class Song implements Serializable {
 	
 	/**
 	 * Sets the favourite mark of the song.
-	 * @param favourite {@code true} to mark as favourite, {@code false} to unmark as favourite
+	 * @param favorite {@code true} to mark as favourite, {@code false} to unmark as favourite
 	 */
-	public void setFavorite(boolean favourite) {
-		this.favorite = favourite;
+	public void setFavorite(boolean favorite) {
+		this.favorite = favorite;
+		this.setChanged();
+		this.notifyObservers();
 	}
 
 	@Override
