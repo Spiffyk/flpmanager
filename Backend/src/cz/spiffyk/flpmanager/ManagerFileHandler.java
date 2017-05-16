@@ -67,7 +67,7 @@ public class ManagerFileHandler {
 				
 				doc.getDocumentElement().normalize();
 				String rootName = doc.getDocumentElement().getNodeName().toLowerCase();
-				if (!rootName.equals("workspace")) {
+				if (!rootName.equals(WORKSPACE_TAGNAME)) {
 					throw new ManagerFileException("Not a valid workspace file");
 				}
 				
@@ -311,40 +311,17 @@ public class ManagerFileHandler {
 	 * @param workspace The workspace to save
 	 */
 	public static void saveWorkspace(Workspace workspace) {
-//		final File directory = workspace.getDirectory();
-//		if (directory.exists() && !directory.isDirectory()) {
-//			throw new IllegalArgumentException("Path exists but is not a directory");
-//		}
-//		
-//		directory.mkdirs();
-//		final File workspaceFile = new File(directory, WORKSPACE_FILENAME);
-//		
-//		if (directory.listFiles().length > 0 && !workspaceFile.exists()) {
-//			throw new IllegalArgumentException("Directory is not empty and is not a workspace");
-//		}
-//		
+		
 //		try {
-//			final ObjectOutputStream w = new ObjectOutputStream(new FileOutputStream(workspaceFile));
-//			w.write(MAGIC_NUMBER);
-//			w.writeByte(VERSION);
+//			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+//			DocumentBuilder builder = factory.newDocumentBuilder();
+//			Document doc = builder.newDocument();
 //			
-//			w.writeByte(SONG_EVENT);
-//			w.writeInt(workspace.getSongs().size());
-//			for (Song s : workspace.getSongs()) {
-//				w.writeObject(s);
-//			}
-//			
-//			w.writeByte(TAG_EVENT);
-//			w.writeInt(workspace.getTags().size());
-//			for (Tag t : workspace.getTags()) {
-//				w.writeObject(t);
-//			}
-//			
-//			w.writeByte(END_EVENT);
-//			
-//			w.close();
-//		} catch (IOException e) {
+//			Element root = doc.createElement(WORKSPACE_TAGNAME);
+//			doc.appendChild(root);
+//		} catch (ParserConfigurationException e) {
 //			e.printStackTrace();
 //		}
+		
 	}
 }
