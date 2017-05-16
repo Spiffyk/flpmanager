@@ -10,10 +10,10 @@ import javafx.collections.ObservableSet;
  * Contains song metadata.
  * @author spiffyk
  */
-public class Song extends Observable {
+public class Song extends Observable implements WorkspaceNode {
 
 	private final ObservableList<Project> projects = FXCollections.observableArrayList();
-	private final ObservableSet<Tag> tags = FXCollections.observableSet();
+	private final ObservableList<Tag> tags = FXCollections.observableArrayList();
 	
 	private boolean favorite;
 	private String name;
@@ -40,7 +40,7 @@ public class Song extends Observable {
 	 * Gets the set of tags this project is marked with
 	 * @return {@code Set} of tags
 	 */
-	public ObservableSet<Tag> getTags() {
+	public ObservableList<Tag> getTags() {
 		return tags;
 	}
 	
@@ -101,5 +101,10 @@ public class Song extends Observable {
 	@Override
 	public String toString() {
 		return ((this.author.isEmpty()) ? "" : this.author + " - ") + this.name;
+	}
+	
+	@Override
+	public WorkspaceNodeType getType() {
+		return WorkspaceNodeType.SONG;
 	}
 }

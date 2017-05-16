@@ -3,7 +3,7 @@ package cz.spiffyk.flpmanager.data;
 import java.util.Observable;
 import java.util.UUID;
 
-public class Project extends Observable {
+public class Project extends Observable implements WorkspaceNode {
 	private String name;
 	private UUID identifier;
 	
@@ -34,5 +34,15 @@ public class Project extends Observable {
 	
 	public UUID getIdentifier() {
 		return this.identifier;
+	}
+	
+	@Override
+	public WorkspaceNodeType getType() {
+		return WorkspaceNodeType.PROJECT;
+	}
+	
+	@Override
+	public String toString() {
+		return getName();
 	}
 }
