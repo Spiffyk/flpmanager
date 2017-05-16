@@ -15,3 +15,8 @@
 .favorite-check-box > .box > .mark {
 	visibility: hidden;
 }
+
+.tag-cell {
+	-fx-text-fill: #FFF;
+	-fx-font-weight: bold;
+}
