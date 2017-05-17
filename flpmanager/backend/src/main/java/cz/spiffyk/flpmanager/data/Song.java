@@ -13,8 +13,8 @@ import lombok.Setter;
  */
 public class Song extends Observable implements WorkspaceNode {
 
-	@Getter @Setter private final ObservableList<Project> projects = FXCollections.observableArrayList();
-	@Getter @Setter private final ObservableList<Tag> tags = FXCollections.observableArrayList();
+	@Getter private final ObservableList<Project> projects = FXCollections.observableArrayList();
+	@Getter private final ObservableList<Tag> tags = FXCollections.observableArrayList();
 	
 	@Getter @Setter private boolean favorite;
 	@Getter @Setter private String name;

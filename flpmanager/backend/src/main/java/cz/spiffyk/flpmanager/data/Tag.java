@@ -3,18 +3,21 @@ package cz.spiffyk.flpmanager.data;
 import java.util.Observable;
 
 import javafx.scene.paint.Color;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Setter;
 
 public class Tag extends Observable {
 
 	/**
 	 * The lower-case tag name
 	 */
-	final String name;
+	@Getter @NonNull final String name;
 	
 	/**
 	 * The color of the tag
 	 */
-	private Color color;
+	@Getter private Color color;
 	
 	/**
 	 * Creates a new tag with the specified name. The name gets trimmed and converted to lower-case
@@ -23,14 +26,6 @@ public class Tag extends Observable {
 	public Tag(String name, Color color) {
 		this.name = name.trim().toLowerCase();
 		this.setColor(color);
-	}
-	
-	/**
-	 * Gets the tag name
-	 * @return
-	 */
-	public String getName() {
-		return this.name;
 	}
 	
 	/**
@@ -45,14 +40,6 @@ public class Tag extends Observable {
 		this.color = color;
 		this.setChanged();
 		this.notifyObservers();
-	}
-	
-	/**
-	 * Gets the tag's color
-	 * @return The color
-	 */
-	public Color getColor() {
-		return this.color;
 	}
 	
 	@Override

@@ -5,11 +5,12 @@ import java.io.File;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
+import lombok.Getter;
 
 public class Workspace {
-	private final File directory;
-	private ObservableList<Song> songs = FXCollections.observableArrayList();
-	private ObservableMap<String, Tag> tags = FXCollections.observableHashMap();
+	@Getter private final File directory;
+	@Getter private ObservableList<Song> songs = FXCollections.observableArrayList();
+	@Getter private ObservableMap<String, Tag> tags = FXCollections.observableHashMap();
 	
 	public Workspace(String path) {
 		this(new File(path));
@@ -24,22 +25,6 @@ public class Workspace {
 	}
 	
 	/**
-	 * Gets the list of songs in this workspace
-	 * @return
-	 */
-	public ObservableList<Song> getSongs() {
-		return songs;
-	}
-	
-	/**
-	 * Gets the set of tags in this workspace
-	 * @return
-	 */
-	public ObservableMap<String, Tag> getTags() {
-		return tags;
-	}
-	
-	/**
 	 * Puts tags into the tags map
 	 * @param inputTagIterable The iterable containing the tags to put into the map
 	 */
@@ -47,13 +32,5 @@ public class Workspace {
 		for (final Tag tag : inputTagIterable) {
 			tags.put(tag.getName(), tag);
 		}
-	}
-	
-	/**
-	 * Gets the directory of the workspace
-	 * @return The directory
-	 */
-	public File getDirectory() {
-		return this.directory;
 	}
 }

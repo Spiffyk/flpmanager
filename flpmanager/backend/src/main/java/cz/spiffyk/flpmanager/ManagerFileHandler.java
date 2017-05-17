@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -270,7 +271,7 @@ public class ManagerFileHandler {
 		
 		final Project project = new Project();
 		project.setName(root.getAttribute(NAME_ATTRNAME));
-		project.setIdentifier(root.getAttribute(UUID_ATTRNAME));
+		project.setIdentifier(UUID.fromString(root.getAttribute(UUID_ATTRNAME)));
 		
 		return project;
 	}
