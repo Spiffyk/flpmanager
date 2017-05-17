@@ -1,13 +1,27 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>cz.spiffyk.flpmanager</groupId>
-  <artifactId>flpmanager</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>FLPManager</name>
-  <description>A simple manager for FL Studio project files</description>
-  <packaging>pom</packaging>
-  <modules>
-  	<module>frontend</module>
-  	<module>backend</module>
-  </modules>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>${flpmanager.groupId}</groupId>
+	<artifactId>flpmanager</artifactId>
+	<version>${flpmanager.version}</version>
+	<name>FLPManager</name>
+	<description>A simple manager for FL Studio project files</description>
+	<packaging>pom</packaging>
+	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<flpmanager.groupId>cz.spiffyk.flpmanager</flpmanager.groupId>
+		<flpmanager.version>0.0.1-SNAPSHOT</flpmanager.version>
+	</properties>
+	<modules>
+		<module>frontend</module>
+		<module>backend</module>
+	</modules>
+	<dependencies>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.16.16</version>
+		</dependency>
+	</dependencies>
 </project>
