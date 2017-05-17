@@ -7,11 +7,11 @@ import cz.spiffyk.flpmanager.data.WorkspaceNode;
 import javafx.collections.ListChangeListener;
 import javafx.scene.control.TreeItem;
 
-public class WorkspaceNodeObserver implements ListChangeListener<WorkspaceNode> {
+public class WorkspaceNodeListener implements ListChangeListener<WorkspaceNode> {
 	
 	private TreeItem<WorkspaceNode> parent;
 	
-	public WorkspaceNodeObserver(final TreeItem<WorkspaceNode> parent) {
+	public WorkspaceNodeListener(final TreeItem<WorkspaceNode> parent) {
 		if (parent == null) {
 			throw new IllegalArgumentException("Parent cannot be null");
 		}

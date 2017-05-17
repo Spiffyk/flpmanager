@@ -2,13 +2,10 @@ package cz.spiffyk.flpmanager.application.screens.main;
 
 import java.io.IOException;
 
-import cz.spiffyk.flpmanager.application.controls.SongTreeItem;
+import cz.spiffyk.flpmanager.application.controls.SongsView;
 import cz.spiffyk.flpmanager.application.screens.generator.SongGeneratorDialog;
-import cz.spiffyk.flpmanager.application.screens.songs.SongsView;
-import cz.spiffyk.flpmanager.data.Song;
 import cz.spiffyk.flpmanager.data.Workspace;
 import javafx.application.Platform;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -51,22 +48,6 @@ public class MainScreen extends BorderPane {
 	 * Initializes the window
 	 */
 	@FXML protected void initialize() {
-		/* Set treeview listener */
-		songsView.getSelectionModel().selectedItemProperty().addListener(this::songSelectedAction);
-	}
-	
-	/**
-	 * Fired when a tree item is selected
-	 * @param observable
-	 * @param oldValue Deselected tree item
-	 * @param newValue Selected tree item
-	 */
-	protected void songSelectedAction(ObservableValue<?> observable, Object oldValue, Object newValue) {
-		if (newValue instanceof SongTreeItem) {
-			final SongTreeItem item = (SongTreeItem) newValue;
-			final Song song = item.getSong();
-			System.out.println("Selected: " + song.toString() + " (favorite: " + song.isFavorite() + ")");
-		}
 	}
 	
 	/**
@@ -77,7 +58,6 @@ public class MainScreen extends BorderPane {
 		SongGeneratorDialog dialog = new SongGeneratorDialog();
 		dialog.showAndWait().ifPresent(s -> {
 			songManager.getSongs().add(s);
-			songsView.updateSongs();
 		});
 	}
 	

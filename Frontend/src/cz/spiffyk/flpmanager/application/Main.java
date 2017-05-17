@@ -5,7 +5,6 @@ import java.util.List;
 
 import cz.spiffyk.flpmanager.ManagerFileHandler;
 import cz.spiffyk.flpmanager.application.screens.main.MainScreen;
-import cz.spiffyk.flpmanager.data.Song;
 import cz.spiffyk.flpmanager.data.Workspace;
 import javafx.application.Application;
 import javafx.application.Platform;
