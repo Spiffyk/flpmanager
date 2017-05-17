@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TreeView?>
+<?import javafx.scene.control.TreeItem?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.TextFlow?>
+<?import cz.spiffyk.flpmanager.application.controls.SongsView?>
+
+<fx:root type="cz.spiffyk.flpmanager.application.screens.main.MainScreen" xmlns:fx="http://javafx.com/fxml/1">
+	
+	<top>
+		<MenuBar fx:id="menuBar">
+			<Menu text="File">
+				<MenuItem onAction="#newSongAction" text="New Song..." />
+				<MenuItem text="Settings..." />
+				<MenuItem onAction="#quitMenuAction" text="Exit" />
+			</Menu>
+			<Menu text="Help">
+				<MenuItem text="About..." />
+			</Menu>
+		</MenuBar>
+	</top>
+
+	<center>
+		<SongsView fx:id="songsView" />
+	</center>
+	
+</fx:root>
