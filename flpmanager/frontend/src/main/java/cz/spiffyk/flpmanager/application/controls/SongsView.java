@@ -1,7 +1,6 @@
 package cz.spiffyk.flpmanager.application.controls;
 
 import cz.spiffyk.flpmanager.application.WorkspaceNodeListener;
-import cz.spiffyk.flpmanager.data.Project;
 import cz.spiffyk.flpmanager.data.Song;
 import cz.spiffyk.flpmanager.data.Workspace;
 import cz.spiffyk.flpmanager.data.WorkspaceNode;
