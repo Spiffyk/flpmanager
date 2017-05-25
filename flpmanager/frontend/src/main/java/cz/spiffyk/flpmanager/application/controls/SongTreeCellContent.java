@@ -7,6 +7,8 @@ import cz.spiffyk.flpmanager.application.screens.projecteditor.ProjectEditorDial
 import cz.spiffyk.flpmanager.application.screens.songeditor.SongEditorDialog;
 import cz.spiffyk.flpmanager.data.Project;
 import cz.spiffyk.flpmanager.data.Song;
+import cz.spiffyk.flpmanager.util.Messenger;
+import cz.spiffyk.flpmanager.util.Messenger.MessageType;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
@@ -75,6 +77,12 @@ public class SongTreeCellContent extends WorkspaceNodeTreeCellContent<Song> impl
 				});
 			});
 			
+			MenuItem importProjectItem = new MenuItem("Import project from file...");
+			importProjectItem.setOnAction((event) -> {
+				Messenger.get().message(MessageType.ERROR, "Not yet implemented.");
+				// TODO implement FLP importing
+			});
+			
 			MenuItem deleteItem = new MenuItem("Delete");
 			deleteItem.setOnAction((event) -> {
 				final Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -91,6 +99,7 @@ public class SongTreeCellContent extends WorkspaceNodeTreeCellContent<Song> impl
 					openDirItem,
 					new SeparatorMenuItem(),
 					newProjectItem,
+					importProjectItem,
 					new SeparatorMenuItem(),
 					deleteItem);
 		}
