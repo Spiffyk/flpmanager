@@ -333,6 +333,10 @@ public class ManagerFileHandler {
 	 */
 	public static void saveWorkspace(Workspace workspace) {
 		
+		if (!workspace.getDirectory().exists()) {
+			workspace.getDirectory().mkdirs();
+		}
+		
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = factory.newDocumentBuilder();

@@ -14,6 +14,7 @@ import cz.spiffyk.flpmanager.AppConfiguration;
 import cz.spiffyk.flpmanager.ManagerFileException;
 import cz.spiffyk.flpmanager.ManagerFileHandler;
 import cz.spiffyk.flpmanager.application.screens.main.MainScreen;
+import cz.spiffyk.flpmanager.application.screens.setup.SetupDialog;
 import cz.spiffyk.flpmanager.data.Workspace;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -48,9 +49,8 @@ public class Main extends Application {
 	}
 	
 	private static void loadConfiguration() {
-		Properties props = new Properties();
-		
 		if (CONFIG_FILE.exists()) {
+			Properties props = new Properties();
 			try {
 				FileInputStream fis = new FileInputStream(CONFIG_FILE);
 				props.load(fis);
@@ -60,9 +60,9 @@ public class Main extends Application {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			
+			appConfiguration.fromProperties(props);
 		}
-		
-		appConfiguration.fromProperties(props);
 	}
 	
 	private static void saveConfiguration() {
@@ -80,6 +80,19 @@ public class Main extends Application {
 	
 	@Override
 	public void start(Stage primaryStage) {
+		if (appConfiguration.isLoaded()) {
+			startApplication(primaryStage);
+		} else {
+			SetupDialog setupDialog = new SetupDialog();
+			setupDialog.showAndWait().ifPresent((b) -> {
+				if (b.booleanValue()) {
+					startApplication(primaryStage);
+				}
+			});
+		}
+	}
+	
+	public void startApplication(Stage primaryStage) {
 		Platform.setImplicitExit(false);
 		
 		MainScreen mainScreen = new MainScreen(primaryStage);
