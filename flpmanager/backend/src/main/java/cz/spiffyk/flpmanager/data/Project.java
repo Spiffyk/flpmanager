@@ -87,8 +87,7 @@ public class Project extends Observable implements WorkspaceNode {
 		
 		if (addToParent) {
 			List<Project> projects = parent.getProjects();
-			
-			parent.getProjects().add(projects.indexOf(this) + 1, copy);
+			parent.getProjects().add(projects.indexOf(this), copy);
 		}
 		
 		return copy;
