@@ -18,4 +18,9 @@ public class ProjectsListener extends WorkspaceNodeListener {
 	public void sort() {
 		parent.getChildren().sort(NAME_COMPARATOR);
 	}
+
+	@Override
+	protected TreeItem<WorkspaceNode> createTreeItem(WorkspaceNode node) {
+		return new TreeItem<>(node);
+	}
 }

@@ -2,6 +2,7 @@ package cz.spiffyk.flpmanager.application;
 
 import java.util.Comparator;
 
+import cz.spiffyk.flpmanager.application.controls.SongTreeItem;
 import cz.spiffyk.flpmanager.data.Song;
 import cz.spiffyk.flpmanager.data.WorkspaceNode;
 import javafx.scene.control.TreeItem;
@@ -25,6 +26,11 @@ public class SongsListener extends WorkspaceNodeListener {
 	public void sort() {
 		parent.getChildren().sort(NAME_COMPARATOR);
 		parent.getChildren().sort(FAVORITE_COMPARATOR);
+	}
+
+	@Override
+	protected TreeItem<WorkspaceNode> createTreeItem(WorkspaceNode node) {
+		return new SongTreeItem((Song) node);
 	}
 
 }

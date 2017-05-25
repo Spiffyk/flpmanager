@@ -38,8 +38,7 @@ public abstract class WorkspaceNodeListener implements ListChangeListener<Worksp
 			
 			// add children
 			for (final WorkspaceNode node : added) {
-				final TreeItem<WorkspaceNode> item = new TreeItem<>();
-				item.setValue(node);
+				final TreeItem<WorkspaceNode> item = createTreeItem(node);
 				toAdd.add(item);
 			}
 		}
@@ -47,6 +46,8 @@ public abstract class WorkspaceNodeListener implements ListChangeListener<Worksp
 		children.addAll(toAdd);
 		sort();
 	}
+	
+	protected abstract TreeItem<WorkspaceNode> createTreeItem(WorkspaceNode node);
 	
 	public void sort() {}
 }
