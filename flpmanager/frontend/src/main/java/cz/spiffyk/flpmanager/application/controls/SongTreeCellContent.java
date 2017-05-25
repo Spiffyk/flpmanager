@@ -5,9 +5,14 @@ import java.util.Observer;
 
 import cz.spiffyk.flpmanager.application.screens.generator.SongEditorDialog;
 import cz.spiffyk.flpmanager.data.Song;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.control.Alert.AlertType;
 
 public class SongTreeCellContent extends WorkspaceNodeTreeCellContent<Song> implements Observer {
 	
@@ -19,7 +24,7 @@ public class SongTreeCellContent extends WorkspaceNodeTreeCellContent<Song> impl
 		super(node);
 		this.contextMenu = new SongContextMenu();
 		this.setOnContextMenuRequested((event) -> {
-			this.contextMenu.show(this, event.getScreenX(), event.getScreenY());
+			this.contextMenu.show(this.getScene().getWindow(), event.getScreenX(), event.getScreenY());
 		});
 		getStyleClass().add("song-cell");
 		this.song = node;
@@ -45,19 +50,30 @@ public class SongTreeCellContent extends WorkspaceNodeTreeCellContent<Song> impl
 	}
 	
 	private class SongContextMenu extends ContextMenu {
-		{
-			MenuItem editItem = new MenuItem("Edit song...");
+		public SongContextMenu() {
+			MenuItem editItem = new MenuItem("_Edit song info...");
 			editItem.setOnAction((event) -> {
 				new SongEditorDialog(song).showAndWait();
 				update();
 			});
 			
-			MenuItem openDirItem = new MenuItem("Open in system explorer...");
+			MenuItem openDirItem = new MenuItem("_Open in system explorer...");
 			openDirItem.setOnAction((event) -> {
 				song.openInSystemBrowser();
 			});
 			
-			this.getItems().addAll(editItem, openDirItem);
+			MenuItem deleteItem = new MenuItem("Delete");
+			deleteItem.setOnAction((event) -> {
+				final Alert alert = new Alert(AlertType.CONFIRMATION);
+				alert.setHeaderText(null);
+				alert.setContentText("Do you really wish to delete this song? (no undo)");
+				ButtonType bt = alert.showAndWait().orElse(ButtonType.CANCEL);
+				if (bt == ButtonType.OK) {
+					song.getParent().getSongs().remove(song);
+				}
+			});
+			
+			this.getItems().addAll(editItem, openDirItem, new SeparatorMenuItem(), deleteItem);
 		}
 	}
 }

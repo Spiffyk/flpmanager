@@ -4,8 +4,10 @@ import cz.spiffyk.flpmanager.application.WorkspaceNodeListener;
 import cz.spiffyk.flpmanager.data.Song;
 import cz.spiffyk.flpmanager.data.Workspace;
 import cz.spiffyk.flpmanager.data.WorkspaceNode;
+import cz.spiffyk.flpmanager.data.WorkspaceNodeType;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.input.KeyCode;
 
 public final class SongsView extends TreeView<WorkspaceNode> {
 	private Workspace workspace;
@@ -17,6 +19,24 @@ public final class SongsView extends TreeView<WorkspaceNode> {
 		this.listener = new WorkspaceNodeListener(root);
 		this.setRoot(root);
 		this.setShowRoot(false);
+		
+		
+		
+		this.setOnKeyReleased((event) -> {
+			TreeItem<WorkspaceNode> treeItem = getSelectionModel().getSelectedItem();
+			
+			if (treeItem != null && treeItem.getValue() != null) {
+				WorkspaceNode node = treeItem.getValue();
+				
+				if (node.getType() == WorkspaceNodeType.SONG) {
+					final Song song = (Song) node;
+					
+					if (event.getCode() == KeyCode.F) {
+						song.toggleFavorite();
+					}
+				}
+			}
+		});
 	}
 	
 	public void setWorkspace(final Workspace workspace) {

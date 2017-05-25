@@ -3,6 +3,7 @@ package cz.spiffyk.flpmanager.application.screens.main;
 import java.io.IOException;
 
 import cz.spiffyk.flpmanager.AppConfiguration;
+import cz.spiffyk.flpmanager.ManagerFileHandler;
 import cz.spiffyk.flpmanager.application.controls.SongsView;
 import cz.spiffyk.flpmanager.application.screens.generator.SongEditorDialog;
 import cz.spiffyk.flpmanager.data.Song;
@@ -26,7 +27,7 @@ public class MainScreen extends BorderPane implements Subscriber {
 	private static final AppConfiguration appConfiguration = AppConfiguration.get();
 	private static final Messenger messenger = Messenger.get();
 	
-	private Workspace songManager;
+	private Workspace workspace;
 	private Stage primaryStage;
 	
 	public MainScreen(Stage primaryStage) {
@@ -53,7 +54,7 @@ public class MainScreen extends BorderPane implements Subscriber {
 	 * @param workspace
 	 */
 	public void setWorkspace(Workspace workspace) {
-		this.songManager = workspace;
+		this.workspace = workspace;
 		songsView.setWorkspace(workspace);
 	}
 	
@@ -73,13 +74,17 @@ public class MainScreen extends BorderPane implements Subscriber {
 		SongEditorDialog dialog = new SongEditorDialog(song);
 		dialog.showAndWait().ifPresent(s -> {
 			if (s.booleanValue()) {
-				songManager.getSongs().add(song);
+				workspace.getSongs().add(song);
 			}
 		});
 	}
 	
 	@FXML protected void openSettings(ActionEvent e) {
 		error("Not yet implemented");
+	}
+	
+	@FXML protected void saveWorkspace(ActionEvent e) {
+		ManagerFileHandler.saveWorkspace(workspace);
 	}
 	
 	/**

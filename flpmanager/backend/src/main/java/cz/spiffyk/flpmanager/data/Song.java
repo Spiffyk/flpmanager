@@ -30,9 +30,9 @@ public class Song extends Observable implements WorkspaceNode {
 	
 	@Getter private final UUID identifier;
 	@Getter @Setter private Workspace parent;
-	@Getter @Setter private boolean favorite;
-	@Getter @Setter private String name;
-	@Getter @Setter private String author;
+	@Getter private boolean favorite;
+	@Getter private String name;
+	@Getter private String author;
 	
 	@Getter private File songDir;
 	@Getter private File projectsDir;
@@ -87,6 +87,30 @@ public class Song extends Observable implements WorkspaceNode {
 		};
 		
 		new Thread(task).start();
+	}
+	
+	public void setName(@NonNull String name) {
+		this.name = name;
+		this.setChanged();
+		this.notifyObservers();
+	}
+	
+	public void setAuthor(@NonNull String author) {
+		this.author = author;
+		this.setChanged();
+		this.notifyObservers();
+	}
+	
+	public void setFavorite(boolean favorite) {
+		this.favorite = favorite;
+		this.setChanged();
+		this.notifyObservers();
+	}
+	
+	public void toggleFavorite() {
+		this.favorite = !this.favorite;
+		this.setChanged();
+		this.notifyObservers();
 	}
 	
 	@Override
