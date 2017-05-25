@@ -3,7 +3,7 @@ package cz.spiffyk.flpmanager.application.controls;
 import java.util.Observable;
 import java.util.Observer;
 
-import cz.spiffyk.flpmanager.application.screens.generator.SongEditorDialog;
+import cz.spiffyk.flpmanager.application.screens.songeditor.SongEditorDialog;
 import cz.spiffyk.flpmanager.data.Song;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;

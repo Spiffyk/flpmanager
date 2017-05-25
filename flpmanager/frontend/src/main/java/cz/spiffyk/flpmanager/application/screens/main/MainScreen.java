@@ -5,7 +5,7 @@ import java.io.IOException;
 import cz.spiffyk.flpmanager.AppConfiguration;
 import cz.spiffyk.flpmanager.ManagerFileHandler;
 import cz.spiffyk.flpmanager.application.controls.SongsView;
-import cz.spiffyk.flpmanager.application.screens.generator.SongEditorDialog;
+import cz.spiffyk.flpmanager.application.screens.songeditor.SongEditorDialog;
 import cz.spiffyk.flpmanager.data.Song;
 import cz.spiffyk.flpmanager.data.Workspace;
 import cz.spiffyk.flpmanager.util.Messenger;
