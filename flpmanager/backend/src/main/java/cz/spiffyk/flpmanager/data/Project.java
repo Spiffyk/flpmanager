@@ -3,6 +3,7 @@ package cz.spiffyk.flpmanager.data;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.List;
 import java.util.Observable;
 import java.util.UUID;
 
@@ -14,7 +15,6 @@ import cz.spiffyk.flpmanager.util.Messenger.MessageType;
 import javafx.concurrent.Task;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.Setter;
 
 public class Project extends Observable implements WorkspaceNode {
 	
@@ -32,8 +32,10 @@ public class Project extends Observable implements WorkspaceNode {
 	
 	@Getter private final UUID identifier;
 	
-	@Getter @Setter private Song parent;
-	@Getter @Setter @NonNull private String name;
+	@Getter @NonNull private Song parent;
+	@Getter @NonNull private String name;
+	@Getter private File projectFile;
+	private File openedProjectFile;
 	
 	@Getter private boolean open = false;
 	
@@ -50,27 +52,72 @@ public class Project extends Observable implements WorkspaceNode {
 		return WorkspaceNodeType.PROJECT;
 	}
 	
+	public void setParent(@NonNull Song parent) {
+		this.parent = parent;
+		updateFiles();
+	}
+	
+	public void setName(@NonNull String name) {
+		this.name = name;
+		this.setChanged();
+		this.notifyObservers();
+	}
+	
 	@Override
 	public String toString() {
 		return getName();
 	}
 	
+	public Project copy() {
+		return copy(false);
+	}
+	
+	public Project copy(boolean addToParent) {
+		final Project copy = new Project();
+		copy.setName(this.getName() + " (copy)");
+		copy.setParent(this.getParent());
+		
+		if (this.projectFile.exists()) {
+			try {
+				FileUtils.copyFile(this.projectFile, copy.projectFile);
+			} catch (IOException e) {
+				messenger.message(MessageType.ERROR, "File could not be copied.", e.getMessage());
+			}
+		}
+		
+		if (addToParent) {
+			List<Project> projects = parent.getProjects();
+			
+			parent.getProjects().add(projects.indexOf(this) + 1, copy);
+		}
+		
+		return copy;
+	}
+	
+	public synchronized void updateFiles() {
+		if (parent != null) {
+			projectFile = new File(parent.getProjectsDir(), identifier.toString() + PROJECT_FILE_EXTENSION);
+			openedProjectFile = new File(parent.getSongDir(), identifier.toString() + PROJECT_FILE_EXTENSION);
+		}
+	}
+	
 	public synchronized void openProject() {
 		if (!open) {
-			File savedProjectFile = new File(parent.getProjectsDir(), identifier.toString() + PROJECT_FILE_EXTENSION);
-			File openedProjectFile = new File(parent.getSongDir(), identifier.toString() + PROJECT_FILE_EXTENSION);
+			updateFiles();
 			
-			if (savedProjectFile.exists()) {
+			if (projectFile.exists()) {
 				try {
-					FileUtils.copyFile(savedProjectFile, openedProjectFile);
+					FileUtils.copyFile(projectFile, openedProjectFile);
 				} catch (IOException e) {
-					throw new RuntimeException("File could not be copied.", e);
+					messenger.message(MessageType.ERROR, "File could not be copied.", e.getMessage());
+					return;
 				}
 			} else {
 				try {
 					FileUtils.copyFile(EMPTY_FLP, openedProjectFile);
 				} catch (IOException e) {
-					throw new RuntimeException("File could not be copied.", e);
+					messenger.message(MessageType.ERROR, "File could not be copied.", e.getMessage());
+					return;
 				}
 			}
 			
@@ -113,14 +160,13 @@ public class Project extends Observable implements WorkspaceNode {
 	
 	public synchronized void closeProject() {
 		if (open) {
-			File savedProjectFile = new File(parent.getProjectsDir(), identifier.toString() + PROJECT_FILE_EXTENSION);
-			File openedProjectFile = new File(parent.getSongDir(), identifier.toString() + PROJECT_FILE_EXTENSION);
+			updateFiles();
 			
 			try {
-				FileUtils.copyFile(openedProjectFile, savedProjectFile);
+				FileUtils.copyFile(openedProjectFile, projectFile);
 				openedProjectFile.delete();
 			} catch (IOException e) {
-				messenger.message(MessageType.ERROR, "Could not copy the file back.");
+				messenger.message(MessageType.ERROR, "Could not copy the file back.", e.getMessage());
 			}
 			
 			messenger.message(MessageType.SHOW_STAGE);
