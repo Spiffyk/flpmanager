@@ -6,6 +6,7 @@ import cz.spiffyk.flpmanager.AppConfiguration;
 import cz.spiffyk.flpmanager.ManagerFileHandler;
 import cz.spiffyk.flpmanager.application.controls.SongsView;
 import cz.spiffyk.flpmanager.application.screens.about.AboutDialog;
+import cz.spiffyk.flpmanager.application.screens.settings.SettingsDialog;
 import cz.spiffyk.flpmanager.application.screens.songeditor.SongEditorDialog;
 import cz.spiffyk.flpmanager.data.Song;
 import cz.spiffyk.flpmanager.data.Workspace;
@@ -87,7 +88,8 @@ public class MainScreen extends BorderPane implements Subscriber {
 	}
 	
 	@FXML protected void openSettings(ActionEvent e) {
-		error("Not yet implemented");
+		final SettingsDialog dialog = new SettingsDialog();
+		dialog.showAndWait();
 	}
 	
 	@FXML protected void saveWorkspace(ActionEvent e) {
