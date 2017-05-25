@@ -11,6 +11,7 @@ import org.apache.commons.io.FileUtils;
 
 import cz.spiffyk.flpmanager.AppConfiguration;
 import cz.spiffyk.flpmanager.util.Messenger;
+import cz.spiffyk.flpmanager.util.StreamEater;
 import cz.spiffyk.flpmanager.util.Messenger.MessageType;
 import javafx.concurrent.Task;
 import javafx.scene.control.TreeItem;
@@ -121,7 +122,16 @@ public class Project extends Observable implements WorkspaceNode {
 				@Override
 				protected Void call() throws Exception {
 					try {
-						Process process = new ProcessBuilder(AppConfiguration.get().getFlExecutablePath(), openedProjectFile.getAbsolutePath()).start();
+						ProcessBuilder builder = new ProcessBuilder(AppConfiguration.get().getFlExecutablePath(), openedProjectFile.getAbsolutePath());
+						Process process = builder.start();
+						
+						// A workaround for Wine hanging when the output has nowhere to go...
+						// This one is very strange...
+						StreamEater errorGobbler = new StreamEater(process.getErrorStream());
+						errorGobbler.start();
+						StreamEater inputGobbler = new StreamEater(process.getInputStream());
+						inputGobbler.start();
+						
 						process.waitFor();
 					} catch (IOException e) {
 						messenger.message(MessageType.ERROR, "Unable to start FL Studio");
