@@ -346,7 +346,7 @@ public class ManagerFileHandler {
 			Transformer transformer = TransformerFactory.newInstance().newTransformer();
 			transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2"); // y u no have constant fo dat???
+			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4"); // y u no have constant fo dat???
 			
 			Result result = new StreamResult(new File(workspace.getDirectory(), WORKSPACE_FILENAME));
 			Source source = new DOMSource(doc);
