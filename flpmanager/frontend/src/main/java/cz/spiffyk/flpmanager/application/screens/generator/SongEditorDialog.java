@@ -21,6 +21,7 @@ public class SongEditorDialog extends Dialog<Boolean> {
 	public SongEditorDialog(Song song) {
 		super();
 		this.song = song;
+		this.setTitle("Edit song...");
 		
 		final FXMLLoader loader = new FXMLLoader(getClass().getResource("SongGenerator.fxml"));
 		loader.setController(this);
