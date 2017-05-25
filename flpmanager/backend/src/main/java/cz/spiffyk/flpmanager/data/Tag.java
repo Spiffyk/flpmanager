@@ -5,7 +5,6 @@ import java.util.Observable;
 import javafx.scene.paint.Color;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.Setter;
 
 public class Tag extends Observable {
 

@@ -13,6 +13,7 @@ public class SongTreeCellContent extends WorkspaceNodeTreeCellContent<Song> impl
 	
 	public SongTreeCellContent(Song node) {
 		super(node);
+		getStyleClass().add("song-cell");
 		this.song = node;
 		node.addObserver(this);
 		this.favoriteCheckBox = new CheckBox();

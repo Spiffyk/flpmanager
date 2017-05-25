@@ -17,6 +17,7 @@ public abstract class WorkspaceNodeTreeCellContent<N extends WorkspaceNode> exte
 	
 	public WorkspaceNodeTreeCellContent(final N node) {
 		super();
+		getStyleClass().add("workspace-node-cell");
 		this.node = node;
 		
 		this.leftBox = new HBox();

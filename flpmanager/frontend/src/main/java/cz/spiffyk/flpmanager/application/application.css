@@ -10,3 +10,7 @@
 	-fx-font-weight: bold;
 	-fx-font-size: 18.0pt;
 }
+
+.workspace-node-cell .button {
+	-fx-padding: 2px 8px;
+}

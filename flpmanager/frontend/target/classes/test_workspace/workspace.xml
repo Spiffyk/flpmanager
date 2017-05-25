@@ -3,21 +3,22 @@
 	<tags>
 		<tag name="My tag" color="#F00" />
 	</tags>
+	
 	<songs>
-		<song favorite="true" name="My song" author="Ale Funguju">
+		<song favorite="true" name="My song" author="Ale Funguju" uuid="d58f8316-a2cc-4ac5-ab71-736e8856f590">
 			<projects>
-				<project name="Testproject" uuid="9c918f1a-226a-4eba-9b4b-365bc84df764" />
-				<project name="Bla" uuid="9c918f1a-226a-4eba-9b4b-365bc84df764" />
-				<project name="Hello world" uuid="9c918f1a-226a-4eba-9b4b-365bc84df764" />
+				<project name="Testproject" uuid="09df2a8d-8199-4e60-9c97-3c440168aeef" />
+				<project name="Bla" uuid="6bc7273c-3ea3-46ee-b2e4-cb75085bf3de" />
+				<project name="Hello world" uuid="44c25c57-c1bf-49f2-a8ff-a27e5aaf3e32" />
 			</projects>
 			<tags>
 				<tag>My tag</tag>
 			</tags>
 		</song>
-		<song favorite="false" name="Just another song" author="Ale Funguju">
+		<song favorite="false" name="Just another song" author="Ale Funguju" uuid="d5f9a9aa-66c8-4fe4-9371-55df2c38197c">
 			<projects>
-				<project name="V1" uuid="9c918f1a-226a-4eba-9b4b-365bc84df764" />
-				<project name="V2" uuid="9c918f1a-226a-4eba-9b4b-365bc84df764" />
+				<project name="V1" uuid="8589c133-9451-44c9-8c06-6d60ca1a490e" />
+				<project name="V2" uuid="c2bc3a58-c487-4d43-a1e0-927126a516ac" />
 			</projects>
 			<tags>
 				<tag>My tag</tag>

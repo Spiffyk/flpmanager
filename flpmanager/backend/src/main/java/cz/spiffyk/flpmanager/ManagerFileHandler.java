@@ -2,6 +2,8 @@ package cz.spiffyk.flpmanager;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -92,6 +94,10 @@ public class ManagerFileHandler {
 	 */
 	public static Workspace loadWorkspace(String path) throws IOException {
 		return loadWorkspace(new File(path));
+	}
+	
+	public static Workspace loadWorkspace(URL url) throws IOException, URISyntaxException {
+		return loadWorkspace(new File(url.toURI()));
 	}
 	
 	/**
@@ -213,10 +219,11 @@ public class ManagerFileHandler {
 			throw new ManagerFileException("Not tagged as a song; "  + root.toString());
 		}
 		
-		final Song song = new Song();
-		
+		final Song song = new Song(UUID.fromString(root.getAttribute(UUID_ATTRNAME)));
+		song.setParent(workspace);
 		song.setName(root.getAttribute(NAME_ATTRNAME));
 		song.setAuthor(root.getAttribute(AUTHOR_ATTRNAME));
+		song.checkAndCreateDirectories();
 		String favoriteAttribute = root.getAttribute(FAVORITE_ATTRNAME);
 		if (!favoriteAttribute.isEmpty()) {
 			song.setFavorite(Boolean.parseBoolean(favoriteAttribute));
@@ -229,7 +236,7 @@ public class ManagerFileHandler {
 				final Element e = (Element) node;
 				switch(e.getTagName().toLowerCase()) {
 					case PROJECTS_TAGNAME:
-						song.getProjects().addAll(loadProjects(e));
+						song.getProjects().addAll(loadProjects(e, song));
 						break;
 					case TAGS_TAGNAME:
 						song.getTags().addAll(linkTags(e, workspace));
@@ -241,7 +248,7 @@ public class ManagerFileHandler {
 		return song;
 	}
 	
-	private static List<Project> loadProjects(Element root) {
+	private static List<Project> loadProjects(Element root, Song parent) {
 		if (!root.getTagName().toLowerCase().equals(PROJECTS_TAGNAME)) {
 			throw new ManagerFileException("Not tagged as a list of projects; " + root.toString());
 		}
@@ -254,7 +261,7 @@ public class ManagerFileHandler {
 			if (node instanceof Element) {
 				final Element e = (Element) node;
 				if (e.getTagName().toLowerCase().equals(PROJECT_TAGNAME)) {
-						projects.add(loadProject(e));
+						projects.add(loadProject(e, parent));
 				} else {
 					throw new ManagerFileException("The tag <" + PROJECTS_TAGNAME + "> should only contain a list of <" + PROJECT_TAGNAME + ">.");
 				}
@@ -264,14 +271,14 @@ public class ManagerFileHandler {
 		return projects;
 	}
 	
-	private static Project loadProject(Element root) {
+	private static Project loadProject(Element root, Song parent) {
 		if (!root.getTagName().toLowerCase().equals(PROJECT_TAGNAME)) {
 			throw new ManagerFileException("Not tagged as a project; " + root.toString());
 		}
 		
-		final Project project = new Project();
+		final Project project = new Project(UUID.fromString(root.getAttribute(UUID_ATTRNAME)));
+		project.setParent(parent);
 		project.setName(root.getAttribute(NAME_ATTRNAME));
-		project.setIdentifier(UUID.fromString(root.getAttribute(UUID_ATTRNAME)));
 		
 		return project;
 	}
@@ -304,7 +311,7 @@ public class ManagerFileHandler {
 			throw new ManagerFileException("Not tagged as a tag; "  + root.toString());
 		}
 		
-		return workspace.getTags().get(root.getTextContent());
+		return workspace.getTags().get(root.getTextContent().toLowerCase());
 	}
 	
 	/**
