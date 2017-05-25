@@ -86,6 +86,7 @@ public class Main extends Application {
 			SetupDialog setupDialog = new SetupDialog();
 			setupDialog.showAndWait().ifPresent((b) -> {
 				if (b.booleanValue()) {
+					saveConfiguration();
 					startApplication(primaryStage);
 				}
 			});
