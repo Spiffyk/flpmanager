@@ -3,6 +3,7 @@ package cz.spiffyk.flpmanager.data;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.Observable;
 import java.util.UUID;
 
@@ -11,6 +12,7 @@ import cz.spiffyk.flpmanager.util.Messenger.MessageType;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
+import javafx.scene.control.TreeItem;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -121,5 +123,31 @@ public class Song extends Observable implements WorkspaceNode {
 	@Override
 	public WorkspaceNodeType getType() {
 		return WorkspaceNodeType.SONG;
+	}
+	
+	public static class NameComparator implements Comparator<TreeItem<WorkspaceNode>> {
+		@Override
+		public int compare(TreeItem<WorkspaceNode> o1, TreeItem<WorkspaceNode> o2) {
+			if (o1.getValue().getType() == WorkspaceNodeType.SONG && o2.getValue().getType() == WorkspaceNodeType.SONG) {
+				return ((Song) o1.getValue()).getName().compareTo(((Song) o2.getValue()).getName());
+			}
+			
+			return 0;
+		}
+	}
+	
+	public static class FavoriteComparator implements Comparator<TreeItem<WorkspaceNode>> {
+		@Override
+		public int compare(TreeItem<WorkspaceNode> o1, TreeItem<WorkspaceNode> o2) {
+			if (o1.getValue().getType() == WorkspaceNodeType.SONG && o2.getValue().getType() == WorkspaceNodeType.SONG) {
+				Song s1 = (Song) o1.getValue();
+				Song s2 = (Song) o2.getValue();
+				if (s1.isFavorite() == s2.isFavorite()) return 0;
+				if (s1.isFavorite() && !s2.isFavorite()) return 1;
+				return -1;
+			}
+			
+			return 0;
+		}
 	}
 }

@@ -40,11 +40,6 @@ public class SongEditorDialog extends Dialog<Boolean> {
 		this.author.setText(song.getAuthor());
 	}
 	
-	/**
-	 * Creates a song from the values in the dialog
-	 * @param b
-	 * @return
-	 */
 	private boolean convertResult(ButtonType b) {
 		if (b.equals(ButtonType.OK)) {
 			song.setName(name.getText());

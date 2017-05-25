@@ -1,5 +1,6 @@
 package cz.spiffyk.flpmanager.application.controls;
 
+import cz.spiffyk.flpmanager.application.SongsListener;
 import cz.spiffyk.flpmanager.application.WorkspaceNodeListener;
 import cz.spiffyk.flpmanager.data.Song;
 import cz.spiffyk.flpmanager.data.Workspace;
@@ -16,11 +17,9 @@ public final class SongsView extends TreeView<WorkspaceNode> {
 	public SongsView() {
 		this.setCellFactory((view) -> new WorkspaceNodeTreeCell());
 		TreeItem<WorkspaceNode> root = new TreeItem<>();
-		this.listener = new WorkspaceNodeListener(root);
+		this.listener = new SongsListener(root);
 		this.setRoot(root);
 		this.setShowRoot(false);
-		
-		
 		
 		this.setOnKeyReleased((event) -> {
 			TreeItem<WorkspaceNode> treeItem = getSelectionModel().getSelectedItem();
@@ -49,6 +48,7 @@ public final class SongsView extends TreeView<WorkspaceNode> {
 				getRoot().getChildren().add(new SongTreeItem(song));
 			}
 			workspace.getSongs().addListener(listener);
+			listener.sort();
 		} else {
 			throw new UnsupportedOperationException("The workspace can be assigned only once");
 		}

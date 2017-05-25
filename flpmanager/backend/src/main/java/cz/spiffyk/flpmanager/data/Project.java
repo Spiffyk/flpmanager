@@ -3,6 +3,7 @@ package cz.spiffyk.flpmanager.data;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Observable;
 import java.util.UUID;
@@ -13,6 +14,7 @@ import cz.spiffyk.flpmanager.AppConfiguration;
 import cz.spiffyk.flpmanager.util.Messenger;
 import cz.spiffyk.flpmanager.util.Messenger.MessageType;
 import javafx.concurrent.Task;
+import javafx.scene.control.TreeItem;
 import lombok.Getter;
 import lombok.NonNull;
 
@@ -170,6 +172,17 @@ public class Project extends Observable implements WorkspaceNode {
 			
 			messenger.message(MessageType.SHOW_STAGE);
 			open = false;
+		}
+	}
+	
+	public static class NameComparator implements Comparator<TreeItem<WorkspaceNode>> {
+		@Override
+		public int compare(TreeItem<WorkspaceNode> o1, TreeItem<WorkspaceNode> o2) {
+			if (o1.getValue().getType() == WorkspaceNodeType.PROJECT && o2.getValue().getType() == WorkspaceNodeType.PROJECT) {
+				return ((Project) o1.getValue()).getName().compareTo(((Project) o2.getValue()).getName());
+			}
+			
+			return 0;
 		}
 	}
 }

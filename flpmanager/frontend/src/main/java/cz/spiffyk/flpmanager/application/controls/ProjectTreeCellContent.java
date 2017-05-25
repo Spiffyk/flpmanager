@@ -3,7 +3,7 @@ package cz.spiffyk.flpmanager.application.controls;
 import java.util.Observable;
 import java.util.Observer;
 
-import cz.spiffyk.flpmanager.application.screens.songeditor.SongEditorDialog;
+import cz.spiffyk.flpmanager.application.screens.projecteditor.ProjectEditorDialog;
 import cz.spiffyk.flpmanager.data.Project;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -43,15 +43,15 @@ public class ProjectTreeCellContent extends WorkspaceNodeTreeCellContent<Project
 	}
 	
 	private void update() {
-		
+		getLabel().setText(project.getName());
 	}
 	
 	private class ProjectContextMenu extends ContextMenu {
 		public ProjectContextMenu() {
 			MenuItem editItem = new MenuItem("_Rename...");
 			editItem.setOnAction((event) -> {
-//				new SongEditorDialog(song).showAndWait();
-//				update();
+				new ProjectEditorDialog(project).showAndWait();
+				update();
 			});
 			
 			MenuItem cloneItem = new MenuItem("Clone");

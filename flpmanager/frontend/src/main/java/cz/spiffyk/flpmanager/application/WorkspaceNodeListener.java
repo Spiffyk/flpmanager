@@ -7,9 +7,9 @@ import cz.spiffyk.flpmanager.data.WorkspaceNode;
 import javafx.collections.ListChangeListener;
 import javafx.scene.control.TreeItem;
 
-public class WorkspaceNodeListener implements ListChangeListener<WorkspaceNode> {
+public abstract class WorkspaceNodeListener implements ListChangeListener<WorkspaceNode> {
 	
-	private TreeItem<WorkspaceNode> parent;
+	protected TreeItem<WorkspaceNode> parent;
 	
 	public WorkspaceNodeListener(final TreeItem<WorkspaceNode> parent) {
 		if (parent == null) {
@@ -17,6 +17,7 @@ public class WorkspaceNodeListener implements ListChangeListener<WorkspaceNode> 
 		}
 		
 		this.parent = parent;
+		sort();
 	}
 
 	@Override
@@ -44,5 +45,8 @@ public class WorkspaceNodeListener implements ListChangeListener<WorkspaceNode> 
 		}
 		children.removeAll(toRemove);
 		children.addAll(toAdd);
+		sort();
 	}
+	
+	public void sort() {}
 }
