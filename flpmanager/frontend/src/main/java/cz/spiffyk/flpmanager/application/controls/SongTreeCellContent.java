@@ -3,16 +3,24 @@ package cz.spiffyk.flpmanager.application.controls;
 import java.util.Observable;
 import java.util.Observer;
 
+import cz.spiffyk.flpmanager.application.screens.generator.SongEditorDialog;
 import cz.spiffyk.flpmanager.data.Song;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 
 public class SongTreeCellContent extends WorkspaceNodeTreeCellContent<Song> implements Observer {
 	
 	private final Song song;
 	private final CheckBox favoriteCheckBox;
+	private final ContextMenu contextMenu;
 	
 	public SongTreeCellContent(Song node) {
 		super(node);
+		this.contextMenu = new SongContextMenu();
+		this.setOnContextMenuRequested((event) -> {
+			this.contextMenu.show(this, event.getScreenX(), event.getScreenY());
+		});
 		getStyleClass().add("song-cell");
 		this.song = node;
 		node.addObserver(this);
@@ -36,4 +44,15 @@ public class SongTreeCellContent extends WorkspaceNodeTreeCellContent<Song> impl
 		getLabel().setText(song.getAuthor() + " - " + song.getName());
 	}
 	
+	private class SongContextMenu extends ContextMenu {
+		{
+			MenuItem editItem = new MenuItem("Edit song...");
+			editItem.setOnAction((event) -> {
+				new SongEditorDialog(song).showAndWait();
+				update();
+			});
+			
+			this.getItems().add(editItem);
+		}
+	}
 }

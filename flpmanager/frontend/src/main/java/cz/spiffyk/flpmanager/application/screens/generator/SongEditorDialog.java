@@ -11,13 +11,17 @@ import javafx.scene.control.Dialog;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.TextField;
 
-public class SongGeneratorDialog extends Dialog<Song> {
+public class SongEditorDialog extends Dialog<Boolean> {
 	
 	@FXML private TextField name;
 	@FXML private TextField author;
 	
-	public SongGeneratorDialog() {
+	private Song song;
+	
+	public SongEditorDialog(Song song) {
 		super();
+		this.song = song;
+		
 		final FXMLLoader loader = new FXMLLoader(getClass().getResource("SongGenerator.fxml"));
 		loader.setController(this);
 		this.setResultConverter(this::convertResult);
@@ -30,19 +34,23 @@ public class SongGeneratorDialog extends Dialog<Song> {
 		}
 	}
 	
+	@FXML private void initialize() {
+		this.name.setText(song.getName());
+		this.author.setText(song.getAuthor());
+	}
+	
 	/**
 	 * Creates a song from the values in the dialog
 	 * @param b
 	 * @return
 	 */
-	private Song convertResult(ButtonType b) {
+	private boolean convertResult(ButtonType b) {
 		if (b.equals(ButtonType.OK)) {
-			final Song song = new Song();
 			song.setName(name.getText());
 			song.setAuthor(author.getText());
-			return song;
+			return true;
 		} else {
-			return null;
+			return false;
 		}
 	}
 	

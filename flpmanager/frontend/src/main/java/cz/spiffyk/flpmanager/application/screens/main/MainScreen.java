@@ -3,7 +3,8 @@ package cz.spiffyk.flpmanager.application.screens.main;
 import java.io.IOException;
 
 import cz.spiffyk.flpmanager.application.controls.SongsView;
-import cz.spiffyk.flpmanager.application.screens.generator.SongGeneratorDialog;
+import cz.spiffyk.flpmanager.application.screens.generator.SongEditorDialog;
+import cz.spiffyk.flpmanager.data.Song;
 import cz.spiffyk.flpmanager.data.Workspace;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -55,9 +56,12 @@ public class MainScreen extends BorderPane {
 	 * @param e Event
 	 */
 	@FXML protected void newSongAction(ActionEvent e) {
-		SongGeneratorDialog dialog = new SongGeneratorDialog();
+		Song song = new Song();
+		SongEditorDialog dialog = new SongEditorDialog(song);
 		dialog.showAndWait().ifPresent(s -> {
-			songManager.getSongs().add(s);
+			if (s.booleanValue()) {
+				songManager.getSongs().add(song);
+			}
 		});
 	}
 	

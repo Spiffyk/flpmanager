@@ -18,21 +18,6 @@ public final class SongsView extends TreeView<WorkspaceNode> {
 		this.listener = new WorkspaceNodeListener(root);
 		this.setRoot(root);
 		this.setShowRoot(false);
-		
-		this.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-			final WorkspaceNode value = newValue.getValue();
-			switch(value.getType()) {
-				case SONG:
-					final Song song = (Song) value;
-					System.out.println("* Song: " + song.toString() + " (favorite: " + song.isFavorite() + ", " + song.getProjects().size() + " projects)");
-					break;
-				case PROJECT:
-					final Project project = (Project) value;
-					System.out.println("* Project: " + project.toString());
-					break;
-				default:
-			}
-		});
 	}
 	
 	public void setWorkspace(final Workspace workspace) {
