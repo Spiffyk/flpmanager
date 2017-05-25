@@ -3,7 +3,9 @@ package cz.spiffyk.flpmanager.application.controls;
 import java.util.Observable;
 import java.util.Observer;
 
+import cz.spiffyk.flpmanager.application.screens.projecteditor.ProjectEditorDialog;
 import cz.spiffyk.flpmanager.application.screens.songeditor.SongEditorDialog;
+import cz.spiffyk.flpmanager.data.Project;
 import cz.spiffyk.flpmanager.data.Song;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -61,6 +63,18 @@ public class SongTreeCellContent extends WorkspaceNodeTreeCellContent<Song> impl
 				song.openInSystemBrowser();
 			});
 			
+			MenuItem newProjectItem = new MenuItem("Create a new project...");
+			newProjectItem.setOnAction((event) -> {
+				final Project project = new Project();
+				final ProjectEditorDialog dialog = new ProjectEditorDialog(project);
+				dialog.showAndWait().ifPresent((b) -> {
+					if (b.booleanValue()) {
+						project.setParent(song);
+						song.getProjects().add(project);
+					}
+				});
+			});
+			
 			MenuItem deleteItem = new MenuItem("Delete");
 			deleteItem.setOnAction((event) -> {
 				final Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -72,7 +86,13 @@ public class SongTreeCellContent extends WorkspaceNodeTreeCellContent<Song> impl
 				}
 			});
 			
-			this.getItems().addAll(editItem, openDirItem, new SeparatorMenuItem(), deleteItem);
+			this.getItems().addAll(
+					editItem,
+					openDirItem,
+					new SeparatorMenuItem(),
+					newProjectItem,
+					new SeparatorMenuItem(),
+					deleteItem);
 		}
 	}
 }

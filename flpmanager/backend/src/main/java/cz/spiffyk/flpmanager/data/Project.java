@@ -2,7 +2,6 @@ package cz.spiffyk.flpmanager.data;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Observable;
@@ -20,17 +19,10 @@ import lombok.NonNull;
 
 public class Project extends Observable implements WorkspaceNode {
 	
+	private static final AppConfiguration appConfiguration = AppConfiguration.get();
 	private static final Messenger messenger = Messenger.get();
 	private static final String PROJECT_FILE_EXTENSION = ".flp";
-	private static File EMPTY_FLP;
-	
-	{
-		try {
-			EMPTY_FLP = new File(Project.class.getClassLoader().getResource("emptyflp.flp").toURI());
-		} catch (URISyntaxException e) {
-			EMPTY_FLP = null;
-		}
-	}
+	private static File EMPTY_FLP = new File(appConfiguration.getFlpTemplatePath());
 	
 	@Getter private final UUID identifier;
 	

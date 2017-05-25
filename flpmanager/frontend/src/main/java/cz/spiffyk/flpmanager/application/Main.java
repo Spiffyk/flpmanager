@@ -86,8 +86,8 @@ public class Main extends Application {
 		Scene scene = new Scene(mainScreen, 640, 600);
 		
 		List<String> stylesheets = scene.getStylesheets();
-		stylesheets.add(getClass().getResource("application.css").toExternalForm());
-		stylesheets.add(getClass().getResource("controls/controls.css").toExternalForm());
+		stylesheets.add(getClass().getClassLoader().getResource("application.css").toExternalForm());
+		stylesheets.add(getClass().getClassLoader().getResource("controls.css").toExternalForm());
 		
 		try {
 			final Workspace workspace = ManagerFileHandler.loadWorkspace(appConfiguration.getWorkspacePath());

@@ -31,7 +31,7 @@ public class MainScreen extends BorderPane implements Subscriber {
 	private Stage primaryStage;
 	
 	public MainScreen(Stage primaryStage) {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScreen.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("MainScreen.fxml"));
 		loader.setRoot(this);
 		loader.setController(this);
 		this.primaryStage = primaryStage;
