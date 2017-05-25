@@ -2,6 +2,7 @@ package cz.spiffyk.flpmanager.application.screens.setup;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
 
 import org.apache.commons.lang3.SystemUtils;
 
@@ -17,6 +18,7 @@ import javafx.scene.control.DialogPane;
 import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 
 public class SetupDialog extends Dialog<Boolean> {
 	
@@ -43,6 +45,12 @@ public class SetupDialog extends Dialog<Boolean> {
 	{
 		exeFileChooser.setTitle("Select path to FL Studio executable");
 		exeFileChooser.setInitialDirectory(pathToFlFile);
+		exeFileChooser.getExtensionFilters().addAll(
+				new ExtensionFilter("Executable", "*.exe", "*.bat", "*.sh"),
+				new ExtensionFilter("Windows Executable", "*.exe"),
+				new ExtensionFilter("Batch file", "*.bat"),
+				new ExtensionFilter("Shell script", "*.sh"),
+				new ExtensionFilter("All files", "*.*"));
 	}
 	
 	@FXML private TextField pathToTemplate;
@@ -50,6 +58,9 @@ public class SetupDialog extends Dialog<Boolean> {
 	{
 		templateFileChooser.setTitle("Select path to the default template");
 		templateFileChooser.setInitialDirectory(pathToFlFile);
+		templateFileChooser.getExtensionFilters().addAll(
+				new ExtensionFilter("FL Studio project file", "*.flp"),
+				new ExtensionFilter("All files", "*.*"));
 	}
 	
 	@FXML private TextField pathToWorkspace;
