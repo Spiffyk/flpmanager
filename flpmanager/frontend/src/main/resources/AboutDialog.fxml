@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+
+<DialogPane xmlns:fx="http://javafx.com/fxml/1">
+	<content>
+		<VBox prefWidth="800" spacing="8" alignment="CENTER">
+			<Label text="FLP Manager" style="-fx-font-size: 50px; -fx-font-weight: bold" />
+			<Label fx:id="version" />
+			<Label text="This software is distributed under the MIT License." />
+			<Label text="FLP Manager is in no way affiliated with or endorsed by Image-Line Software." />
+		</VBox>
+	</content>
+	
+	<buttonTypes>
+		<ButtonType fx:constant="OK"></ButtonType>
+	</buttonTypes>
+</DialogPane>
+

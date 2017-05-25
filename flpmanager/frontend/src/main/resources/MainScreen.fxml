@@ -25,7 +25,7 @@
 				<MenuItem onAction="#quitMenuAction" text="E_xit" accelerator="Alt+F4" />
 			</Menu>
 			<Menu text="_Help">
-				<MenuItem text="_About..." />
+				<MenuItem onAction="#showAbout" text="_About..." />
 			</Menu>
 		</MenuBar>
 	</top>

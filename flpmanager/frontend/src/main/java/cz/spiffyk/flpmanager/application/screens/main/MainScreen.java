@@ -5,6 +5,7 @@ import java.io.IOException;
 import cz.spiffyk.flpmanager.AppConfiguration;
 import cz.spiffyk.flpmanager.ManagerFileHandler;
 import cz.spiffyk.flpmanager.application.controls.SongsView;
+import cz.spiffyk.flpmanager.application.screens.about.AboutDialog;
 import cz.spiffyk.flpmanager.application.screens.songeditor.SongEditorDialog;
 import cz.spiffyk.flpmanager.data.Song;
 import cz.spiffyk.flpmanager.data.Workspace;
@@ -78,6 +79,11 @@ public class MainScreen extends BorderPane implements Subscriber {
 				workspace.getSongs().add(song);
 			}
 		});
+	}
+	
+	@FXML protected void showAbout() {
+		final AboutDialog dialog = new AboutDialog();
+		dialog.showAndWait();
 	}
 	
 	@FXML protected void openSettings(ActionEvent e) {
