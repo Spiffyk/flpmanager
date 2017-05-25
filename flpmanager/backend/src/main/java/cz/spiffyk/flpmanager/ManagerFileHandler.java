@@ -306,7 +306,10 @@ public class ManagerFileHandler {
 			if (node instanceof Element) {
 				final Element e = (Element) node;
 				if (e.getTagName().toLowerCase().equals(TAG_TAGNAME)) {
-					tags.add(linkTag(e, workspace));
+					Tag tag = linkTag(e, workspace);
+					if (tag != null) {
+						tags.add(tag);
+					}
 				} else {
 					throw new ManagerFileException("The tag <" + TAGS_TAGNAME + "> should only contain a list of <" + TAG_TAGNAME + ">.");
 				}
