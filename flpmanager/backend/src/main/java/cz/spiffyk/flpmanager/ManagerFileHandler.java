@@ -11,6 +11,16 @@ import java.util.UUID;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.TransformerFactoryConfigurationError;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -320,16 +330,107 @@ public class ManagerFileHandler {
 	 */
 	public static void saveWorkspace(Workspace workspace) {
 		
-//		try {
-//			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-//			DocumentBuilder builder = factory.newDocumentBuilder();
-//			Document doc = builder.newDocument();
-//			
-//			Element root = doc.createElement(WORKSPACE_TAGNAME);
-//			doc.appendChild(root);
-//		} catch (ParserConfigurationException e) {
-//			e.printStackTrace();
-//		}
+		try {
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder builder = factory.newDocumentBuilder();
+			Document doc = builder.newDocument();
+			
+			Element root = doc.createElement(WORKSPACE_TAGNAME);
+			root.setAttribute("version", VERSION);
+			
+			root.appendChild(saveTags(workspace.getTags().values(), doc));
+			root.appendChild(saveSongs(workspace.getSongs(), doc));
+			
+			doc.appendChild(root);
+			
+			Transformer transformer = TransformerFactory.newInstance().newTransformer();
+			transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2"); // y u no have constant fo dat???
+			
+			Result result = new StreamResult(new File(workspace.getDirectory(), WORKSPACE_FILENAME));
+			Source source = new DOMSource(doc);
+			transformer.transform(source, result);
+		} catch (ParserConfigurationException e) {
+			// TODO do something with these
+			e.printStackTrace();
+		} catch (TransformerConfigurationException e) {
+			e.printStackTrace();
+		} catch (TransformerFactoryConfigurationError e) {
+			e.printStackTrace();
+		} catch (TransformerException e) {
+			e.printStackTrace();
+		}
 		
+	}
+	
+	private static Element saveTags(Iterable<Tag> tags, Document doc) {
+		Element root = doc.createElement(TAGS_TAGNAME);
+		
+		for (Tag tag : tags) {
+			root.appendChild(saveTag(tag, doc));
+		}
+		
+		return root;
+	}
+	
+	private static Element saveTag(Tag tag, Document doc) {
+		Element root = doc.createElement(TAG_TAGNAME);
+		root.setAttribute(NAME_ATTRNAME, tag.getName());
+		root.setAttribute(COLOR_ATTRNAME, "#" + Integer.toHexString(tag.getColor().hashCode()));
+		return root;
+	}
+	
+	private static Element saveSongs(Iterable<Song> songs, Document doc) {
+		Element root = doc.createElement(SONGS_TAGNAME);
+		for (Song song : songs) {
+			root.appendChild(saveSong(song, doc));
+		}
+		return root;
+	}
+	
+	private static Element saveSong(Song song, Document doc) {
+		Element root = doc.createElement(SONG_TAGNAME);
+		root.setAttribute(NAME_ATTRNAME, song.getName());
+		root.setAttribute(AUTHOR_ATTRNAME, song.getAuthor());
+		root.setAttribute(UUID_ATTRNAME, song.getIdentifier().toString());
+		
+		if (song.isFavorite()) {
+			root.setAttribute(FAVORITE_ATTRNAME, "true");
+		}
+		
+		root.appendChild(saveProjects(song.getProjects(), doc));
+		root.appendChild(saveLinkedTags(song.getTags(), doc));
+		
+		return root;
+	}
+	
+	private static Element saveProjects(Iterable<Project> projects, Document doc) {
+		Element root = doc.createElement(PROJECTS_TAGNAME);
+		for (Project project : projects) {
+			root.appendChild(saveProject(project, doc));
+		}
+		return root;
+	}
+	
+	private static Element saveProject(Project project, Document doc) {
+		Element root = doc.createElement(PROJECT_TAGNAME);
+		root.setAttribute(NAME_ATTRNAME, project.getName());
+		root.setAttribute(UUID_ATTRNAME, project.getIdentifier().toString());
+		return root;
+	}
+	
+	private static Element saveLinkedTags(Iterable<Tag> tags, Document doc) {
+		Element root = doc.createElement(TAGS_TAGNAME);
+		for (Tag tag : tags) {
+			root.appendChild(saveLinkedTag(tag, doc));
+		}
+		return root;
+	}
+	
+	private static Element saveLinkedTag(Tag tag, Document doc) {
+		Element root = doc.createElement(TAG_TAGNAME);
+		root.setTextContent(tag.getName());
+		return root;
 	}
 }

@@ -46,6 +46,8 @@ public class Main extends Application {
 		CONFIG_FILE = new File(CONFIG_DIRECTORY, "flpmanager.properties");
 	}
 	
+	private static AppConfiguration appConfiguration = AppConfiguration.get();
+	
 	private static void loadConfiguration() {
 		Properties props = new Properties();
 		
@@ -61,11 +63,11 @@ public class Main extends Application {
 			}
 		}
 		
-		AppConfiguration.get().fromProperties(props);
+		appConfiguration.fromProperties(props);
 	}
 	
 	private static void saveConfiguration() {
-		Properties props = AppConfiguration.get().toProperties();
+		Properties props = appConfiguration.toProperties();
 		try {
 			FileOutputStream fos = new FileOutputStream(CONFIG_FILE);
 			props.store(fos, "FLPManager config file");
@@ -87,7 +89,7 @@ public class Main extends Application {
 		stylesheets.add(getClass().getResource("controls/controls.css").toExternalForm());
 		
 		try {
-			final Workspace workspace = ManagerFileHandler.loadWorkspace(getClass().getClassLoader().getResource("test_workspace"));
+			final Workspace workspace = ManagerFileHandler.loadWorkspace(appConfiguration.getWorkspacePath());
 			mainScreen.setWorkspace(workspace);
 		
 			primaryStage.setScene(scene);
@@ -98,7 +100,7 @@ public class Main extends Application {
 				Platform.exit();
 			});
 			primaryStage.show();
-		} catch (IOException | URISyntaxException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 			
 			final Alert alert = new Alert(AlertType.ERROR);

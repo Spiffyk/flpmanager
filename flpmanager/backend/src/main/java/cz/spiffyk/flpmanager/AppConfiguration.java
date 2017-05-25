@@ -11,6 +11,9 @@ public class AppConfiguration {
 	private static final AppConfiguration singleton = new AppConfiguration();
 	
 	@Getter @Setter @NonNull private String flExecutablePath = "";
+	@Getter @Setter @NonNull private String workspacePath = "";
+	
+	@Getter @Setter private boolean loaded = false;
 	
 	private AppConfiguration() {}
 	
@@ -20,11 +23,14 @@ public class AppConfiguration {
 	
 	public void fromProperties(Properties properties) {
 		setFlExecutablePath(properties.getProperty("fl_studio_executable", ""));
+		setWorkspacePath(properties.getProperty("workspace", ""));
+		setLoaded(true);
 	}
 	
 	public Properties toProperties() {
 		final Properties properties = new Properties();
 		properties.setProperty("fl_studio_executable", getFlExecutablePath());
+		properties.setProperty("workspace", getWorkspacePath());
 		return properties;
 	}
 	
