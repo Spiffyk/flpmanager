@@ -1,7 +1,11 @@
 package cz.spiffyk.flpmanager.application.controls;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
+
+import org.apache.commons.io.FileUtils;
 
 import cz.spiffyk.flpmanager.application.screens.projecteditor.ProjectEditorDialog;
 import cz.spiffyk.flpmanager.application.screens.songeditor.SongEditorDialog;
@@ -15,6 +19,8 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.scene.control.Alert.AlertType;
 
 public class SongTreeCellContent extends WorkspaceNodeTreeCellContent<Song> implements Observer {
@@ -83,8 +89,28 @@ public class SongTreeCellContent extends WorkspaceNodeTreeCellContent<Song> impl
 			
 			MenuItem importProjectItem = new MenuItem("Import project from file...");
 			importProjectItem.setOnAction((event) -> {
-				Messenger.get().message(MessageType.ERROR, "Not yet implemented.");
-				// TODO implement FLP importing
+				
+				final FileChooser chooser = new FileChooser();
+				chooser.setTitle("Select FLP to import...");
+				chooser.getExtensionFilters().add(new ExtensionFilter("FL Studio project file", "*.flp"));
+				File file = chooser.showOpenDialog(getOwnerWindow());
+				if (file != null) {
+					Project project = new Project();
+					project.setName(file.getName());
+					ProjectEditorDialog dialog = new ProjectEditorDialog(project);
+					dialog.showAndWait().ifPresent((b) -> {
+						if (b.booleanValue()) {
+							try {
+								project.setParent(song);
+								FileUtils.copyFile(file, project.getProjectFile());
+								song.getProjects().add(project);
+							} catch (IOException e) {
+								e.printStackTrace();
+								Messenger.get().message(MessageType.ERROR, "Could not copy project file.", e.getMessage());
+							}
+						}
+					});
+				}
 			});
 			
 			MenuItem deleteItem = new MenuItem("Delete");
