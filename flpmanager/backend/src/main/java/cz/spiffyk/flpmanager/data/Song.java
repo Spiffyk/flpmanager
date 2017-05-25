@@ -1,11 +1,16 @@
 package cz.spiffyk.flpmanager.data;
 
+import java.awt.Desktop;
 import java.io.File;
+import java.io.IOException;
 import java.util.Observable;
 import java.util.UUID;
 
+import cz.spiffyk.flpmanager.util.Messenger;
+import cz.spiffyk.flpmanager.util.Messenger.MessageType;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -15,6 +20,8 @@ import lombok.Setter;
  * @author spiffyk
  */
 public class Song extends Observable implements WorkspaceNode {
+	
+	private static final Messenger messenger = Messenger.get();
 	
 	private static final String PROJECTS_DIRECTORY = "_projects";
 
@@ -62,6 +69,24 @@ public class Song extends Observable implements WorkspaceNode {
 				throw new IllegalStateException("There is a file called '" + PROJECTS_DIRECTORY + "' but is not a directory");
 			}
 		}
+	}
+	
+	public void openInSystemBrowser() {
+		Task<Void> task = new Task<Void>() {
+			@Override
+			protected Void call() throws Exception {
+				if (Desktop.isDesktopSupported()) {
+					try {
+						Desktop.getDesktop().open(songDir);
+					} catch (IOException e) {
+						messenger.message(MessageType.ERROR, "Could not open song directory.", e.getMessage());
+					}
+				}
+				return null;
+			}
+		};
+		
+		new Thread(task).start();
 	}
 	
 	@Override

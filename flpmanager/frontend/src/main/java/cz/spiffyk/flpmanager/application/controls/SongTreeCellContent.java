@@ -52,7 +52,12 @@ public class SongTreeCellContent extends WorkspaceNodeTreeCellContent<Song> impl
 				update();
 			});
 			
-			this.getItems().add(editItem);
+			MenuItem openDirItem = new MenuItem("Open in system explorer...");
+			openDirItem.setOnAction((event) -> {
+				song.openInSystemBrowser();
+			});
+			
+			this.getItems().addAll(editItem, openDirItem);
 		}
 	}
 }
