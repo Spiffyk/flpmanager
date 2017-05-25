@@ -16,6 +16,7 @@
 	<modules>
 		<module>frontend</module>
 		<module>backend</module>
+		<module>util</module>
 	</modules>
 	<dependencies>
 		<dependency>

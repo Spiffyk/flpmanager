@@ -10,6 +10,7 @@ public class AppConfiguration {
 	
 	private static final AppConfiguration singleton = new AppConfiguration();
 	
+	// Saved configuration
 	@Getter @Setter @NonNull private String flExecutablePath = "";
 	@Getter @Setter @NonNull private String workspacePath = "";
 	

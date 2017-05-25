@@ -29,6 +29,8 @@ public class Main extends Application {
 	public static final File CONFIG_DIRECTORY;
 	public static final File CONFIG_FILE;
 	
+	private static final AppConfiguration appConfiguration = AppConfiguration.get();
+	
 	static {
 		if (SystemUtils.IS_OS_WINDOWS) {
 			CONFIG_DIRECTORY = new File(System.getenv("AppData") + File.separator + CONFIG_DIRECTORY_NAME);
@@ -44,8 +46,6 @@ public class Main extends Application {
 		
 		CONFIG_FILE = new File(CONFIG_DIRECTORY, "flpmanager.properties");
 	}
-	
-	private static AppConfiguration appConfiguration = AppConfiguration.get();
 	
 	private static void loadConfiguration() {
 		Properties props = new Properties();
@@ -80,7 +80,9 @@ public class Main extends Application {
 	
 	@Override
 	public void start(Stage primaryStage) {
-		MainScreen mainScreen = new MainScreen();
+		Platform.setImplicitExit(false);
+		
+		MainScreen mainScreen = new MainScreen(primaryStage);
 		Scene scene = new Scene(mainScreen, 640, 600);
 		
 		List<String> stylesheets = scene.getStylesheets();

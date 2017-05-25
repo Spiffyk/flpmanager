@@ -5,17 +5,5 @@
     <artifactId>flpmanager</artifactId>
     <version>${flpmanager.version}</version>
   </parent>
-  <artifactId>frontend</artifactId>
-  <dependencies>
-  	<dependency>
-  		<groupId>cz.spiffyk.flpmanager</groupId>
-  		<artifactId>backend</artifactId>
-  		<version>${flpmanager.version}</version>
-  	</dependency>
-  	<dependency>
-  		<groupId>cz.spiffyk.flpmanager</groupId>
-  		<artifactId>util</artifactId>
-  		<version>${flpmanager.version}</version>
-  	</dependency>
-  </dependencies>
+  <artifactId>util</artifactId>
 </project>

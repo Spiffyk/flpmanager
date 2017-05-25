@@ -6,4 +6,11 @@
     <version>${flpmanager.version}</version>
   </parent>
   <artifactId>backend</artifactId>
+  <dependencies>
+  	<dependency>
+  		<groupId>${flpmanager.groupId}</groupId>
+  		<artifactId>util</artifactId>
+  		<version>${flpmanager.version}</version>
+  	</dependency>
+  </dependencies>
 </project>
