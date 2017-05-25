@@ -143,11 +143,22 @@ public class Song extends Observable implements WorkspaceNode {
 				Song s1 = (Song) o1.getValue();
 				Song s2 = (Song) o2.getValue();
 				if (s1.isFavorite() == s2.isFavorite()) return 0;
-				if (s1.isFavorite() && !s2.isFavorite()) return 1;
-				return -1;
+				if (s1.isFavorite() && !s2.isFavorite()) return -1;
+				return 1;
 			}
 			
 			return 0;
 		}
+	}
+	
+	void nudge() {
+		setChanged();
+		notifyObservers();
+	}
+	
+	@Override
+	public void notifyObservers() {
+		super.notifyObservers();
+		if (parent != null) parent.nudge();
 	}
 }

@@ -2,12 +2,14 @@ package cz.spiffyk.flpmanager.application;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import cz.spiffyk.flpmanager.data.WorkspaceNode;
 import javafx.collections.ListChangeListener;
 import javafx.scene.control.TreeItem;
 
-public abstract class WorkspaceNodeListener implements ListChangeListener<WorkspaceNode> {
+public abstract class WorkspaceNodeListener implements ListChangeListener<WorkspaceNode>, Observer {
 	
 	protected TreeItem<WorkspaceNode> parent;
 	
@@ -50,4 +52,9 @@ public abstract class WorkspaceNodeListener implements ListChangeListener<Worksp
 	protected abstract TreeItem<WorkspaceNode> createTreeItem(WorkspaceNode node);
 	
 	public void sort() {}
+	
+	@Override
+	public void update(Observable o, Object arg) {
+		sort();
+	}
 }

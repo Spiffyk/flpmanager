@@ -167,6 +167,12 @@ public class Project extends Observable implements WorkspaceNode {
 		}
 	}
 	
+	@Override
+	public void notifyObservers() {
+		super.notifyObservers();
+		if (parent != null) parent.nudge();
+	}
+	
 	public static class NameComparator implements Comparator<TreeItem<WorkspaceNode>> {
 		@Override
 		public int compare(TreeItem<WorkspaceNode> o1, TreeItem<WorkspaceNode> o2) {

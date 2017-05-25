@@ -48,6 +48,7 @@ public final class SongsView extends TreeView<WorkspaceNode> {
 				getRoot().getChildren().add(new SongTreeItem(song));
 			}
 			workspace.getSongs().addListener(listener);
+			workspace.addObserver(listener);
 			listener.sort();
 		} else {
 			throw new UnsupportedOperationException("The workspace can be assigned only once");

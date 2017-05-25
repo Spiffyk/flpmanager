@@ -1,5 +1,8 @@
 package cz.spiffyk.flpmanager.application.controls;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import cz.spiffyk.flpmanager.application.ProjectsListener;
 import cz.spiffyk.flpmanager.application.WorkspaceNodeListener;
 import cz.spiffyk.flpmanager.data.Project;
@@ -18,7 +21,8 @@ public class SongTreeItem extends TreeItem<WorkspaceNode> {
 			this.getChildren().add(new TreeItem<WorkspaceNode>(p));
 		}
 		song.getProjects().addListener(this.listener);
+		song.addObserver(listener);
 		listener.sort();
 	}
-	
+
 }

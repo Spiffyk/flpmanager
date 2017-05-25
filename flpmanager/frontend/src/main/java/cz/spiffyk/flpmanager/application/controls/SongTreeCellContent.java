@@ -49,7 +49,11 @@ public class SongTreeCellContent extends WorkspaceNodeTreeCellContent<Song> impl
 	
 	private void update() {
 		this.favoriteCheckBox.setSelected(song.isFavorite());
-		getLabel().setText(song.getAuthor() + " - " + song.getName());
+		if (song.getAuthor().isEmpty()) {
+			getLabel().setText(song.getName());
+		} else {
+			getLabel().setText(song.getAuthor() + " - " + song.getName());
+		}
 	}
 	
 	private class SongContextMenu extends ContextMenu {
