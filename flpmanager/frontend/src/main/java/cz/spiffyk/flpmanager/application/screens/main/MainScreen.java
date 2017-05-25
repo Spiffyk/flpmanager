@@ -74,6 +74,7 @@ public class MainScreen extends BorderPane implements Subscriber {
 		SongEditorDialog dialog = new SongEditorDialog(song);
 		dialog.showAndWait().ifPresent(s -> {
 			if (s.booleanValue()) {
+				song.setParent(workspace);
 				workspace.getSongs().add(song);
 			}
 		});
