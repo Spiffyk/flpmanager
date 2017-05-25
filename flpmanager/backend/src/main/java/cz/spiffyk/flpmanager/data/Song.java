@@ -15,7 +15,6 @@ import javafx.concurrent.Task;
 import javafx.scene.control.TreeItem;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.Setter;
 
 /**
  * Contains song metadata.
@@ -31,7 +30,7 @@ public class Song extends Observable implements WorkspaceNode {
 	@Getter private final ObservableList<Tag> tags = FXCollections.observableArrayList();
 	
 	@Getter private final UUID identifier;
-	@Getter @Setter private Workspace parent;
+	@Getter private Workspace parent;
 	@Getter private boolean favorite;
 	@Getter private String name;
 	@Getter private String author;
@@ -89,6 +88,11 @@ public class Song extends Observable implements WorkspaceNode {
 		};
 		
 		new Thread(task).start();
+	}
+	
+	public void setParent(Workspace parent) {
+		this.parent = parent;
+		checkAndCreateDirectories();
 	}
 	
 	public void setName(@NonNull String name) {
