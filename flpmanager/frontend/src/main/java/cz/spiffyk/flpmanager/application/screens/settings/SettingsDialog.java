@@ -22,12 +22,32 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 
+/**
+ * The controller for the settings screen
+ * @author spiffyk
+ */
 public class SettingsDialog extends Dialog<Boolean> {
 	
+	/**
+	 * App configuration
+	 */
 	private static final AppConfiguration appConfiguration = AppConfiguration.get();
 	
+	
+	
+	/**
+	 * Path to FL Studio executable
+	 */
 	File pathToExeFile = new File(appConfiguration.getFlExecutablePath());
+	
+	/**
+	 * Text field containing path to FL Studio executable
+	 */
 	@FXML private TextField pathToExe;
+	
+	/**
+	 * File chooser for FL Studio executable
+	 */
 	private final FileChooser exeFileChooser = new FileChooser();
 	{
 		exeFileChooser.setTitle("Select path to FL Studio executable");
@@ -40,8 +60,21 @@ public class SettingsDialog extends Dialog<Boolean> {
 				new ExtensionFilter("All files", "*.*"));
 	}
 	
+	
+	
+	/**
+	 * Path to FLP template
+	 */
 	File pathToTemplateFile = new File(appConfiguration.getFlpTemplatePath());
+	
+	/**
+	 * Text field containing path to FLP template
+	 */
 	@FXML private TextField pathToTemplate;
+	
+	/**
+	 * File chooser for FLP template
+	 */
 	private final FileChooser templateFileChooser = new FileChooser();
 	{
 		templateFileChooser.setTitle("Select path to the default template");
@@ -51,14 +84,34 @@ public class SettingsDialog extends Dialog<Boolean> {
 				new ExtensionFilter("All files", "*.*"));
 	}
 	
+	
+	
+	/**
+	 * Text field containing path to workspace
+	 */
 	@FXML private TextField pathToWorkspace;
+	
+	/**
+	 * Directory chooser for workspace
+	 */
 	private final DirectoryChooser workspaceDirChooser = new DirectoryChooser();
 	{
 		workspaceDirChooser.setTitle("Select path to your workspace");
 	}
 	
+	
+	/**
+	 * Is set to {@code true} if workspace directory is modified by the user
+	 */
 	private boolean workspaceModified = false;
 	
+	
+	
+	
+	
+	/**
+	 * Creates a new settings dialog
+	 */
 	public SettingsDialog() {
 		super();
 		this.setTitle("Settings");
@@ -75,12 +128,18 @@ public class SettingsDialog extends Dialog<Boolean> {
 		}
 	}
 	
+	/**
+	 * Initializes the fields to the current configured values
+	 */
 	@FXML private void initialize() {
 		pathToExe.setText(appConfiguration.getFlExecutablePath());
 		pathToTemplate.setText(appConfiguration.getFlpTemplatePath());
 		pathToWorkspace.setText(appConfiguration.getWorkspacePath());
 	}
 	
+	/**
+	 * Called when path to executable button is clicked
+	 */
 	@FXML private void setPathToExe() {
 		File f = exeFileChooser.showOpenDialog(null);
 		if (f != null) {
@@ -88,6 +147,9 @@ public class SettingsDialog extends Dialog<Boolean> {
 		}
 	}
 	
+	/**
+	 * Called when path to template button is clicked
+	 */
 	@FXML private void setPathToTemplate() {
 		File f = templateFileChooser.showOpenDialog(null);
 		if (f != null) {
@@ -95,10 +157,16 @@ public class SettingsDialog extends Dialog<Boolean> {
 		}
 	}
 	
+	/**
+	 * Called when the user types in the workspace text field
+	 */
 	@FXML private void changedWorkspace() {
 		workspaceModified = true;
 	}
 	
+	/**
+	 * Called when the path to workspace button is clicked
+	 */
 	@FXML private void setPathToWorkspace() {
 		File f = workspaceDirChooser.showDialog(null);
 		if (f != null) {
@@ -107,6 +175,14 @@ public class SettingsDialog extends Dialog<Boolean> {
 		}
 	}
 	
+	/**
+	 * Called when one of the dialog buttons is clicked.<br />
+	 * If {@code OK} is clicked, saves the settings.<br />
+	 * If the workspace directory has been modified, shows an alert about the necessity of a restart for the changes
+	 * to take effect.
+	 * @param buttonType
+	 * @return
+	 */
 	private Boolean convertResult(ButtonType buttonType) {
 		if (buttonType == ButtonType.OK) {
 			if (workspaceModified) {

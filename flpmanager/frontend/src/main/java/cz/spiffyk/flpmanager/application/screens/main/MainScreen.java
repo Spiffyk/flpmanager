@@ -24,14 +24,45 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+/**
+ * The controller for the main screen
+ * @author spiffyk
+ */
 public class MainScreen extends BorderPane implements Subscriber {
 	
+	/**
+	 * App configuration
+	 */
 	private static final AppConfiguration appConfiguration = AppConfiguration.get();
+	
+	/**
+	 * Messenger
+	 */
 	private static final Messenger messenger = Messenger.get();
 	
+	/**
+	 * The current opened workspace
+	 */
 	private Workspace workspace;
+	
+	/**
+	 * The main window
+	 */
 	private Stage primaryStage;
 	
+	
+
+	/**
+	 * The treeview showing the songs and underlying projects
+	 */
+	@FXML private SongsView songsView;
+	
+	
+	
+	/**
+	 * Creates a new main screen
+	 * @param primaryStage
+	 */
 	public MainScreen(Stage primaryStage) {
 		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("MainScreen.fxml"));
 		loader.setRoot(this);
@@ -46,10 +77,7 @@ public class MainScreen extends BorderPane implements Subscriber {
 		}
 	}
 
-	@FXML private MenuBar menuBar;
-	@FXML private BorderPane mainPane;
-	@FXML private Label songName;
-	@FXML private SongsView songsView;
+	
 	
 	/**
 	 * Sets the workspace to work with
@@ -69,9 +97,8 @@ public class MainScreen extends BorderPane implements Subscriber {
 	
 	/**
 	 * Fired when New Song menu item is selected
-	 * @param e Event
 	 */
-	@FXML protected void newSongAction(ActionEvent e) {
+	@FXML protected void newSongAction() {
 		Song song = new Song();
 		SongEditorDialog dialog = new SongEditorDialog(song);
 		dialog.showAndWait().ifPresent(s -> {
@@ -82,17 +109,26 @@ public class MainScreen extends BorderPane implements Subscriber {
 		});
 	}
 	
+	/**
+	 * Fired when About menu item is selected
+	 */
 	@FXML protected void showAbout() {
 		final AboutDialog dialog = new AboutDialog();
 		dialog.showAndWait();
 	}
 	
-	@FXML protected void openSettings(ActionEvent e) {
+	/**
+	 * Fired when Settings menu item is selected
+	 */
+	@FXML protected void openSettings() {
 		final SettingsDialog dialog = new SettingsDialog();
 		dialog.showAndWait();
 	}
 	
-	@FXML protected void saveWorkspace(ActionEvent e) {
+	/**
+	 * Fired when Save Workspace menu item is selected
+	 */
+	@FXML protected void saveWorkspace() {
 		ManagerFileHandler.saveWorkspace(workspace);
 	}
 	
@@ -104,30 +140,63 @@ public class MainScreen extends BorderPane implements Subscriber {
 		Platform.exit();
 	}
 	
+	/**
+	 * Creates an info box with the specified content
+	 * @param content The content
+	 */
 	private void info(String content) {
 		info(null, content);
 	}
 	
+	/**
+	 * Creates an info box with the specified header and content
+	 * @param header The header
+	 * @param content The content
+	 */
 	private void info(String header, String content) {
 		alert(AlertType.INFORMATION, header, content);
 	}
 	
+	/**
+	 * Creates a warning box with the specified content
+	 * @param content The content
+	 */
 	private void warning(String content) {
 		warning(null, content);
 	}
 	
+	/**
+	 * Creates a warning box with the specified header and content
+	 * @param header The header
+	 * @param content The content
+	 */
 	private void warning(String header, String content) {
 		alert(AlertType.WARNING, header, content);
 	}
 	
+	/**
+	 * Creates an error box with the specified content
+	 * @param content The content
+	 */
 	private void error(String content) {
 		error(null, content);
 	}
 	
+	/**
+	 * Creates an error box with the specified header and content
+	 * @param header The header
+	 * @param content The content
+	 */
 	private void error(String header, String content) {
 		alert(AlertType.ERROR, header, content);
 	}
 	
+	/**
+	 * Creates a alert with the specified type, header and content
+	 * @param alertType The alert type
+	 * @param header The header
+	 * @param content The content
+	 */
 	private void alert(AlertType alertType, String header, String content) {
 		final Alert alert = new Alert(alertType);
 		alert.setHeaderText(header);

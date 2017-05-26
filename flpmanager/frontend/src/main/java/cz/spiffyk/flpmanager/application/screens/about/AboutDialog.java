@@ -9,10 +9,22 @@ import javafx.scene.control.Dialog;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 
+/**
+ * The controller for the about dialog
+ * @author spiffyk
+ */
 public class AboutDialog extends Dialog<Boolean> {
 	
+	/**
+	 * The label containing the program version
+	 */
 	@FXML private Label version;
 	
+	
+	
+	/**
+	 * Creates a new about dialog
+	 */
 	public AboutDialog() {
 		super();
 		this.setTitle("About");
@@ -28,6 +40,12 @@ public class AboutDialog extends Dialog<Boolean> {
 		}
 	}
 	
+	
+	
+	/**
+	 * Initializes the program version label with the version (works only when the program is packaged by maven,
+	 * otherwise it shows {@code null})
+	 */
 	@FXML private void initialize() {
 		this.version.setText("Version: " + getClass().getPackage().getImplementationVersion());
 	}

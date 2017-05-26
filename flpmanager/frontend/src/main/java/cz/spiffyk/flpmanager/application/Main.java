@@ -23,15 +23,36 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
+/**
+ * The application entry point
+ * @author spiffyk
+ */
 public class Main extends Application {
 	
-	public static final String CONFIG_DIRECTORY_NAME = "flpmanager";
-	
-	public static final File CONFIG_DIRECTORY;
-	public static final File CONFIG_FILE;
-	
+	/**
+	 * App configuration
+	 */
 	private static final AppConfiguration appConfiguration = AppConfiguration.get();
 	
+	/**
+	 * The name of the configuration directory (in AppData for Windows, Application Support on OS X, home directory
+	 * with preceding fullstop on others)
+	 */
+	public static final String CONFIG_DIRECTORY_NAME = "flpmanager";
+	
+	/**
+	 * Configuration directory
+	 */
+	public static final File CONFIG_DIRECTORY;
+	
+	/**
+	 * Main configuration file
+	 */
+	public static final File CONFIG_FILE;
+	
+	/*
+	 * Here the config directory and file are set based on the system running the application
+	 */
 	static {
 		if (SystemUtils.IS_OS_WINDOWS) {
 			CONFIG_DIRECTORY = new File(System.getenv("AppData") + File.separator + CONFIG_DIRECTORY_NAME);
@@ -48,6 +69,9 @@ public class Main extends Application {
 		CONFIG_FILE = new File(CONFIG_DIRECTORY, "flpmanager.properties");
 	}
 	
+	/**
+	 * Loads the configuration file and feeds it into {@code appConfiguration}.
+	 */
 	private static void loadConfiguration() {
 		if (CONFIG_FILE.exists()) {
 			Properties props = new Properties();
@@ -65,6 +89,9 @@ public class Main extends Application {
 		}
 	}
 	
+	/**
+	 * Takes the {@code appConfiguration} and stores it in the file
+	 */
 	private static void saveConfiguration() {
 		Properties props = appConfiguration.toProperties();
 		try {
@@ -93,6 +120,10 @@ public class Main extends Application {
 		}
 	}
 	
+	/**
+	 * Gets the main application ready and starts it
+	 * @param primaryStage The main window
+	 */
 	public void startApplication(Stage primaryStage) {
 		Platform.setImplicitExit(false);
 		
@@ -134,6 +165,10 @@ public class Main extends Application {
 		}
 	}
 	
+	/**
+	 * Application entry point
+	 * @param args Unused (for now)
+	 */
 	public static void main(String[] args) {
 		loadConfiguration();
 		launch(args);

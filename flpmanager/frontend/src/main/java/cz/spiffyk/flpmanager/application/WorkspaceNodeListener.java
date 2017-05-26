@@ -9,10 +9,22 @@ import cz.spiffyk.flpmanager.data.WorkspaceNode;
 import javafx.collections.ListChangeListener;
 import javafx.scene.control.TreeItem;
 
+/**
+ * An abstract listener for observing a {@link WorkspaceNode} and updating the {@link TreeItem} accordingly.
+ * @author spiffyk
+ */
 public abstract class WorkspaceNodeListener implements ListChangeListener<WorkspaceNode>, Observer {
 	
+	/**
+	 * The {@link TreeItem} to update
+	 */
 	protected TreeItem<WorkspaceNode> parent;
 	
+	
+	/**
+	 * Creates a new listener updating the specified {@link TreeItem}
+	 * @param parent The {@link TreeItem} to update
+	 */
 	public WorkspaceNodeListener(final TreeItem<WorkspaceNode> parent) {
 		if (parent == null) {
 			throw new IllegalArgumentException("Parent cannot be null");
@@ -49,8 +61,16 @@ public abstract class WorkspaceNodeListener implements ListChangeListener<Worksp
 		sort();
 	}
 	
+	/**
+	 * Creates a {@link TreeItem} for the specified node.
+	 * @param node The node to be assigned to the {@link TreeItem}
+	 * @return A {@link TreeItem} containing the node.
+	 */
 	protected abstract TreeItem<WorkspaceNode> createTreeItem(WorkspaceNode node);
 	
+	/**
+	 * Sorts the children of the underlying {@link TreeItem}
+	 */
 	public void sort() {}
 	
 	@Override
