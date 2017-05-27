@@ -2,7 +2,6 @@ package cz.spiffyk.flpmanager.application.screens.main;
 
 import java.io.IOException;
 
-import cz.spiffyk.flpmanager.AppConfiguration;
 import cz.spiffyk.flpmanager.ManagerFileHandler;
 import cz.spiffyk.flpmanager.application.screens.about.AboutDialog;
 import cz.spiffyk.flpmanager.application.screens.helper.ProjectHelper;
