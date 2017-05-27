@@ -5,7 +5,7 @@ import java.io.IOException;
 import cz.spiffyk.flpmanager.AppConfiguration;
 import cz.spiffyk.flpmanager.ManagerFileHandler;
 import cz.spiffyk.flpmanager.application.screens.about.AboutDialog;
-import cz.spiffyk.flpmanager.application.screens.helper.ProjectHelperDialog;
+import cz.spiffyk.flpmanager.application.screens.helper.ProjectHelper;
 import cz.spiffyk.flpmanager.application.screens.settings.SettingsDialog;
 import cz.spiffyk.flpmanager.application.screens.songeditor.SongEditorDialog;
 import cz.spiffyk.flpmanager.application.views.songs.SongsView;
@@ -52,7 +52,7 @@ public class MainScreen extends VBox implements Subscriber {
 	/**
 	 * Project helper
 	 */
-	private ProjectHelperDialog projectHelper = new ProjectHelperDialog();
+	private ProjectHelper projectHelper = new ProjectHelper();
 	
 	
 
