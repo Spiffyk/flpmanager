@@ -7,6 +7,8 @@ import java.util.Comparator;
 import java.util.Observable;
 import java.util.UUID;
 
+import org.apache.commons.io.FileUtils;
+
 import cz.spiffyk.flpmanager.util.Messenger;
 import cz.spiffyk.flpmanager.util.Messenger.MessageType;
 import javafx.collections.FXCollections;
@@ -69,6 +71,14 @@ public class Song extends Observable implements WorkspaceNode {
 			} else if(!projectsDir.isDirectory()) {
 				throw new IllegalStateException("There is a file called '" + PROJECTS_DIRECTORY + "' but is not a directory");
 			}
+		}
+	}
+	
+	public void delete() {
+		try {
+			FileUtils.deleteDirectory(songDir);
+		} catch (IOException e) {
+			messenger.message(MessageType.ERROR, "Could not open delete song directory.", e.getMessage());
 		}
 	}
 	

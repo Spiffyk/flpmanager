@@ -88,6 +88,10 @@ public class Project extends Observable implements WorkspaceNode {
 		return copy;
 	}
 	
+	public void delete() {
+		projectFile.delete();
+	}
+	
 	public synchronized void updateFiles() {
 		if (parent != null) {
 			projectFile = new File(parent.getProjectsDir(), identifier.toString() + PROJECT_FILE_EXTENSION);

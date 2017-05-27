@@ -121,6 +121,7 @@ public class SongTreeCellContent extends WorkspaceNodeTreeCellContent<Song> impl
 				ButtonType bt = alert.showAndWait().orElse(ButtonType.CANCEL);
 				if (bt == ButtonType.OK) {
 					song.getParent().getSongs().remove(song);
+					song.delete();
 				}
 			});
 			

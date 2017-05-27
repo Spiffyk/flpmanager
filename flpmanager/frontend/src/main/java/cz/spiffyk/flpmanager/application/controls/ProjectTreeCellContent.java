@@ -67,6 +67,7 @@ public class ProjectTreeCellContent extends WorkspaceNodeTreeCellContent<Project
 				ButtonType bt = alert.showAndWait().orElse(ButtonType.CANCEL);
 				if (bt == ButtonType.OK) {
 					project.getParent().getProjects().remove(project);
+					project.delete();
 				}
 			});
 			
