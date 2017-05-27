@@ -10,12 +10,16 @@ import com.sun.javafx.scene.shape.PathUtils;
 
 import cz.spiffyk.flpmanager.AppConfiguration;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -69,6 +73,8 @@ public class SetupDialog extends Dialog<Boolean> {
 		workspaceDirChooser.setTitle("Select path to your workspace");
 	}
 	
+	
+	
 	public SetupDialog() {
 		super();
 		this.setTitle("First time setup");
@@ -78,12 +84,21 @@ public class SetupDialog extends Dialog<Boolean> {
 		this.setResultConverter(this::convertResult);
 		
 		try {
-			this.setDialogPane((DialogPane) loader.load());
+			final DialogPane pane = new DialogPane();
+			pane.setContent(loader.load());
+			pane.getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+			
+			final Button btOk = (Button) pane.lookupButton(ButtonType.OK);
+			btOk.addEventFilter(ActionEvent.ACTION, this::onOk);
+			
+			this.setDialogPane(pane);
 		} catch (IOException e) {
 			e.printStackTrace();
 			Platform.exit();
 		}
 	}
+	
+	
 	
 	private void updateFlPaths() {
 		pathToExe.setText(new File(pathToFlFile, FL_EXE_NAME).getAbsolutePath());
@@ -92,6 +107,46 @@ public class SetupDialog extends Dialog<Boolean> {
 	
 	@FXML private void initialize() {
 		pathToWorkspace.setText(SystemUtils.getUserHome() + File.separator + "FLWorkspace");
+	}
+	
+	private void onOk(ActionEvent event) {
+		File exe = new File(pathToExe.getText());
+		File template = new File(pathToTemplate.getText());
+		File workspace = new File(pathToWorkspace.getText());
+		
+		if (!exe.isFile()) {
+			event.consume();
+			
+			final Alert alert = new Alert(AlertType.ERROR);
+			alert.setHeaderText(null);
+			alert.setContentText("The executable must be a valid file!");
+			alert.showAndWait();
+			return;
+		}
+		
+		if (!template.isFile()) {
+			event.consume();
+			
+			final Alert alert = new Alert(AlertType.ERROR);
+			alert.setHeaderText(null);
+			alert.setContentText("The template must be a valid file!");
+			alert.showAndWait();
+			return;
+		}
+		
+		if (workspace.exists() && !workspace.isDirectory()) {
+			event.consume();
+			
+			final Alert alert = new Alert(AlertType.ERROR);
+			alert.setHeaderText(null);
+			alert.setContentText("The workspace must be a valid directory or must not exist!");
+			alert.showAndWait();
+			return;
+		}
+		
+		appConfiguration.setFlExecutablePath(exe.getAbsolutePath());
+		appConfiguration.setFlpTemplatePath(template.getAbsolutePath());
+		appConfiguration.setWorkspacePath(workspace.getAbsolutePath());
 	}
 	
 	@FXML private void changePathToFlText() {
@@ -131,13 +186,6 @@ public class SetupDialog extends Dialog<Boolean> {
 	}
 	
 	private Boolean convertResult(ButtonType buttonType) {
-		if (buttonType == ButtonType.OK) {
-			appConfiguration.setFlExecutablePath(pathToExe.getText());
-			appConfiguration.setFlpTemplatePath(pathToTemplate.getText());
-			appConfiguration.setWorkspacePath(pathToWorkspace.getText());
-			return true;
-		}
-		
-		return false;
+		return buttonType == ButtonType.OK;
 	}
 }

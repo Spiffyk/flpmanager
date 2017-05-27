@@ -4,34 +4,24 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.HBox?>
 
-<DialogPane xmlns:fx="http://javafx.com/fxml/1">
-	<content>
-		<VBox prefWidth="800" spacing="3">
-			<HBox spacing="8">
-				<Label text="FL Studio executable" prefWidth="200" HBox.hgrow="NEVER" />
-				<TextField fx:id="pathToExe" HBox.hgrow="ALWAYS" />
-				<Button text="..." onAction="#setPathToExe" HBox.hgrow="NEVER" />
-			</HBox>
-			
-			<HBox spacing="8">
-				<Label text="Project template" prefWidth="200" HBox.hgrow="NEVER" />
-				<TextField fx:id="pathToTemplate" HBox.hgrow="ALWAYS" />
-				<Button text="..." onAction="#setPathToTemplate" HBox.hgrow="NEVER" />
-			</HBox>
-			
-			<Separator />
-			
-			<HBox spacing="8">
-				<Label text="Path to your workspace" prefWidth="200" HBox.hgrow="NEVER" />
-				<TextField fx:id="pathToWorkspace" onKeyTyped="#changedWorkspace" HBox.hgrow="ALWAYS" />
-				<Button text="..." onAction="#setPathToWorkspace" HBox.hgrow="NEVER" />
-			</HBox>
-		</VBox>
-	</content>
+<VBox prefWidth="800" spacing="3" xmlns:fx="http://javafx.com/fxml/1">
+	<HBox spacing="8">
+		<Label text="FL Studio executable" prefWidth="200" HBox.hgrow="NEVER" />
+		<TextField fx:id="pathToExe" HBox.hgrow="ALWAYS" />
+		<Button text="..." onAction="#setPathToExe" HBox.hgrow="NEVER" />
+	</HBox>
 	
-	<buttonTypes>
-		<ButtonType fx:constant="OK"></ButtonType>
-		<ButtonType fx:constant="CANCEL"></ButtonType>
-	</buttonTypes>
-</DialogPane>
-
+	<HBox spacing="8">
+		<Label text="Project template" prefWidth="200" HBox.hgrow="NEVER" />
+		<TextField fx:id="pathToTemplate" HBox.hgrow="ALWAYS" />
+		<Button text="..." onAction="#setPathToTemplate" HBox.hgrow="NEVER" />
+	</HBox>
+	
+	<Separator />
+	
+	<HBox spacing="8">
+		<Label text="Path to your workspace" prefWidth="200" HBox.hgrow="NEVER" />
+		<TextField fx:id="pathToWorkspace" onKeyTyped="#changedWorkspace" HBox.hgrow="ALWAYS" />
+		<Button text="..." onAction="#setPathToWorkspace" HBox.hgrow="NEVER" />
+	</HBox>
+</VBox>
