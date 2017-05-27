@@ -119,7 +119,7 @@ public class Project extends Observable implements WorkspaceNode {
 				}
 			}
 			
-			messenger.message(MessageType.HIDE_STAGE);
+			messenger.message(MessageType.PROJECT_OPEN, this);
 			open = true;
 			
 			Task<Void> task = new Task<Void>() {
@@ -176,7 +176,7 @@ public class Project extends Observable implements WorkspaceNode {
 				messenger.message(MessageType.ERROR, "Could not copy the file back.", e.getMessage());
 			}
 			
-			messenger.message(MessageType.SHOW_STAGE);
+			messenger.message(MessageType.PROJECT_CLOSE);
 			open = false;
 		}
 	}

@@ -6,8 +6,10 @@ import cz.spiffyk.flpmanager.AppConfiguration;
 import cz.spiffyk.flpmanager.ManagerFileHandler;
 import cz.spiffyk.flpmanager.application.controls.SongsView;
 import cz.spiffyk.flpmanager.application.screens.about.AboutDialog;
+import cz.spiffyk.flpmanager.application.screens.helper.ProjectHelperDialog;
 import cz.spiffyk.flpmanager.application.screens.settings.SettingsDialog;
 import cz.spiffyk.flpmanager.application.screens.songeditor.SongEditorDialog;
+import cz.spiffyk.flpmanager.data.Project;
 import cz.spiffyk.flpmanager.data.Workspace;
 import cz.spiffyk.flpmanager.util.Messenger;
 import cz.spiffyk.flpmanager.util.Messenger.MessageType;
@@ -46,6 +48,11 @@ public class MainScreen extends VBox implements Subscriber {
 	 * The main window
 	 */
 	private Stage primaryStage;
+	
+	/**
+	 * Project helper
+	 */
+	private ProjectHelperDialog projectHelper = new ProjectHelperDialog();
 	
 	
 
@@ -225,6 +232,21 @@ public class MainScreen extends VBox implements Subscriber {
 			} else if (args.length == 1) {
 				error((String) args[0]);
 			}
+			break;
+		case PROJECT_OPEN:
+			if (args.length < 1) {
+				throw new IllegalArgumentException("Project needs to be specified");
+			}
+			
+			if (args[0] instanceof Project) {
+				projectHelper.setProject((Project) args[0]);
+				projectHelper.show();
+			}
+			primaryStage.hide();
+			break;
+		case PROJECT_CLOSE:
+			projectHelper.hide();
+			primaryStage.show();
 			break;
 		}
 	}

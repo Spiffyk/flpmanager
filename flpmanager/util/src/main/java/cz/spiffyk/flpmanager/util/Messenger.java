@@ -35,7 +35,7 @@ public class Messenger {
 	}
 	
 	public enum MessageType {
-		ERROR, WARNING, INFO, HIDE_STAGE, SHOW_STAGE
+		ERROR, WARNING, INFO, HIDE_STAGE, SHOW_STAGE, PROJECT_OPEN, PROJECT_CLOSE
 	}
 	
 	public interface Subscriber {
