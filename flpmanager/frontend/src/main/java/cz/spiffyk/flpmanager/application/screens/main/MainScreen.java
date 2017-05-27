@@ -30,11 +30,6 @@ import javafx.stage.Stage;
 public class MainScreen extends VBox implements Subscriber {
 	
 	/**
-	 * App configuration
-	 */
-	private static final AppConfiguration appConfiguration = AppConfiguration.get();
-	
-	/**
 	 * Messenger
 	 */
 	private static final Messenger messenger = Messenger.get();

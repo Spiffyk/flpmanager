@@ -2,11 +2,8 @@ package cz.spiffyk.flpmanager.application.screens.setup;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Collection;
 
 import org.apache.commons.lang3.SystemUtils;
-
-import com.sun.javafx.scene.shape.PathUtils;
 
 import cz.spiffyk.flpmanager.AppConfiguration;
 import javafx.application.Platform;
