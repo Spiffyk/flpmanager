@@ -58,6 +58,7 @@ public abstract class WorkspaceNodeListener implements ListChangeListener<Worksp
 		}
 		children.removeAll(toRemove);
 		children.addAll(toAdd);
+		parent.setExpanded(true);
 		sort();
 	}
 	
