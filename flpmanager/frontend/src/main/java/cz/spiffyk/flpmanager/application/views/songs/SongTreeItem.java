@@ -1,7 +1,4 @@
-package cz.spiffyk.flpmanager.application.controls;
-
-import java.util.Observable;
-import java.util.Observer;
+package cz.spiffyk.flpmanager.application.views.songs;
 
 import cz.spiffyk.flpmanager.application.ProjectsListener;
 import cz.spiffyk.flpmanager.application.WorkspaceNodeListener;

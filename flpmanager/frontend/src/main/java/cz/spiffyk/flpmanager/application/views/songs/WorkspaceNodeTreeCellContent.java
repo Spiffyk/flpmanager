@@ -1,4 +1,4 @@
-package cz.spiffyk.flpmanager.application.controls;
+package cz.spiffyk.flpmanager.application.views.songs;
 
 import cz.spiffyk.flpmanager.data.WorkspaceNode;
 import javafx.scene.control.Label;

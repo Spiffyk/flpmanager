@@ -4,11 +4,11 @@ import java.io.IOException;
 
 import cz.spiffyk.flpmanager.AppConfiguration;
 import cz.spiffyk.flpmanager.ManagerFileHandler;
-import cz.spiffyk.flpmanager.application.controls.SongsView;
 import cz.spiffyk.flpmanager.application.screens.about.AboutDialog;
 import cz.spiffyk.flpmanager.application.screens.helper.ProjectHelperDialog;
 import cz.spiffyk.flpmanager.application.screens.settings.SettingsDialog;
 import cz.spiffyk.flpmanager.application.screens.songeditor.SongEditorDialog;
+import cz.spiffyk.flpmanager.application.views.songs.SongsView;
 import cz.spiffyk.flpmanager.data.Project;
 import cz.spiffyk.flpmanager.data.Workspace;
 import cz.spiffyk.flpmanager.util.Messenger;

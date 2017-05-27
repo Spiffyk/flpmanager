@@ -2,8 +2,8 @@ package cz.spiffyk.flpmanager.application;
 
 import java.util.Comparator;
 
-import cz.spiffyk.flpmanager.application.controls.SongTreeItem;
-import cz.spiffyk.flpmanager.application.controls.SongsView;
+import cz.spiffyk.flpmanager.application.views.songs.SongTreeItem;
+import cz.spiffyk.flpmanager.application.views.songs.SongsView;
 import cz.spiffyk.flpmanager.data.Song;
 import cz.spiffyk.flpmanager.data.WorkspaceNode;
 import javafx.scene.control.TreeItem;

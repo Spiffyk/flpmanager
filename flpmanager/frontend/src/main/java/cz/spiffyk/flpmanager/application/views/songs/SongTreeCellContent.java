@@ -1,4 +1,4 @@
-package cz.spiffyk.flpmanager.application.controls;
+package cz.spiffyk.flpmanager.application.views.songs;
 
 import java.io.File;
 import java.io.IOException;
