@@ -35,6 +35,10 @@ import javafx.scene.paint.Color;
 
 import org.w3c.dom.Node;
 
+/**
+ * A library class for loading workspaces from directories
+ * @author spiffyk
+ */
 public class ManagerFileHandler {
 	
 	private static final String WORKSPACE_FILENAME = "workspace.xml";
@@ -57,6 +61,15 @@ public class ManagerFileHandler {
 	 * The most recent file version
 	 */
 	private static final String VERSION = "1";
+	
+	
+	
+	/**
+	 * This is not the constructor you are looking for, move along
+	 */
+	private ManagerFileHandler() {};
+	
+	
 	
 	/**
 	 * Loads a workspace from directory
@@ -104,10 +117,6 @@ public class ManagerFileHandler {
 	 */
 	public static Workspace loadWorkspace(String path) throws IOException {
 		return loadWorkspace(new File(path));
-	}
-	
-	public static Workspace loadWorkspace(URL url) throws IOException, URISyntaxException {
-		return loadWorkspace(new File(url.toURI()));
 	}
 	
 	/**
@@ -258,6 +267,12 @@ public class ManagerFileHandler {
 		return song;
 	}
 	
+	/**
+	 * Loads {@link Project}s from {@code <projects>} element
+	 * @param root The {@code <projects>} element
+	 * @param parent The {@link Song} to be set as a parent
+	 * @return List of loaded {@link Project}s (may be empty)
+	 */
 	private static List<Project> loadProjects(Element root, Song parent) {
 		if (!root.getTagName().toLowerCase().equals(PROJECTS_TAGNAME)) {
 			throw new ManagerFileException("Not tagged as a list of projects; " + root.toString());
@@ -281,6 +296,12 @@ public class ManagerFileHandler {
 		return projects;
 	}
 	
+	/**
+	 * Loads {@link Project} from {@code <project>} element for adding into a song
+	 * @param root The {@code <project>} element
+	 * @param parent The {@link Song} to be set as a parent
+	 * @return The loaded {@link Project}
+	 */
 	private static Project loadProject(Element root, Song parent) {
 		if (!root.getTagName().toLowerCase().equals(PROJECT_TAGNAME)) {
 			throw new ManagerFileException("Not tagged as a project; " + root.toString());
@@ -293,6 +314,12 @@ public class ManagerFileHandler {
 		return project;
 	}
 	
+	/**
+	 * Links {@link Tag}s found in the workspace
+	 * @param root The {@code <tags>} element
+	 * @param workspace The {@link Workspace} to look for the tags in
+	 * @return A list of {@link Tag}s (may be empty)
+	 */
 	private static List<Tag> linkTags(Element root, Workspace workspace) {
 		if (!root.getTagName().toLowerCase().equals(TAGS_TAGNAME)) {
 			throw new ManagerFileException("Not tagged as a list of tags; "  + root.toString());
@@ -319,6 +346,12 @@ public class ManagerFileHandler {
 		return tags;
 	}
 	
+	/**
+	 * Finds a tag in the {@link Workspace}
+	 * @param root The {@code <tag>} element
+	 * @param workspace The {@link Workspace} to look for the tag in
+	 * @return The {@link Tag} found in the workspace or {@code null} if none found
+	 */
 	private static Tag linkTag(Element root, Workspace workspace) {
 		if (!root.getTagName().toLowerCase().equals(TAG_TAGNAME)) {
 			throw new ManagerFileException("Not tagged as a tag; "  + root.toString());
@@ -326,6 +359,8 @@ public class ManagerFileHandler {
 		
 		return workspace.getTags().get(root.getTextContent().toLowerCase());
 	}
+	
+	
 	
 	/**
 	 * Saves the workspace into its directory
@@ -371,6 +406,12 @@ public class ManagerFileHandler {
 		
 	}
 	
+	/**
+	 * Saves {@link Tag}s into a {@code <tags>} element
+	 * @param tags The tags to save
+	 * @param doc The DOM document
+	 * @return The {@code <tags>} element
+	 */
 	private static Element saveTags(Iterable<Tag> tags, Document doc) {
 		Element root = doc.createElement(TAGS_TAGNAME);
 		
@@ -381,6 +422,12 @@ public class ManagerFileHandler {
 		return root;
 	}
 	
+	/**
+	 * Saves a {@link Tag} into a {@code <tag>} element
+	 * @param tag The tag to save
+	 * @param doc The DOM document
+	 * @return The {@code <tag>} element
+	 */
 	private static Element saveTag(Tag tag, Document doc) {
 		Element root = doc.createElement(TAG_TAGNAME);
 		root.setAttribute(NAME_ATTRNAME, tag.getName());
@@ -388,6 +435,14 @@ public class ManagerFileHandler {
 		return root;
 	}
 	
+	
+	
+	/**
+	 * Saves {@link Song}s into a {@code <songs>} element
+	 * @param songs The songs to save
+	 * @param doc The DOM document
+	 * @return The {@code <songs>} element
+	 */
 	private static Element saveSongs(Iterable<Song> songs, Document doc) {
 		Element root = doc.createElement(SONGS_TAGNAME);
 		for (Song song : songs) {
@@ -396,6 +451,12 @@ public class ManagerFileHandler {
 		return root;
 	}
 	
+	/**
+	 * Saves {@link Song} into a {@code <song>} element
+	 * @param song The song to save
+	 * @param doc The DOM document
+	 * @return The {@code <song>} element
+	 */
 	private static Element saveSong(Song song, Document doc) {
 		Element root = doc.createElement(SONG_TAGNAME);
 		root.setAttribute(NAME_ATTRNAME, song.getName());
@@ -412,6 +473,14 @@ public class ManagerFileHandler {
 		return root;
 	}
 	
+	
+	
+	/**
+	 * Saves {@link Project}s into a {@code <projects>} element
+	 * @param projects The projects to save
+	 * @param doc The DOM document
+	 * @return The {@code <projects>} element
+	 */
 	private static Element saveProjects(Iterable<Project> projects, Document doc) {
 		Element root = doc.createElement(PROJECTS_TAGNAME);
 		for (Project project : projects) {
@@ -420,6 +489,12 @@ public class ManagerFileHandler {
 		return root;
 	}
 	
+	/**
+	 * Saves {@link Project} into a {@code <project>} element
+	 * @param project The project to save
+	 * @param doc The DOM document
+	 * @return The {@code <project>} element
+	 */
 	private static Element saveProject(Project project, Document doc) {
 		Element root = doc.createElement(PROJECT_TAGNAME);
 		root.setAttribute(NAME_ATTRNAME, project.getName());
@@ -427,6 +502,14 @@ public class ManagerFileHandler {
 		return root;
 	}
 	
+	
+	
+	/**
+	 * Saves linked {@link Tag}s into a {@code <tags>} element
+	 * @param tags The tags to save
+	 * @param doc The DOM document
+	 * @return The {@code <tags>} element
+	 */
 	private static Element saveLinkedTags(Iterable<Tag> tags, Document doc) {
 		Element root = doc.createElement(TAGS_TAGNAME);
 		for (Tag tag : tags) {
@@ -435,6 +518,12 @@ public class ManagerFileHandler {
 		return root;
 	}
 	
+	/**
+	 * Saves linked {@link Tag} into a {@code <tag>} element
+	 * @param tag The tag to save
+	 * @param doc The DOM document
+	 * @return The {@code <tag>} element
+	 */
 	private static Element saveLinkedTag(Tag tag, Document doc) {
 		Element root = doc.createElement(TAG_TAGNAME);
 		root.setTextContent(tag.getName());

@@ -1,5 +1,9 @@
 package cz.spiffyk.flpmanager;
 
+/**
+ * A {@link RuntimeException} thrown when the workspace file is malformed.
+ * @author spiffyk
+ */
 public class ManagerFileException extends RuntimeException {
 	private static final long serialVersionUID = -3895986134500637307L;
 	

@@ -140,6 +140,8 @@ public class MainScreen extends BorderPane implements Subscriber {
 		Platform.exit();
 	}
 	
+	
+	
 	/**
 	 * Creates an info box with the specified content
 	 * @param content The content
