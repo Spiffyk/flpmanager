@@ -13,6 +13,11 @@
 		<flpmanager.groupId>cz.spiffyk.flpmanager</flpmanager.groupId>
 		<flpmanager.version>0.0.1</flpmanager.version>
 	</properties>
+	<scm>
+		<connection>scm:git:https://github.com/Spiffyk/flpmanager.git</connection>
+		<developerConnection>scm:git:git@github.com:Spiffyk/flpmanager.git</developerConnection>
+		<url>https://github.com/Spiffyk/flpmanager</url>
+	</scm>
 	<modules>
 		<module>frontend</module>
 		<module>backend</module>
