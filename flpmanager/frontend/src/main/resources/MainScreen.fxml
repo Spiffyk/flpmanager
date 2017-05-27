@@ -9,7 +9,7 @@
 <?import javafx.scene.control.Label?>
 <?import cz.spiffyk.flpmanager.application.views.songs.SongsView?>
 
-<fx:root type="cz.spiffyk.flpmanager.application.screens.main.MainScreen" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root type="cz.spiffyk.flpmanager.application.screens.MainScreen" xmlns:fx="http://javafx.com/fxml/1">
 	
 	<MenuBar fx:id="menuBar">
 		<Menu text="_File">

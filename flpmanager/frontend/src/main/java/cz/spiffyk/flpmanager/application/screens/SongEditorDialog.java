@@ -1,4 +1,4 @@
-package cz.spiffyk.flpmanager.application.screens.songeditor;
+package cz.spiffyk.flpmanager.application.screens;
 
 import java.io.IOException;
 

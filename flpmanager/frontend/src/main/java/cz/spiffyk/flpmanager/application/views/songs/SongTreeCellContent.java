@@ -7,8 +7,8 @@ import java.util.Observer;
 
 import org.apache.commons.io.FileUtils;
 
-import cz.spiffyk.flpmanager.application.screens.projecteditor.ProjectEditorDialog;
-import cz.spiffyk.flpmanager.application.screens.songeditor.SongEditorDialog;
+import cz.spiffyk.flpmanager.application.screens.ProjectEditorDialog;
+import cz.spiffyk.flpmanager.application.screens.SongEditorDialog;
 import cz.spiffyk.flpmanager.data.Project;
 import cz.spiffyk.flpmanager.data.Song;
 import cz.spiffyk.flpmanager.util.Messenger;

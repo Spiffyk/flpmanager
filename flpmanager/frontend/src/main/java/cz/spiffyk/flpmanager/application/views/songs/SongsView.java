@@ -2,7 +2,7 @@ package cz.spiffyk.flpmanager.application.views.songs;
 
 import cz.spiffyk.flpmanager.application.SongsListener;
 import cz.spiffyk.flpmanager.application.WorkspaceNodeListener;
-import cz.spiffyk.flpmanager.application.screens.songeditor.SongEditorDialog;
+import cz.spiffyk.flpmanager.application.screens.SongEditorDialog;
 import cz.spiffyk.flpmanager.data.Song;
 import cz.spiffyk.flpmanager.data.Workspace;
 import cz.spiffyk.flpmanager.data.WorkspaceNode;

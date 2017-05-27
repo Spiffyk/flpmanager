@@ -1,12 +1,8 @@
-package cz.spiffyk.flpmanager.application.screens.main;
+package cz.spiffyk.flpmanager.application.screens;
 
 import java.io.IOException;
 
 import cz.spiffyk.flpmanager.ManagerFileHandler;
-import cz.spiffyk.flpmanager.application.screens.about.AboutDialog;
-import cz.spiffyk.flpmanager.application.screens.helper.ProjectHelper;
-import cz.spiffyk.flpmanager.application.screens.settings.SettingsDialog;
-import cz.spiffyk.flpmanager.application.screens.songeditor.SongEditorDialog;
 import cz.spiffyk.flpmanager.application.views.songs.SongsView;
 import cz.spiffyk.flpmanager.data.Project;
 import cz.spiffyk.flpmanager.data.Workspace;

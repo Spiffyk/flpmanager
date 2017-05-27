@@ -1,4 +1,4 @@
-package cz.spiffyk.flpmanager.application.screens.helper;
+package cz.spiffyk.flpmanager.application.screens;
 
 import java.io.IOException;
 
