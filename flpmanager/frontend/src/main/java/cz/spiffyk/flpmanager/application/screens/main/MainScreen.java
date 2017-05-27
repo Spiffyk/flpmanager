@@ -8,7 +8,6 @@ import cz.spiffyk.flpmanager.application.controls.SongsView;
 import cz.spiffyk.flpmanager.application.screens.about.AboutDialog;
 import cz.spiffyk.flpmanager.application.screens.settings.SettingsDialog;
 import cz.spiffyk.flpmanager.application.screens.songeditor.SongEditorDialog;
-import cz.spiffyk.flpmanager.data.Song;
 import cz.spiffyk.flpmanager.data.Workspace;
 import cz.spiffyk.flpmanager.util.Messenger;
 import cz.spiffyk.flpmanager.util.Messenger.MessageType;
