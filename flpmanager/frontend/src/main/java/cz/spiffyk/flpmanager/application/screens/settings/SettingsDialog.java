@@ -2,11 +2,6 @@ package cz.spiffyk.flpmanager.application.screens.settings;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Collection;
-
-import org.apache.commons.lang3.SystemUtils;
-
-import com.sun.javafx.scene.shape.PathUtils;
 
 import cz.spiffyk.flpmanager.AppConfiguration;
 import javafx.application.Platform;
@@ -179,6 +174,13 @@ public class SettingsDialog extends Dialog<Boolean> {
 			alert.setContentText("The workspace must be a valid directory or must not exist!");
 			alert.showAndWait();
 			return;
+		}
+		
+		if (workspaceModified) {
+			final Alert alert = new Alert(AlertType.WARNING);
+			alert.setHeaderText("The workspace directory has been changed");
+			alert.setContentText("Restart the program in order for the changes to take effect");
+			alert.showAndWait();
 		}
 		
 		appConfiguration.setFlExecutablePath(exe.getAbsolutePath());
