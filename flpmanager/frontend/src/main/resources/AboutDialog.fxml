@@ -3,13 +3,25 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 
 <DialogPane xmlns:fx="http://javafx.com/fxml/1">
 	<content>
-		<VBox prefWidth="800" spacing="8" alignment="CENTER">
+		<VBox prefWidth="650" spacing="8" alignment="CENTER">
 			<Label text="FLP Manager" style="-fx-font-size: 50px; -fx-font-weight: bold" />
 			<Label fx:id="version" />
-			<Label text="This software is distributed under the MIT License." />
+			
+			<Separator />
+			
+			<Hyperlink onAction="#bug" text="Report a bug!" style="-fx-padding: 0" />
+			<Hyperlink onAction="#github" text="Fork me on GitHub!" style="-fx-padding: 0" />
+			<HBox alignment="CENTER">
+				<Label text="This software is distributed under the " />
+				<Hyperlink onAction="#mitLicense" text="MIT License" style="-fx-padding: 0" />
+				<Label text="." />
+			</HBox>
 			<Label text="FLP Manager is in no way affiliated with or endorsed by Image-Line Software." />
 		</VBox>
 	</content>

@@ -1,8 +1,11 @@
 package cz.spiffyk.flpmanager.application.screens.about;
 
+import java.awt.Desktop;
 import java.io.IOException;
+import java.net.URI;
 
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Dialog;
@@ -53,5 +56,27 @@ public class AboutDialog extends Dialog<Boolean> {
 		} else {
 			this.version.setText("Unpackaged development build");
 		}
+	}
+	
+	@FXML private void mitLicense() {
+		openWebPage("https://opensource.org/licenses/MIT");
+	}
+	
+	@FXML private void github() {
+		openWebPage("https://github.com/Spiffyk/flpmanager");
+	}
+	
+	@FXML private void bug() {
+		openWebPage("https://github.com/Spiffyk/flpmanager/issues");
+	}
+	
+	private void openWebPage(String url) {
+		new Thread(new Task<Void>() {
+			@Override
+			protected Void call() throws Exception {
+				Desktop.getDesktop().browse(new URI(url));
+				return null;
+			}
+		}).start();
 	}
 }
