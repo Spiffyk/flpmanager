@@ -3,6 +3,7 @@ package cz.spiffyk.flpmanager.application.screens.songeditor;
 import java.io.IOException;
 
 import cz.spiffyk.flpmanager.data.Song;
+import cz.spiffyk.flpmanager.data.Workspace;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -34,6 +35,21 @@ public class SongEditorDialog extends Dialog<Boolean> {
 			Platform.exit();
 		}
 	}
+	
+	
+	
+	public static void createNewSong(Workspace workspace) {
+		Song song = new Song();
+		SongEditorDialog dialog = new SongEditorDialog(song);
+		dialog.showAndWait().ifPresent(s -> {
+			if (s.booleanValue()) {
+				song.setParent(workspace);
+				workspace.getSongs().add(song);
+			}
+		});
+	}
+	
+	
 	
 	@FXML private void initialize() {
 		this.name.setText(song.getName());

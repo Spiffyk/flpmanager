@@ -1,37 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 	
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.TreeView?>
-<?import javafx.scene.control.TreeItem?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.TextFlow?>
 <?import cz.spiffyk.flpmanager.application.controls.SongsView?>
-<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.control.Label?>
 
 <fx:root type="cz.spiffyk.flpmanager.application.screens.main.MainScreen" xmlns:fx="http://javafx.com/fxml/1">
 	
-	<top>
-		<MenuBar fx:id="menuBar">
-			<Menu text="_File">
-				<MenuItem onAction="#newSongAction" text="_New Song..." accelerator="Ctrl+N" />
-				<MenuItem onAction="#saveWorkspace" text="Save _workspace" accelerator="Ctrl+S" />
-				<SeparatorMenuItem />
-				<MenuItem onAction="#openSettings" text="_Settings..." />
-				<SeparatorMenuItem />
-				<MenuItem onAction="#quitMenuAction" text="E_xit" accelerator="Alt+F4" />
-			</Menu>
-			<Menu text="_Help">
-				<MenuItem onAction="#showAbout" text="_About..." />
-			</Menu>
-		</MenuBar>
-	</top>
-
-	<center>
-		<SongsView fx:id="songsView" />
-	</center>
+	<MenuBar fx:id="menuBar">
+		<Menu text="_File">
+			<MenuItem onAction="#saveWorkspace" text="Save _workspace" accelerator="Ctrl+S" />
+			<SeparatorMenuItem />
+			<MenuItem onAction="#openSettings" text="_Settings..." />
+			<SeparatorMenuItem />
+			<MenuItem onAction="#quitMenuAction" text="E_xit" accelerator="Alt+F4" />
+		</Menu>
+		<Menu text="_Help">
+			<MenuItem onAction="#showAbout" text="_About..." />
+		</Menu>
+	</MenuBar>
+	
+	<HBox style="-fx-padding: 3px" >
+		<Button onAction="#newSongAction" text="_New song" />
+		<Region HBox.hgrow="ALWAYS" />
+		<Button text="_Album view (NYI)" />
+	</HBox>
+	
+	<SongsView fx:id="songsView" VBox.vgrow="ALWAYS" />
 	
 </fx:root>

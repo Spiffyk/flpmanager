@@ -18,17 +18,15 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuBar;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
  * The controller for the main screen
  * @author spiffyk
  */
-public class MainScreen extends BorderPane implements Subscriber {
+public class MainScreen extends VBox implements Subscriber {
 	
 	/**
 	 * App configuration
@@ -99,14 +97,7 @@ public class MainScreen extends BorderPane implements Subscriber {
 	 * Fired when New Song menu item is selected
 	 */
 	@FXML protected void newSongAction() {
-		Song song = new Song();
-		SongEditorDialog dialog = new SongEditorDialog(song);
-		dialog.showAndWait().ifPresent(s -> {
-			if (s.booleanValue()) {
-				song.setParent(workspace);
-				workspace.getSongs().add(song);
-			}
-		});
+		SongEditorDialog.createNewSong(workspace);
 	}
 	
 	/**

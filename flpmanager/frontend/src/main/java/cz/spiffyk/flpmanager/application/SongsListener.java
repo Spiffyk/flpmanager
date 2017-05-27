@@ -3,9 +3,11 @@ package cz.spiffyk.flpmanager.application;
 import java.util.Comparator;
 
 import cz.spiffyk.flpmanager.application.controls.SongTreeItem;
+import cz.spiffyk.flpmanager.application.controls.SongsView;
 import cz.spiffyk.flpmanager.data.Song;
 import cz.spiffyk.flpmanager.data.WorkspaceNode;
 import javafx.scene.control.TreeItem;
+import lombok.NonNull;
 
 /**
  * A listener for observing {@link Song}s and updating the {@link TreeItem} accordingly.
@@ -25,15 +27,26 @@ public class SongsListener extends WorkspaceNodeListener {
 	
 	
 	
+	private final SongsView songsView;
+	
+	
 	/**
 	 * Creates a new {@code SongsListener} updating the specified {@link TreeItem}
 	 * @param parent The {@link TreeItem} to update
 	 */
-	public SongsListener(TreeItem<WorkspaceNode> parent) {
+	public SongsListener(@NonNull TreeItem<WorkspaceNode> parent, @NonNull SongsView songsView) {
 		super(parent);
+		this.songsView = songsView;
 	}
 	
 	
+	
+	
+	@Override
+	public void onChanged(javafx.collections.ListChangeListener.Change<? extends WorkspaceNode> c) {
+		super.onChanged(c);
+		songsView.setShowPlaceholder(parent.getChildren().isEmpty());
+	}
 	
 	@Override
 	public void sort() {
