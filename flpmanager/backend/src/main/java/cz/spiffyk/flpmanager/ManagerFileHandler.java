@@ -73,6 +73,16 @@ public class ManagerFileHandler {
 	
 	/**
 	 * Loads a workspace from directory
+	 * @param path The path to the directory the workspace is saved in
+	 * @return Loaded workspace or a new workspace if none is loaded
+	 * @throws IOException 
+	 */
+	public static Workspace loadWorkspace(String path) throws IOException {
+		return loadWorkspace(new File(path));
+	}
+	
+	/**
+	 * Loads a workspace from directory. If a workspace does not exist, initializes it.
 	 * @param directory The directory the workspace is saved in
 	 * @return Loaded workspace or a new empty workspace if none is loaded
 	 * @throws IOException 
@@ -104,19 +114,12 @@ public class ManagerFileHandler {
 			} catch (SAXException e) {
 				throw new ManagerFileException("Not a valid XML file");
 			}
+		} else {
+			// Initialize the workspace if none exists
+			saveWorkspace(workspace);
 		}
 		
 		return workspace;
-	}
-	
-	/**
-	 * Loads a workspace from directory
-	 * @param path The path to the directory the workspace is saved in
-	 * @return Loaded workspace or a new workspace if none is loaded
-	 * @throws IOException 
-	 */
-	public static Workspace loadWorkspace(String path) throws IOException {
-		return loadWorkspace(new File(path));
 	}
 	
 	/**
