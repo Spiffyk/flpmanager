@@ -4,12 +4,16 @@ import java.io.IOException;
 
 import cz.spiffyk.flpmanager.data.Project;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 
 /**
  * The controller for the project editing dialog
@@ -41,7 +45,14 @@ public class ProjectEditorDialog extends Dialog<Boolean> {
 		this.setResultConverter(this::convertResult);
 		
 		try {
-			this.setDialogPane((DialogPane) loader.load());
+			final DialogPane pane = new DialogPane();
+			pane.setContent(loader.load());
+			pane.getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+			
+			final Button btOk = (Button) pane.lookupButton(ButtonType.OK);
+			btOk.addEventFilter(ActionEvent.ACTION, this::onOk);
+			
+			this.setDialogPane(pane);
 		} catch (IOException e) {
 			e.printStackTrace();
 			Platform.exit();
@@ -55,6 +66,20 @@ public class ProjectEditorDialog extends Dialog<Boolean> {
 		name.setText(project.getName());
 	}
 	
+	private void onOk(ActionEvent event) {
+		if (name.getText().trim().isEmpty()) {
+			event.consume();
+			
+			final Alert alert = new Alert(AlertType.ERROR);
+			alert.setHeaderText(null);
+			alert.setContentText("The project name cannot be empty!");
+			alert.showAndWait();
+			return;
+		}
+		
+		project.setName(name.getText());
+	}
+	
 	/**
 	 * Called when a dialog button is clicked.<br />
 	 * If {@code OK} is clicked, the name of the project gets set.
@@ -62,11 +87,6 @@ public class ProjectEditorDialog extends Dialog<Boolean> {
 	 * @return {@code true} if {@code OK} was clicked, otherwise {@code false}
 	 */
 	private boolean convertResult(ButtonType b) {
-		if (b.equals(ButtonType.OK)) {
-			project.setName(name.getText());
-			return true;
-		} else {
-			return false;
-		}
+		return b == ButtonType.OK;
 	}
 }

@@ -7,17 +7,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.control.ButtonType?>
 
-<DialogPane xmlns:fx="http://javafx.com/fxml/1">
-	<content>
-		<GridPane hgap="3" vgap="3" >
-			<Label text="Project name" GridPane.vgrow="NEVER" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-			<TextField fx:id="name" prefWidth="400" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-		</GridPane>
-	</content>
-	
-	<buttonTypes>
-		<ButtonType fx:constant="OK"></ButtonType>
-		<ButtonType fx:constant="CANCEL"></ButtonType>
-	</buttonTypes>
-</DialogPane>
-
+<GridPane hgap="3" vgap="3" xmlns:fx="http://javafx.com/fxml/1">
+	<Label text="Project name" GridPane.vgrow="NEVER" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+	<TextField fx:id="name" prefWidth="400" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+</GridPane>
