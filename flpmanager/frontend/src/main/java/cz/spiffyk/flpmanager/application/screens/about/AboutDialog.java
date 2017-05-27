@@ -47,6 +47,11 @@ public class AboutDialog extends Dialog<Boolean> {
 	 * otherwise it shows {@code null})
 	 */
 	@FXML private void initialize() {
-		this.version.setText("Version: " + getClass().getPackage().getImplementationVersion());
+		String version = getClass().getPackage().getImplementationVersion();
+		if (version != null) {
+			this.version.setText("Version: " + version);
+		} else {
+			this.version.setText("Unpackaged development build");
+		}
 	}
 }
