@@ -27,6 +27,7 @@ public class Song extends Observable implements WorkspaceNode {
 	private static final Messenger messenger = Messenger.get();
 	
 	private static final String PROJECTS_DIRECTORY = "_projects";
+	private static final String RENDER_DIRECTORY = "_render";
 
 	@Getter private final ObservableList<Project> projects = FXCollections.observableArrayList();
 	@Getter private final ObservableList<Tag> tags = FXCollections.observableArrayList();
@@ -39,6 +40,7 @@ public class Song extends Observable implements WorkspaceNode {
 	
 	@Getter private File songDir;
 	@Getter private File projectsDir;
+	@Getter private File renderDir;
 	
 	public Song() {
 		this(UUID.randomUUID());
@@ -70,6 +72,13 @@ public class Song extends Observable implements WorkspaceNode {
 				projectsDir.mkdir();
 			} else if(!projectsDir.isDirectory()) {
 				throw new IllegalStateException("There is a file called '" + PROJECTS_DIRECTORY + "' but is not a directory");
+			}
+			
+			renderDir = new File(songDir, RENDER_DIRECTORY);
+			if (!renderDir.exists()) {
+				renderDir.mkdir();
+			} else if(!renderDir.isDirectory()) {
+				throw new IllegalStateException("There is a file called '" + RENDER_DIRECTORY + "' but is not a directory");
 			}
 		}
 	}
