@@ -77,6 +77,7 @@ public class SongEditorDialog extends Dialog<Boolean> {
 			event.consume();
 			
 			final Alert alert = new Alert(AlertType.ERROR);
+			alert.initOwner(this.getDialogPane().getScene().getWindow());
 			alert.setHeaderText(null);
 			alert.setContentText("The song name cannot be empty!");
 			alert.showAndWait();

@@ -115,6 +115,7 @@ public class SetupDialog extends Dialog<Boolean> {
 			event.consume();
 			
 			final Alert alert = new Alert(AlertType.ERROR);
+			alert.initOwner(this.getDialogPane().getScene().getWindow());
 			alert.setHeaderText(null);
 			alert.setContentText("The executable must be a valid file!");
 			alert.showAndWait();
@@ -125,6 +126,7 @@ public class SetupDialog extends Dialog<Boolean> {
 			event.consume();
 			
 			final Alert alert = new Alert(AlertType.ERROR);
+			alert.initOwner(this.getDialogPane().getScene().getWindow());
 			alert.setHeaderText(null);
 			alert.setContentText("The template must be a valid file!");
 			alert.showAndWait();
@@ -135,6 +137,7 @@ public class SetupDialog extends Dialog<Boolean> {
 			event.consume();
 			
 			final Alert alert = new Alert(AlertType.ERROR);
+			alert.initOwner(this.getDialogPane().getScene().getWindow());
 			alert.setHeaderText(null);
 			alert.setContentText("The workspace must be a valid directory or must not exist!");
 			alert.showAndWait();
