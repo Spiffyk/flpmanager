@@ -15,7 +15,7 @@
 	<HBox style="-fx-padding: 3px" >
 		<Button onAction="#newSongAction" text="_New song" />
 		<Region HBox.hgrow="ALWAYS" />
-		<Button text="_Album view (NYI)" />
+		<Button text="_Album view" disable="true" />
 	</HBox>
 	
 	<StackPane VBox.vgrow="ALWAYS">
