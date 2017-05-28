@@ -21,6 +21,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Window;
 import javafx.scene.control.Alert.AlertType;
 
 public class SongTreeCellContent extends WorkspaceNodeTreeCellContent<Song> implements Observer {
@@ -64,6 +65,8 @@ public class SongTreeCellContent extends WorkspaceNodeTreeCellContent<Song> impl
 	
 	private class SongContextMenu extends ContextMenu {
 		public SongContextMenu() {
+			final Window owner = this.getOwnerWindow();
+			
 			MenuItem editItem = new MenuItem("_Edit song info...");
 			editItem.setOnAction((event) -> {
 				new SongEditorDialog(song).showAndWait();
@@ -79,6 +82,7 @@ public class SongTreeCellContent extends WorkspaceNodeTreeCellContent<Song> impl
 			newProjectItem.setOnAction((event) -> {
 				final Project project = new Project();
 				final ProjectEditorDialog dialog = new ProjectEditorDialog(project);
+				dialog.initOwner(owner);
 				dialog.showAndWait().ifPresent((b) -> {
 					if (b.booleanValue()) {
 						project.setParent(song);
@@ -98,6 +102,7 @@ public class SongTreeCellContent extends WorkspaceNodeTreeCellContent<Song> impl
 					Project project = new Project();
 					project.setName(file.getName());
 					ProjectEditorDialog dialog = new ProjectEditorDialog(project);
+					dialog.initOwner(owner);
 					dialog.showAndWait().ifPresent((b) -> {
 						if (b.booleanValue()) {
 							try {

@@ -94,6 +94,7 @@ public class MainScreen extends VBox implements Subscriber {
 	 */
 	@FXML protected void showAbout() {
 		final AboutDialog dialog = new AboutDialog();
+		dialog.initOwner(primaryStage);
 		dialog.showAndWait();
 	}
 	
@@ -102,6 +103,7 @@ public class MainScreen extends VBox implements Subscriber {
 	 */
 	@FXML protected void openSettings() {
 		final SettingsDialog dialog = new SettingsDialog();
+		dialog.initOwner(primaryStage);
 		dialog.showAndWait();
 	}
 	
@@ -181,6 +183,7 @@ public class MainScreen extends VBox implements Subscriber {
 	 */
 	private void alert(AlertType alertType, String header, String content) {
 		final Alert alert = new Alert(alertType);
+		alert.initOwner(primaryStage);
 		alert.setHeaderText(header);
 		alert.setContentText(content);
 		alert.showAndWait();

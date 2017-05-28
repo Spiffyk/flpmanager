@@ -50,15 +50,17 @@ public class SongEditorDialog extends Dialog<Boolean> {
 	
 	
 	
-	public static void createNewSong(Workspace workspace) {
+	public static Dialog<Boolean> newSongDialog(Workspace workspace) {
 		Song song = new Song();
 		SongEditorDialog dialog = new SongEditorDialog(song);
-		dialog.showAndWait().ifPresent(s -> {
-			if (s.booleanValue()) {
+		dialog.setOnHidden((event) -> {
+			if (dialog.getResult().booleanValue()) {
 				song.setParent(workspace);
 				workspace.getSongs().add(song);
 			}
 		});
+		
+		return dialog;
 	}
 	
 	

@@ -14,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
@@ -54,7 +55,9 @@ public final class SongsView extends VBox {
 	}
 	
 	@FXML private void newSongAction() {
-		SongEditorDialog.createNewSong(this.workspace);
+		Dialog<Boolean> dialog = SongEditorDialog.newSongDialog(this.workspace);
+		dialog.initOwner(this.getScene().getWindow());
+		dialog.showAndWait();
 	}
 	
 	@FXML private void onTreeViewKey(KeyEvent event) {
