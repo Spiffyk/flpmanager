@@ -2,7 +2,6 @@ package cz.spiffyk.flpmanager.data;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Observable;
@@ -27,33 +26,29 @@ public class Project extends Observable implements WorkspaceNode {
 	private static final String PROJECT_FILE_EXTENSION = ".flp";
 	private static final String FILE_REGEX = "[a-zA-Z0-9- ]+";
 	
-	private static File EMPTY_FLP = new File(appConfiguration.getFlpTemplatePath());
+	private static final File EMPTY_FLP = new File(appConfiguration.getFlpTemplatePath());
 	
 	@Getter private final UUID identifier;
+	@Getter private final Song parent;
 	
-	@Getter @NonNull private Song parent;
 	@Getter @NonNull private String name;
 	@Getter private File projectFile;
 	private File openedProjectFile;
 	
 	@Getter private boolean open = false;
 	
-	public Project() {
-		this(UUID.randomUUID());
+	public Project(@NonNull Song parent) {
+		this(UUID.randomUUID(), parent);
 	}
 	
-	public Project(@NonNull UUID identifier) {
+	public Project(@NonNull UUID identifier, @NonNull Song parent) {
+		this.parent = parent;
 		this.identifier = identifier;
 	}
 	
 	@Override
 	public WorkspaceNodeType getType() {
 		return WorkspaceNodeType.PROJECT;
-	}
-	
-	public void setParent(@NonNull Song parent) {
-		this.parent = parent;
-		updateFiles();
 	}
 	
 	public void setName(@NonNull String name) {
@@ -72,9 +67,8 @@ public class Project extends Observable implements WorkspaceNode {
 	}
 	
 	public Project copy(boolean addToParent) {
-		final Project copy = new Project();
+		final Project copy = new Project(this.parent);
 		copy.setName(this.getName() + " (copy)");
-		copy.setParent(this.getParent());
 		
 		if (this.projectFile.exists()) {
 			try {
@@ -97,9 +91,15 @@ public class Project extends Observable implements WorkspaceNode {
 	}
 	
 	public synchronized void updateFiles() {
-		if (parent != null) {
-			projectFile = new File(parent.getProjectsDir(), identifier.toString() + PROJECT_FILE_EXTENSION);
-			openedProjectFile = new File(parent.getSongDir(), identifier.toString() + PROJECT_FILE_EXTENSION);
+		projectFile = new File(parent.getProjectsDir(), identifier.toString() + PROJECT_FILE_EXTENSION);
+		openedProjectFile = new File(parent.getSongDir(), identifier.toString() + PROJECT_FILE_EXTENSION);
+		
+		if (!projectFile.exists()) {
+			try {
+				FileUtils.copyFile(EMPTY_FLP, projectFile);
+			} catch (IOException e) {
+				messenger.message(MessageType.ERROR, "Could not create project file.", e.getMessage());
+			}
 		}
 	}
 	

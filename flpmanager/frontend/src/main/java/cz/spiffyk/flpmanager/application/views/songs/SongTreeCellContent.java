@@ -80,13 +80,13 @@ public class SongTreeCellContent extends WorkspaceNodeTreeCellContent<Song> impl
 			
 			MenuItem newProjectItem = new MenuItem("Create a new project...");
 			newProjectItem.setOnAction((event) -> {
-				final Project project = new Project();
+				final Project project = new Project(song);
 				final ProjectEditorDialog dialog = new ProjectEditorDialog(project);
 				dialog.initOwner(owner);
 				dialog.showAndWait().ifPresent((b) -> {
 					if (b.booleanValue()) {
-						project.setParent(song);
 						song.getProjects().add(project);
+						project.updateFiles();
 					}
 				});
 			});
@@ -99,16 +99,16 @@ public class SongTreeCellContent extends WorkspaceNodeTreeCellContent<Song> impl
 				chooser.getExtensionFilters().add(new ExtensionFilter("FL Studio project file", "*.flp"));
 				File file = chooser.showOpenDialog(getOwnerWindow());
 				if (file != null) {
-					Project project = new Project();
+					Project project = new Project(song);
 					project.setName(file.getName());
 					ProjectEditorDialog dialog = new ProjectEditorDialog(project);
 					dialog.initOwner(owner);
 					dialog.showAndWait().ifPresent((b) -> {
 						if (b.booleanValue()) {
 							try {
-								project.setParent(song);
 								FileUtils.copyFile(file, project.getProjectFile());
 								song.getProjects().add(project);
+								project.updateFiles();
 							} catch (IOException e) {
 								e.printStackTrace();
 								Messenger.get().message(MessageType.ERROR, "Could not copy project file.", e.getMessage());

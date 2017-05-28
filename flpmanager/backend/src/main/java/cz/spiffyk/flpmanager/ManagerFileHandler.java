@@ -239,11 +239,10 @@ public class ManagerFileHandler {
 			throw new ManagerFileException("Not tagged as a song; "  + root.toString());
 		}
 		
-		final Song song = new Song(UUID.fromString(root.getAttribute(UUID_ATTRNAME)));
-		song.setParent(workspace);
+		final Song song = new Song(UUID.fromString(root.getAttribute(UUID_ATTRNAME)), workspace);
 		song.setName(root.getAttribute(NAME_ATTRNAME));
 		song.setAuthor(root.getAttribute(AUTHOR_ATTRNAME));
-		song.checkAndCreateDirectories();
+		song.updateFiles();
 		String favoriteAttribute = root.getAttribute(FAVORITE_ATTRNAME);
 		if (!favoriteAttribute.isEmpty()) {
 			song.setFavorite(Boolean.parseBoolean(favoriteAttribute));
@@ -308,8 +307,7 @@ public class ManagerFileHandler {
 			throw new ManagerFileException("Not tagged as a project; " + root.toString());
 		}
 		
-		final Project project = new Project(UUID.fromString(root.getAttribute(UUID_ATTRNAME)));
-		project.setParent(parent);
+		final Project project = new Project(UUID.fromString(root.getAttribute(UUID_ATTRNAME)), parent);
 		project.setName(root.getAttribute(NAME_ATTRNAME));
 		
 		return project;

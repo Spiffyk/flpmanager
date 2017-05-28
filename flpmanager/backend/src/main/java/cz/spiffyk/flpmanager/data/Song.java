@@ -33,7 +33,7 @@ public class Song extends Observable implements WorkspaceNode {
 	@Getter private final ObservableList<Tag> tags = FXCollections.observableArrayList();
 	
 	@Getter private final UUID identifier;
-	@Getter private Workspace parent;
+	@Getter private final Workspace parent;
 	@Getter private boolean favorite;
 	@Getter private String name;
 	@Getter private String author;
@@ -42,44 +42,42 @@ public class Song extends Observable implements WorkspaceNode {
 	@Getter private File projectsDir;
 	@Getter private File renderDir;
 	
-	public Song() {
-		this(UUID.randomUUID());
+	public Song(@NonNull Workspace parent) {
+		this(UUID.randomUUID(), parent);
 	}
 	
 	/**
 	 * Creates a song with empty name, author and not marked as favorite.
 	 */
-	public Song(@NonNull UUID identifier) {
+	public Song(@NonNull UUID identifier, @NonNull Workspace parent) {
 		this.identifier = identifier;
+		this.parent = parent;
 		this.setName("");
 		this.setAuthor("");
 		this.setFavorite(false);
-		checkAndCreateDirectories();
 	}
 	
-	public void checkAndCreateDirectories() {
-		if (parent != null) {
-			File workspaceDir = parent.getDirectory();
-			songDir = new File(workspaceDir, identifier.toString());
-			if (!songDir.exists()) {
-				songDir.mkdir();
-			} else if(!songDir.isDirectory()) {
-				throw new IllegalStateException("There is a file with the name matching the UUID but is not a directory");
-			}
-			
-			projectsDir = new File(songDir, PROJECTS_DIRECTORY);
-			if (!projectsDir.exists()) {
-				projectsDir.mkdir();
-			} else if(!projectsDir.isDirectory()) {
-				throw new IllegalStateException("There is a file called '" + PROJECTS_DIRECTORY + "' but is not a directory");
-			}
-			
-			renderDir = new File(songDir, RENDER_DIRECTORY);
-			if (!renderDir.exists()) {
-				renderDir.mkdir();
-			} else if(!renderDir.isDirectory()) {
-				throw new IllegalStateException("There is a file called '" + RENDER_DIRECTORY + "' but is not a directory");
-			}
+	public void updateFiles() {
+		File workspaceDir = parent.getDirectory();
+		songDir = new File(workspaceDir, identifier.toString());
+		if (!songDir.exists()) {
+			songDir.mkdir();
+		} else if(!songDir.isDirectory()) {
+			throw new IllegalStateException("There is a file with the name matching the UUID but is not a directory");
+		}
+		
+		projectsDir = new File(songDir, PROJECTS_DIRECTORY);
+		if (!projectsDir.exists()) {
+			projectsDir.mkdir();
+		} else if(!projectsDir.isDirectory()) {
+			throw new IllegalStateException("There is a file called '" + PROJECTS_DIRECTORY + "' but is not a directory");
+		}
+		
+		renderDir = new File(songDir, RENDER_DIRECTORY);
+		if (!renderDir.exists()) {
+			renderDir.mkdir();
+		} else if(!renderDir.isDirectory()) {
+			throw new IllegalStateException("There is a file called '" + RENDER_DIRECTORY + "' but is not a directory");
 		}
 	}
 	
@@ -107,11 +105,6 @@ public class Song extends Observable implements WorkspaceNode {
 		};
 		
 		new Thread(task).start();
-	}
-	
-	public void setParent(Workspace parent) {
-		this.parent = parent;
-		checkAndCreateDirectories();
 	}
 	
 	public void setName(@NonNull String name) {
