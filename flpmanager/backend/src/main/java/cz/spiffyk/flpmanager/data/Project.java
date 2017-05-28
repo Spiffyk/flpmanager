@@ -2,6 +2,7 @@ package cz.spiffyk.flpmanager.data;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Observable;
@@ -181,6 +182,40 @@ public class Project extends Observable implements WorkspaceNode {
 		}
 	}
 	
+	public synchronized void renderProject(RenderFormat format) {
+		new Thread(new Task<Void>() {
+				@Override
+				protected Void call() throws Exception {
+					try {
+						ProcessBuilder builder = new ProcessBuilder(AppConfiguration.get().getFlExecutablePath(),
+								"/R",
+								"/E" + format.getFormatId(),
+								projectFile.getAbsolutePath());
+						Process process = builder.start();
+						
+						// A workaround for Wine hanging when the output has nowhere to go...
+						// This one is very strange...
+						StreamEater errorGobbler = new StreamEater(process.getErrorStream());
+						errorGobbler.start();
+						StreamEater inputGobbler = new StreamEater(process.getInputStream());
+						inputGobbler.start();
+						
+						process.waitFor();
+						
+						File outFile = new File(parent.getRenderDir(), identifier.toString() + "." + format.getFormatId());
+						File inFile = new File(parent.getProjectsDir(), identifier.toString() + "." + format.getFormatId());
+						inFile.renameTo(outFile);
+					} catch (IOException e) {
+						messenger.message(MessageType.ERROR, "Unable to start FL Studio");
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+						messenger.message(MessageType.ERROR, "Interrupted error.");
+					}
+					return null;
+				}
+			}).start();
+	}
+	
 	@Override
 	public void notifyObservers() {
 		super.notifyObservers();
@@ -196,5 +231,16 @@ public class Project extends Observable implements WorkspaceNode {
 			
 			return 0;
 		}
+	}
+	
+	public static enum RenderFormat {
+		MP3("mp3"), WAV("wav"), FLAC("flac"), VORBIS("ogg");
+		
+		@Getter private final String formatId;
+		
+		private RenderFormat(String formatId) {
+			this.formatId = formatId;
+		}
+		
 	}
 }

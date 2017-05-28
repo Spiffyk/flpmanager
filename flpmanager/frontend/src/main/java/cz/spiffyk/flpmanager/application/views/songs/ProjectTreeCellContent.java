@@ -5,10 +5,12 @@ import java.util.Observer;
 
 import cz.spiffyk.flpmanager.application.screens.ProjectEditorDialog;
 import cz.spiffyk.flpmanager.data.Project;
+import cz.spiffyk.flpmanager.data.Project.RenderFormat;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.Alert.AlertType;
@@ -59,6 +61,22 @@ public class ProjectTreeCellContent extends WorkspaceNodeTreeCellContent<Project
 				project.copy(true);
 			});
 			
+			Menu renderMenu = new Menu("Render");
+			
+			MenuItem renderWavItem = new MenuItem("WAV");
+			renderWavItem.setOnAction((event) -> project.renderProject(RenderFormat.WAV));
+			
+			MenuItem renderMp3Item = new MenuItem("MP3");
+			renderMp3Item.setOnAction((event) -> project.renderProject(RenderFormat.MP3));
+			
+			MenuItem renderVorbisItem = new MenuItem("OGG Vorbis");
+			renderVorbisItem.setOnAction((event) -> project.renderProject(RenderFormat.VORBIS));
+			
+			MenuItem renderFlacItem = new MenuItem("FLAC");
+			renderFlacItem.setOnAction((event) -> project.renderProject(RenderFormat.FLAC));
+			
+			renderMenu.getItems().addAll(renderWavItem, renderMp3Item, renderVorbisItem, renderFlacItem);
+			
 			MenuItem deleteItem = new MenuItem("Delete");
 			deleteItem.setOnAction((event) -> {
 				final Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -71,7 +89,13 @@ public class ProjectTreeCellContent extends WorkspaceNodeTreeCellContent<Project
 				}
 			});
 			
-			this.getItems().addAll(editItem, cloneItem, new SeparatorMenuItem(), deleteItem);
+			this.getItems().addAll(
+					editItem,
+					cloneItem,
+					new SeparatorMenuItem(),
+					renderMenu,
+					new SeparatorMenuItem(),
+					deleteItem);
 		}
 	}
 
