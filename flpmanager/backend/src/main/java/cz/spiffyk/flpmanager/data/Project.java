@@ -23,7 +23,10 @@ public class Project extends Observable implements WorkspaceNode {
 	
 	private static final AppConfiguration appConfiguration = AppConfiguration.get();
 	private static final Messenger messenger = Messenger.get();
+	
 	private static final String PROJECT_FILE_EXTENSION = ".flp";
+	private static final String FILE_REGEX = "[a-zA-Z0-9- ]+";
+	
 	private static File EMPTY_FLP = new File(appConfiguration.getFlpTemplatePath());
 	
 	@Getter private final UUID identifier;
@@ -202,8 +205,24 @@ public class Project extends Observable implements WorkspaceNode {
 						
 						process.waitFor();
 						
-						File outFile = new File(parent.getRenderDir(), identifier.toString() + "." + format.getFormatId());
+						String outName;
+						if (name.matches(FILE_REGEX)) {
+							if (parent.getName().matches(FILE_REGEX)) {
+								outName = parent.getName() + " (" + parent.getName() + ")";
+							} else {
+								outName = name;
+							}
+						} else {
+							outName = identifier.toString();
+						}
+						
+						File outFile = new File(parent.getRenderDir(), outName + "." + format.getFormatId());
 						File inFile = new File(parent.getProjectsDir(), identifier.toString() + "." + format.getFormatId());
+						
+						if (outFile.exists()) {
+							outFile.delete(); // we will be replacing it
+						}
+						
 						inFile.renameTo(outFile);
 					} catch (IOException e) {
 						messenger.message(MessageType.ERROR, "Unable to start FL Studio");
