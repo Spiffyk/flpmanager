@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.control.Label?>
+<?import cz.spiffyk.flpmanager.application.views.songs.SongsView?>
+<?import cz.spiffyk.flpmanager.application.views.songs.WorkspaceNodeTreeCell?>
+<?import javafx.scene.control.Button?>
+
+<fx:root type="cz.spiffyk.flpmanager.application.views.songs.SongsView" xmlns:fx="http://javafx.com/fxml/1">
+	
+	<HBox style="-fx-padding: 3px" >
+		<Button onAction="#newSongAction" text="_New song" />
+		<Region HBox.hgrow="ALWAYS" />
+		<Button text="_Album view (NYI)" />
+	</HBox>
+	
+	<StackPane VBox.vgrow="ALWAYS">
+		<TreeView fx:id="innerTreeView" showRoot="false" onKeyReleased="#onTreeViewKey">
+			<cellFactory>
+				<WorkspaceNodeTreeCell fx:factory="factory" />
+			</cellFactory>
+		</TreeView>
+		
+		<VBox fx:id="placeholder" alignment="CENTER">
+			<Label text="There are no songs in this workspace." />
+			<Button text="Create a new song" onAction="#newSongAction" />
+		</VBox>
+	</StackPane>
+	
+</fx:root>

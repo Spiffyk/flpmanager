@@ -24,12 +24,6 @@
 		</Menu>
 	</MenuBar>
 	
-	<HBox style="-fx-padding: 3px" >
-		<Button onAction="#newSongAction" text="_New song" />
-		<Region HBox.hgrow="ALWAYS" />
-		<Button text="_Album view (NYI)" />
-	</HBox>
-	
 	<SongsView fx:id="songsView" VBox.vgrow="ALWAYS" />
 	
 </fx:root>

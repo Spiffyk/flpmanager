@@ -90,13 +90,6 @@ public class MainScreen extends VBox implements Subscriber {
 	}
 	
 	/**
-	 * Fired when New Song menu item is selected
-	 */
-	@FXML protected void newSongAction() {
-		SongEditorDialog.createNewSong(workspace);
-	}
-	
-	/**
 	 * Fired when About menu item is selected
 	 */
 	@FXML protected void showAbout() {

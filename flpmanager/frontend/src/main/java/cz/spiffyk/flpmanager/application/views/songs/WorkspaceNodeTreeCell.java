@@ -8,6 +8,8 @@ import cz.spiffyk.flpmanager.data.Song;
 import cz.spiffyk.flpmanager.data.WorkspaceNode;
 import javafx.scene.Node;
 import javafx.scene.control.TreeCell;
+import javafx.scene.control.TreeView;
+import javafx.util.Callback;
 
 public class WorkspaceNodeTreeCell extends TreeCell<WorkspaceNode> {
 
@@ -16,6 +18,10 @@ public class WorkspaceNodeTreeCell extends TreeCell<WorkspaceNode> {
 	public WorkspaceNodeTreeCell() {
 		super();
 		this.setText(null);
+	}
+	
+	public static Callback<TreeView<WorkspaceNode>, TreeCell<WorkspaceNode>> factory() {
+		return (view) -> new WorkspaceNodeTreeCell();
 	}
 
 	@Override
