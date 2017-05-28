@@ -224,12 +224,23 @@ public class MainScreen extends VBox implements Subscriber {
 			if (args[0] instanceof Project) {
 				projectHelper.setProject((Project) args[0]);
 				projectHelper.show();
+				
+				double x = primaryStage.getX() + primaryStage.getWidth() / 2 - projectHelper.getWidth() / 2;
+				double y = primaryStage.getY() + primaryStage.getHeight() / 2 - projectHelper.getHeight() / 2;
+				projectHelper.setX(x);
+				projectHelper.setY(y);
 			}
 			primaryStage.hide();
 			break;
 		case PROJECT_CLOSE:
-			projectHelper.hide();
 			primaryStage.show();
+			
+			double x = projectHelper.getX() + projectHelper.getWidth() / 2 - primaryStage.getWidth() / 2;
+			double y = projectHelper.getY() + projectHelper.getHeight() / 2 - primaryStage.getHeight() / 2;
+			primaryStage.setX(x);
+			primaryStage.setY(y);
+			
+			projectHelper.hide();
 			break;
 		}
 	}
