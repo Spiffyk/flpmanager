@@ -3,12 +3,20 @@ package cz.spiffyk.flpmanager.data;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Observable;
 import java.util.UUID;
 
 import org.apache.commons.io.FileUtils;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
+import cz.spiffyk.flpmanager.ManagerFileException;
+import cz.spiffyk.flpmanager.ManagerFileHandler;
 import cz.spiffyk.flpmanager.util.Messenger;
 import cz.spiffyk.flpmanager.util.Messenger.MessageType;
 import javafx.collections.FXCollections;
@@ -25,6 +33,9 @@ import lombok.NonNull;
 public class Song extends Observable implements WorkspaceNode {
 	
 	private static final Messenger messenger = Messenger.get();
+	
+	public static final String SONG_TAGNAME = "song";
+	public static final String SONGS_TAGNAME = "songs";
 	
 	private static final String PROJECTS_DIRECTORY = "_projects";
 	private static final String RENDER_DIRECTORY = "_render";
@@ -56,6 +67,122 @@ public class Song extends Observable implements WorkspaceNode {
 		this.setAuthor("");
 		this.setFavorite(false);
 	}
+	
+	
+	
+	public static Song fromElement(@NonNull Element root, @NonNull Workspace parent) {
+		if (!root.getTagName().toLowerCase().equals(SONG_TAGNAME)) {
+			throw new ManagerFileException("Not tagged as a song; "  + root.toString());
+		}
+		
+		final Song song = new Song(UUID.fromString(root.getAttribute(ManagerFileHandler.UUID_ATTRNAME)), parent);
+		song.setName(root.getAttribute(ManagerFileHandler.NAME_ATTRNAME));
+		song.setAuthor(root.getAttribute(ManagerFileHandler.AUTHOR_ATTRNAME));
+		song.updateFiles();
+		String favoriteAttribute = root.getAttribute(ManagerFileHandler.FAVORITE_ATTRNAME);
+		if (!favoriteAttribute.isEmpty()) {
+			song.setFavorite(Boolean.parseBoolean(favoriteAttribute));
+		}
+		
+		final NodeList nodeList = root.getChildNodes();
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			final Node node = nodeList.item(i);
+			if (node instanceof Element) {
+				final Element e = (Element) node;
+				switch(e.getTagName().toLowerCase()) {
+					case Project.PROJECTS_TAGNAME:
+						song.getProjects().addAll(Project.listFromElement(e, song));
+						break;
+					case Tag.TAGS_TAGNAME:
+						song.getTags().addAll(Song.linkedTagListFromElement(e, parent));
+						break;
+				}
+			}
+		}
+		
+		return song;
+	}
+	
+	public static List<Song> listFromElement(@NonNull Element root, @NonNull Workspace parent) {
+		if (!root.getTagName().toLowerCase().equals(SONGS_TAGNAME)) {
+			throw new ManagerFileException("Not tagged as a list of songs; "  + root.toString());
+		}
+		
+		final List<Song> songs = new ArrayList<>();
+		
+		final NodeList nodeList = root.getChildNodes();
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			final Node node = nodeList.item(i);
+			if (node instanceof Element) {
+				final Element e = (Element) node;
+				if (e.getTagName().toLowerCase().equals(SONG_TAGNAME)) {
+					songs.add(Song.fromElement(e, parent));
+				} else {
+					throw new ManagerFileException("The tag <" + SONGS_TAGNAME + "> should only contain a list of <" + SONG_TAGNAME + ">.");
+				}
+			}
+		}
+		
+		return songs;
+	}
+	
+	public static Element listToElement(@NonNull List<Song> songs, @NonNull Document doc) {
+		Element root = doc.createElement(SONGS_TAGNAME);
+		for (Song song : songs) {
+			root.appendChild(song.toElement(doc));
+		}
+		return root;
+	}
+	
+	private static Tag linkedTagFromElement(@NonNull Element root, @NonNull Workspace workspace) {
+		if (!root.getTagName().toLowerCase().equals(Tag.TAG_TAGNAME)) {
+			throw new ManagerFileException("Not tagged as a tag; "  + root.toString());
+		}
+		
+		return workspace.getTag(UUID.fromString(root.getTextContent().toLowerCase()));
+	}
+	
+	private static List<Tag> linkedTagListFromElement(@NonNull Element root, @NonNull Workspace workspace) {
+		if (!root.getTagName().toLowerCase().equals(Tag.TAGS_TAGNAME)) {
+			throw new ManagerFileException("Not tagged as a list of tags; "  + root.toString());
+		}
+		
+		final List<Tag> tags = new ArrayList<>();
+		
+		final NodeList nodeList = root.getChildNodes();
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			final Node node = nodeList.item(i);
+			if (node instanceof Element) {
+				final Element e = (Element) node;
+				if (e.getTagName().toLowerCase().equals(Tag.TAG_TAGNAME)) {
+					Tag tag = Song.linkedTagFromElement(e, workspace);
+					if (tag != null) {
+						tags.add(tag);
+					}
+				} else {
+					throw new ManagerFileException("The tag <" + Tag.TAGS_TAGNAME + "> should only contain a list of <" + Tag.TAG_TAGNAME + ">.");
+				}
+			}
+		}
+		
+		return tags;
+	}
+	
+	private static Element linkedTagToElement(@NonNull Tag tag, @NonNull Document doc) {
+		Element root = doc.createElement(Tag.TAG_TAGNAME);
+		root.setTextContent(tag.getIdentifier().toString());
+		return root;
+	}
+	
+	private static Element linkedTagListToElement(@NonNull List<Tag> tags, @NonNull Document doc) {
+		Element root = doc.createElement(Tag.TAGS_TAGNAME);
+		for (Tag tag : tags) {
+			root.appendChild(linkedTagToElement(tag, doc));
+		}
+		return root;
+	}
+	
+	
 	
 	public void updateFiles() {
 		File workspaceDir = parent.getDirectory();
@@ -131,6 +258,22 @@ public class Song extends Observable implements WorkspaceNode {
 		this.notifyObservers();
 	}
 	
+	public Element toElement(@NonNull Document doc) {
+		Element root = doc.createElement(SONG_TAGNAME);
+		root.setAttribute(ManagerFileHandler.NAME_ATTRNAME, this.getName());
+		root.setAttribute(ManagerFileHandler.AUTHOR_ATTRNAME, this.getAuthor());
+		root.setAttribute(ManagerFileHandler.UUID_ATTRNAME, this.getIdentifier().toString());
+		
+		if (this.isFavorite()) {
+			root.setAttribute(ManagerFileHandler.FAVORITE_ATTRNAME, "true");
+		}
+		
+		root.appendChild(Project.listToElement(this.getProjects(), doc));
+		root.appendChild(linkedTagListToElement(this.getTags(), doc));
+		
+		return root;
+	}
+	
 	@Override
 	public String toString() {
 		return ((this.author.isEmpty()) ? "" : this.author + " - ") + this.name;
@@ -139,6 +282,17 @@ public class Song extends Observable implements WorkspaceNode {
 	@Override
 	public WorkspaceNodeType getType() {
 		return WorkspaceNodeType.SONG;
+	}
+	
+	void nudge() {
+		setChanged();
+		notifyObservers();
+	}
+	
+	@Override
+	public void notifyObservers() {
+		super.notifyObservers();
+		if (parent != null) parent.nudge();
 	}
 	
 	public static class NameComparator implements Comparator<TreeItem<WorkspaceNode>> {
@@ -165,16 +319,5 @@ public class Song extends Observable implements WorkspaceNode {
 			
 			return 0;
 		}
-	}
-	
-	void nudge() {
-		setChanged();
-		notifyObservers();
-	}
-	
-	@Override
-	public void notifyObservers() {
-		super.notifyObservers();
-		if (parent != null) parent.nudge();
 	}
 }

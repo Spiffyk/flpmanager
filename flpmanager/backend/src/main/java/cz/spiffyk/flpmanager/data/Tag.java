@@ -1,9 +1,19 @@
 package cz.spiffyk.flpmanager.data;
 
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Observable;
 import java.util.UUID;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import cz.spiffyk.flpmanager.ManagerFileException;
+import cz.spiffyk.flpmanager.ManagerFileHandler;
+import cz.spiffyk.flpmanager.util.FXUtils;
 import javafx.scene.paint.Color;
 import lombok.Getter;
 import lombok.NonNull;
@@ -11,6 +21,9 @@ import lombok.NonNull;
 public class Tag extends Observable {
 
 	public static final Comparator<Tag> NAME_COMPARATOR = new NameComparator();
+	
+	public static final String TAG_TAGNAME = "tag";
+	public static final String TAGS_TAGNAME = "tags";
 	
 	/**
 	 * The unique identifier of the tag
@@ -49,6 +62,55 @@ public class Tag extends Observable {
 		this.parent = parent;
 	}
 	
+	
+	
+	public static Tag fromElement(@NonNull Element root, @NonNull Workspace parent) {
+		if (!root.getTagName().toLowerCase().equals(TAG_TAGNAME)) {
+			throw new ManagerFileException("Not tagged as a tag; "  + root.toString());
+		}
+		
+		Tag tag = new Tag(UUID.fromString(root.getAttribute(ManagerFileHandler.UUID_ATTRNAME)), parent);
+		tag.setName(root.getAttribute(ManagerFileHandler.NAME_ATTRNAME));
+		tag.setColor(Color.web(root.getAttribute(ManagerFileHandler.COLOR_ATTRNAME)));
+		
+		return tag;
+	}
+	
+	public static List<Tag> listFromElement(@NonNull Element root, @NonNull Workspace parent) {
+		if (!root.getTagName().toLowerCase().equals(TAGS_TAGNAME)) {
+			throw new ManagerFileException("Not tagged as a list of tags; "  + root.toString());
+		}
+		
+		final List<Tag> tags = new ArrayList<>();
+		
+		final NodeList nodeList = root.getChildNodes();
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			final Node node = nodeList.item(i);
+			if (node instanceof Element) {
+				final Element e = (Element) node;
+				if (e.getTagName().toLowerCase().equals(TAG_TAGNAME)) {
+					tags.add(Tag.fromElement(e, parent));
+				} else {
+					throw new ManagerFileException("The tag <" + TAGS_TAGNAME + "> should only contain a list of <" + TAG_TAGNAME + ">.");
+				}
+			}
+		}
+		
+		return tags;
+	}
+	
+	public static Element listToElement(@NonNull List<Tag> tags, @NonNull Document doc) {
+		Element root = doc.createElement(TAGS_TAGNAME);
+		
+		for (Tag tag : tags) {
+			root.appendChild(tag.toElement(doc));
+		}
+		
+		return root;
+	}
+	
+	
+	
 	/**
 	 * Sets the tag's color. Cannot be null, if it is, will throw {@link IllegalArgumentException}.
 	 * @param color The color
@@ -68,6 +130,14 @@ public class Tag extends Observable {
 	@Override
 	public String toString() {
 		return this.getName();
+	}
+	
+	public Element toElement(Document doc) {
+		Element root = doc.createElement(TAG_TAGNAME);
+		root.setAttribute(ManagerFileHandler.NAME_ATTRNAME, this.getName());
+		root.setAttribute(ManagerFileHandler.COLOR_ATTRNAME, FXUtils.toRGBCode(this.getColor()));
+		root.setAttribute(ManagerFileHandler.UUID_ATTRNAME, this.getIdentifier().toString());
+		return root;
 	}
 	
 	public static class NameComparator implements Comparator<Tag> {

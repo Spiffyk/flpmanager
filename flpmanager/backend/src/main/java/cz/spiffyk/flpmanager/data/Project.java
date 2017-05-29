@@ -2,14 +2,21 @@ package cz.spiffyk.flpmanager.data;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Observable;
 import java.util.UUID;
 
 import org.apache.commons.io.FileUtils;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import cz.spiffyk.flpmanager.AppConfiguration;
+import cz.spiffyk.flpmanager.ManagerFileException;
+import cz.spiffyk.flpmanager.ManagerFileHandler;
 import cz.spiffyk.flpmanager.util.Messenger;
 import cz.spiffyk.flpmanager.util.StreamEater;
 import cz.spiffyk.flpmanager.util.Messenger.MessageType;
@@ -22,6 +29,9 @@ public class Project extends Observable implements WorkspaceNode {
 	
 	private static final AppConfiguration appConfiguration = AppConfiguration.get();
 	private static final Messenger messenger = Messenger.get();
+	
+	public static final String PROJECT_TAGNAME = "project";
+	public static final String PROJECTS_TAGNAME = "projects";
 	
 	private static final String PROJECT_FILE_EXTENSION = ".flp";
 	private static final String FILE_REGEX = "[a-zA-Z0-9- ]+";
@@ -45,6 +55,52 @@ public class Project extends Observable implements WorkspaceNode {
 		this.parent = parent;
 		this.identifier = identifier;
 	}
+	
+	
+	
+	public static Project fromElement(@NonNull Element root, @NonNull Song parent) {
+		if (!root.getTagName().toLowerCase().equals(PROJECT_TAGNAME)) {
+			throw new ManagerFileException("Not tagged as a project; " + root.toString());
+		}
+		
+		final Project project = new Project(UUID.fromString(root.getAttribute(ManagerFileHandler.UUID_ATTRNAME)), parent);
+		project.setName(root.getAttribute(ManagerFileHandler.NAME_ATTRNAME));
+		
+		return project;
+	}
+	
+	public static List<Project> listFromElement(@NonNull Element root, @NonNull Song parent) {
+		if (!root.getTagName().toLowerCase().equals(PROJECTS_TAGNAME)) {
+			throw new ManagerFileException("Not tagged as a list of projects; " + root.toString());
+		}
+		
+		final List<Project> projects = new ArrayList<>();
+		
+		final NodeList nodeList = root.getChildNodes();
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			final Node node = nodeList.item(i);
+			if (node instanceof Element) {
+				final Element e = (Element) node;
+				if (e.getTagName().toLowerCase().equals(PROJECT_TAGNAME)) {
+						projects.add(Project.fromElement(e, parent));
+				} else {
+					throw new ManagerFileException("The tag <" + PROJECTS_TAGNAME + "> should only contain a list of <" + PROJECT_TAGNAME + ">.");
+				}
+			}
+		}
+		
+		return projects;
+	}
+	
+	public static Element listToElement(@NonNull List<Project> projects, @NonNull Document doc) {
+		Element root = doc.createElement(PROJECTS_TAGNAME);
+		for (Project project : projects) {
+			root.appendChild(project.toElement(doc));
+		}
+		return root;
+	}
+	
+	
 	
 	@Override
 	public WorkspaceNodeType getType() {
@@ -233,6 +289,13 @@ public class Project extends Observable implements WorkspaceNode {
 					return null;
 				}
 			}).start();
+	}
+	
+	public Element toElement(@NonNull Document doc) {
+		Element root = doc.createElement(PROJECT_TAGNAME);
+		root.setAttribute(ManagerFileHandler.NAME_ATTRNAME, this.getName());
+		root.setAttribute(ManagerFileHandler.UUID_ATTRNAME, this.getIdentifier().toString());
+		return root;
 	}
 	
 	@Override
