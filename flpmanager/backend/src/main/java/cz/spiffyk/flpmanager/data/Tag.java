@@ -18,11 +18,20 @@ import javafx.scene.paint.Color;
 import lombok.Getter;
 import lombok.NonNull;
 
+/**
+ * Contains a tag that {@link Song}s can be marked with
+ * @author spiffyk
+ */
 public class Tag extends Observable {
 
-	public static final Comparator<Tag> NAME_COMPARATOR = new NameComparator();
-	
+	/**
+	 * The name of the XML tag representing a tag
+	 */
 	public static final String TAG_TAGNAME = "tag";
+	
+	/**
+	 * The name of the XML tag representing a list of tags
+	 */
 	public static final String TAGS_TAGNAME = "tags";
 	
 	/**
@@ -64,6 +73,13 @@ public class Tag extends Observable {
 	
 	
 	
+	/**
+	 * Creates a tag represented by the specified DOM {@link Element} with the specified {@link Workspace} as the
+	 * parent of the tag. The element name must be {@code <tag>}.
+	 * @param root The DOM {@link Element} representing the tag
+	 * @param parent The parent {@link Workspace}
+	 * @return The tag represented by the {@link Element}
+	 */
 	public static Tag fromElement(@NonNull Element root, @NonNull Workspace parent) {
 		if (!root.getTagName().toLowerCase().equals(TAG_TAGNAME)) {
 			throw new ManagerFileException("Not tagged as a tag; "  + root.toString());
@@ -76,6 +92,13 @@ public class Tag extends Observable {
 		return tag;
 	}
 	
+	/**
+	 * Creates a {@link List} of tags represented by the specified DOM {@link Element} with the specified
+	 * {@link Workspace} as the parent of all the tags. The element name must be {@code <songs>}.
+	 * @param root The DOM {@link Element} representing the tags
+	 * @param parent The parent {@link Workspace}
+	 * @return The list of tags represented by the {@link Element}
+	 */
 	public static List<Tag> listFromElement(@NonNull Element root, @NonNull Workspace parent) {
 		if (!root.getTagName().toLowerCase().equals(TAGS_TAGNAME)) {
 			throw new ManagerFileException("Not tagged as a list of tags; "  + root.toString());
@@ -99,6 +122,12 @@ public class Tag extends Observable {
 		return tags;
 	}
 	
+	/**
+	 * Creates a DOM {@link Element} representing the specified {@link List} of tags.
+	 * @param songs The {@link List} of tags to represent by the {@link Element}
+	 * @param doc The parent DOM {@link Document}
+	 * @return The {@link Element} representing the tags
+	 */
 	public static Element listToElement(@NonNull List<Tag> tags, @NonNull Document doc) {
 		Element root = doc.createElement(TAGS_TAGNAME);
 		
@@ -112,7 +141,7 @@ public class Tag extends Observable {
 	
 	
 	/**
-	 * Sets the tag's color. Cannot be null, if it is, will throw {@link IllegalArgumentException}.
+	 * Sets the tag's color.
 	 * @param color The color
 	 */
 	public void setColor(@NonNull Color color) {
@@ -121,6 +150,10 @@ public class Tag extends Observable {
 		this.notifyObservers();
 	}
 	
+	/**
+	 * Sets the tag's name
+	 * @param name The name
+	 */
 	public void setName(@NonNull String name) {
 		this.name = name.trim().toLowerCase();
 		this.setChanged();
@@ -132,6 +165,11 @@ public class Tag extends Observable {
 		return this.getName();
 	}
 	
+	/**
+	 * Creates a DOM {@link Element} representing the tag.
+	 * @param doc The parent DOM {@link Document}
+	 * @return An {@link Element} representing the tag
+	 */
 	public Element toElement(Document doc) {
 		Element root = doc.createElement(TAG_TAGNAME);
 		root.setAttribute(ManagerFileHandler.NAME_ATTRNAME, this.getName());
@@ -140,6 +178,10 @@ public class Tag extends Observable {
 		return root;
 	}
 	
+	/**
+	 * Compares {@link Tag}s by their names
+	 * @author spiffyk
+	 */
 	public static class NameComparator implements Comparator<Tag> {
 		@Override
 		public int compare(Tag o1, Tag o2) {

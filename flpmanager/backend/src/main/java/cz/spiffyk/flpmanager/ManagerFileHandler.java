@@ -24,17 +24,39 @@ import org.xml.sax.SAXException;
 import cz.spiffyk.flpmanager.data.Workspace;
 
 /**
- * A library class for loading workspaces from directories
+ * A library class for loading manager files
  * @author spiffyk
  */
 public class ManagerFileHandler {
 	
+	/**
+	 * The filename used for the Workspace XML file
+	 */
 	public static final String WORKSPACE_FILENAME = "workspace.xml";
 	
+	/**
+	 * Attribute name for node name
+	 */
 	public static final String NAME_ATTRNAME = "name";
+	
+	/**
+	 * Attribute name for node author
+	 */
 	public static final String AUTHOR_ATTRNAME = "author";
+	
+	/**
+	 * Attribute name for node favorite mark
+	 */
 	public static final String FAVORITE_ATTRNAME = "favorite";
+	
+	/**
+	 * Attribute name for node universally-unique-identifier
+	 */
 	public static final String UUID_ATTRNAME = "uuid";
+	
+	/**
+	 * Attribute name for node color
+	 */
 	public static final String COLOR_ATTRNAME = "color";
 	
 	/**
@@ -86,7 +108,6 @@ public class ManagerFileHandler {
 				if (!rootName.equals(Workspace.WORKSPACE_TAGNAME)) {
 					throw new ManagerFileException("Not a valid workspace file");
 				}
-				
 				
 				Element root = doc.getDocumentElement();
 				String version = root.getAttribute("version").trim();
