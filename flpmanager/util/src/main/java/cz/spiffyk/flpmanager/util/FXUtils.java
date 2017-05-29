@@ -2,6 +2,10 @@ package cz.spiffyk.flpmanager.util;
 
 import javafx.scene.paint.Color;
 
+/**
+ * Utility class for JavaFX
+ * @author spiffyk
+ */
 public class FXUtils {
 	
 	/**

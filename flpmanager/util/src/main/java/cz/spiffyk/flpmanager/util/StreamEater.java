@@ -5,14 +5,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+/**
+ * Reads an {@link InputStream} and discards everything. This is used as a workaround for hanging when nothing
+ * reads the stdout.
+ * @author spiffyk
+ */
 public class StreamEater extends Thread {
     InputStream is;
 
-    // reads everything from is until empty. 
     public StreamEater(InputStream is) {
         this.is = is;
     }
 
+    @Override
     public void run() {
         try {
             InputStreamReader isr = new InputStreamReader(is);
