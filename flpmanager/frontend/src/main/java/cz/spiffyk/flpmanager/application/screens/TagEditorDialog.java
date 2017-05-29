@@ -61,6 +61,13 @@ public class TagEditorDialog extends Dialog<Boolean> {
 		return dialog;
 	}
 	
+	
+	
+	@FXML private void initialize() {
+		name.setText(tag.getName());
+		color.setValue(tag.getColor());
+	}
+	
 	private void onOk(ActionEvent event) {
 		if (name.getText().trim().isEmpty()) {
 			event.consume();

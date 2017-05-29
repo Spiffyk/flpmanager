@@ -361,7 +361,7 @@ public class ManagerFileHandler {
 			throw new ManagerFileException("Not tagged as a tag; "  + root.toString());
 		}
 		
-		return workspace.getTags().get(UUID.fromString(root.getTextContent().toLowerCase()));
+		return workspace.getTag(UUID.fromString(root.getTextContent().toLowerCase()));
 	}
 	
 	
@@ -384,7 +384,7 @@ public class ManagerFileHandler {
 			Element root = doc.createElement(WORKSPACE_TAGNAME);
 			root.setAttribute("version", VERSION);
 			
-			root.appendChild(saveTags(workspace.getTags().values(), doc));
+			root.appendChild(saveTags(workspace.getTags(), doc));
 			root.appendChild(saveSongs(workspace.getSongs(), doc));
 			
 			doc.appendChild(root);

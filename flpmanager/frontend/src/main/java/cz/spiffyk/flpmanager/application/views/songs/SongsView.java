@@ -7,6 +7,7 @@ import cz.spiffyk.flpmanager.application.WorkspaceNodeListener;
 import cz.spiffyk.flpmanager.application.controls.workspace.SongTreeItem;
 import cz.spiffyk.flpmanager.application.screens.SongEditorDialog;
 import cz.spiffyk.flpmanager.application.screens.TagEditorDialog;
+import cz.spiffyk.flpmanager.application.screens.TagsEditorDialog;
 import cz.spiffyk.flpmanager.data.Song;
 import cz.spiffyk.flpmanager.data.Workspace;
 import cz.spiffyk.flpmanager.data.WorkspaceNode;
@@ -58,8 +59,8 @@ public final class SongsView extends VBox {
 		dialog.showAndWait();
 	}
 	
-	@FXML private void newTagAction() {
-		Dialog<Boolean> dialog = TagEditorDialog.newTagDialog(this.workspace);
+	@FXML private void editTagsAction() {
+		Dialog<Boolean> dialog = new TagsEditorDialog(this.workspace);
 		dialog.initOwner(this.getScene().getWindow());
 		dialog.showAndWait();
 	}

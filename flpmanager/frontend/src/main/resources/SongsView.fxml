@@ -14,7 +14,7 @@
 	
 	<HBox spacing="3" style="-fx-padding: 3px" >
 		<Button onAction="#newSongAction" text="_New song" />
-		<Button onAction="#newTagAction" text="New _tag" />
+		<Button onAction="#editTagsAction" text="Edit _tags" />
 		<Region HBox.hgrow="ALWAYS" />
 		<Button text="_Album view" disable="true" />
 	</HBox>

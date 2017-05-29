@@ -70,7 +70,7 @@ public class SongEditorDialog extends Dialog<Boolean> {
 	@FXML private void initialize() {
 		this.name.setText(song.getName());
 		this.author.setText(song.getAuthor());
-		this.tags.getItems().addAll(song.getParent().getTags().values());
+		this.tags.getItems().addAll(song.getParent().getTags());
 		this.tags.setSelected(song.getTags());
 	}
 	
