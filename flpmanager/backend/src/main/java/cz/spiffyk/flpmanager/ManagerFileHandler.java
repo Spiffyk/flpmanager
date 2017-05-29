@@ -29,6 +29,7 @@ import cz.spiffyk.flpmanager.data.Project;
 import cz.spiffyk.flpmanager.data.Song;
 import cz.spiffyk.flpmanager.data.Tag;
 import cz.spiffyk.flpmanager.data.Workspace;
+import cz.spiffyk.flpmanager.util.FXUtils;
 import javafx.scene.paint.Color;
 
 import org.w3c.dom.Node;
@@ -434,7 +435,7 @@ public class ManagerFileHandler {
 	private static Element saveTag(Tag tag, Document doc) {
 		Element root = doc.createElement(TAG_TAGNAME);
 		root.setAttribute(NAME_ATTRNAME, tag.getName());
-		root.setAttribute(COLOR_ATTRNAME, "#" + Integer.toHexString(tag.getColor().hashCode()));
+		root.setAttribute(COLOR_ATTRNAME, FXUtils.toRGBCode(tag.getColor()));
 		root.setAttribute(UUID_ATTRNAME, tag.getIdentifier().toString());
 		return root;
 	}
