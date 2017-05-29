@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.control.Label?>
 <?import cz.spiffyk.flpmanager.application.views.songs.SongsView?>
-<?import cz.spiffyk.flpmanager.application.views.songs.WorkspaceNodeTreeCell?>
+<?import cz.spiffyk.flpmanager.application.controls.workspace.WorkspaceNodeTreeCell?>
 <?import javafx.scene.control.Button?>
 
 <fx:root type="cz.spiffyk.flpmanager.application.views.songs.SongsView" xmlns:fx="http://javafx.com/fxml/1">

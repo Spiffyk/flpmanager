@@ -2,6 +2,7 @@ package cz.spiffyk.flpmanager.application.screens;
 
 import java.io.IOException;
 
+import cz.spiffyk.flpmanager.application.controls.tags.TagsList;
 import cz.spiffyk.flpmanager.data.Song;
 import cz.spiffyk.flpmanager.data.Workspace;
 import javafx.application.Platform;
@@ -20,6 +21,7 @@ public class SongEditorDialog extends Dialog<Boolean> {
 	
 	@FXML private TextField name;
 	@FXML private TextField author;
+	@FXML private TagsList tags;
 	
 	private Song song;
 	
@@ -68,8 +70,8 @@ public class SongEditorDialog extends Dialog<Boolean> {
 	@FXML private void initialize() {
 		this.name.setText(song.getName());
 		this.author.setText(song.getAuthor());
-		
-		
+		this.tags.getItems().addAll(song.getParent().getTags().values());
+		this.tags.setSelected(song.getTags());
 	}
 	
 	private void onOk(ActionEvent event) {
@@ -86,6 +88,8 @@ public class SongEditorDialog extends Dialog<Boolean> {
 		
 		song.setName(name.getText());
 		song.setAuthor(author.getText());
+		song.getTags().clear();
+		song.getTags().addAll(tags.getSelected());
 	}
 	
 	private boolean convertResult(ButtonType b) {

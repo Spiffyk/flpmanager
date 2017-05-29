@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import cz.spiffyk.flpmanager.application.SongsListener;
 import cz.spiffyk.flpmanager.application.WorkspaceNodeListener;
+import cz.spiffyk.flpmanager.application.controls.workspace.SongTreeItem;
 import cz.spiffyk.flpmanager.application.screens.SongEditorDialog;
 import cz.spiffyk.flpmanager.application.screens.TagEditorDialog;
 import cz.spiffyk.flpmanager.data.Song;
