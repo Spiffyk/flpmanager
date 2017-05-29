@@ -2,6 +2,7 @@ package cz.spiffyk.flpmanager.data;
 
 import java.io.File;
 import java.util.Observable;
+import java.util.UUID;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,7 +12,7 @@ import lombok.Getter;
 public class Workspace extends Observable {
 	@Getter private final File directory;
 	@Getter private ObservableList<Song> songs = FXCollections.observableArrayList();
-	@Getter private ObservableMap<String, Tag> tags = FXCollections.observableHashMap();
+	@Getter private ObservableMap<UUID, Tag> tags = FXCollections.observableHashMap();
 	
 	public Workspace(String path) {
 		this(new File(path));
@@ -31,8 +32,12 @@ public class Workspace extends Observable {
 	 */
 	public void addTags(final Iterable<Tag> inputTagIterable) {
 		for (final Tag tag : inputTagIterable) {
-			tags.put(tag.getName(), tag);
+			addTag(tag);
 		}
+	}
+	
+	public void addTag(final Tag tag) {
+		tags.put(tag.getIdentifier(), tag);
 	}
 	
 	void nudge() {

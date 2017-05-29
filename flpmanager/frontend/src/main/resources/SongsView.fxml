@@ -12,8 +12,9 @@
 
 <fx:root type="cz.spiffyk.flpmanager.application.views.songs.SongsView" xmlns:fx="http://javafx.com/fxml/1">
 	
-	<HBox style="-fx-padding: 3px" >
+	<HBox spacing="3" style="-fx-padding: 3px" >
 		<Button onAction="#newSongAction" text="_New song" />
+		<Button onAction="#newTagAction" text="New _tag" />
 		<Region HBox.hgrow="ALWAYS" />
 		<Button text="_Album view" disable="true" />
 	</HBox>

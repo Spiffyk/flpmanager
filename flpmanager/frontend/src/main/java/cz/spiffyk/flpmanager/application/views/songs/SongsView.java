@@ -5,6 +5,7 @@ import java.io.IOException;
 import cz.spiffyk.flpmanager.application.SongsListener;
 import cz.spiffyk.flpmanager.application.WorkspaceNodeListener;
 import cz.spiffyk.flpmanager.application.screens.SongEditorDialog;
+import cz.spiffyk.flpmanager.application.screens.TagEditorDialog;
 import cz.spiffyk.flpmanager.data.Song;
 import cz.spiffyk.flpmanager.data.Workspace;
 import cz.spiffyk.flpmanager.data.WorkspaceNode;
@@ -12,15 +13,11 @@ import cz.spiffyk.flpmanager.data.WorkspaceNodeType;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.control.Dialog;
-import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import lombok.NonNull;
 
@@ -56,6 +53,12 @@ public final class SongsView extends VBox {
 	
 	@FXML private void newSongAction() {
 		Dialog<Boolean> dialog = SongEditorDialog.newSongDialog(this.workspace);
+		dialog.initOwner(this.getScene().getWindow());
+		dialog.showAndWait();
+	}
+	
+	@FXML private void newTagAction() {
+		Dialog<Boolean> dialog = TagEditorDialog.newTagDialog(this.workspace);
 		dialog.initOwner(this.getScene().getWindow());
 		dialog.showAndWait();
 	}

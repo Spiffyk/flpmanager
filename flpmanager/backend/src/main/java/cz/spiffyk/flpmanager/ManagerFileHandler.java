@@ -144,7 +144,7 @@ public class ManagerFileHandler {
 				final Element e = (Element) node;
 				switch(e.getTagName().toLowerCase()) {
 					case TAGS_TAGNAME:
-						workspace.addTags(loadTags(e));
+						workspace.addTags(loadTags(e, workspace));
 						hadTags = true;
 						break;
 					case SONGS_TAGNAME:
@@ -163,7 +163,7 @@ public class ManagerFileHandler {
 	 * @param root The {@code <tags>} element
 	 * @return List of loaded {@link Tag}s (may be empty)
 	 */
-	private static List<Tag> loadTags(Element root) {
+	private static List<Tag> loadTags(Element root, Workspace parent) {
 		if (!root.getTagName().toLowerCase().equals(TAGS_TAGNAME)) {
 			throw new ManagerFileException("Not tagged as a list of tags; "  + root.toString());
 		}
@@ -176,7 +176,7 @@ public class ManagerFileHandler {
 			if (node instanceof Element) {
 				final Element e = (Element) node;
 				if (e.getTagName().toLowerCase().equals(TAG_TAGNAME)) {
-					tags.add(loadTag(e));
+					tags.add(loadTag(e, parent));
 				} else {
 					throw new ManagerFileException("The tag <" + TAGS_TAGNAME + "> should only contain a list of <" + TAG_TAGNAME + ">.");
 				}
@@ -191,12 +191,16 @@ public class ManagerFileHandler {
 	 * @param root The {@code <tag>} element
 	 * @return The loaded {@link Tag}
 	 */
-	private static Tag loadTag(Element root) {
+	private static Tag loadTag(Element root, Workspace parent) {
 		if (!root.getTagName().toLowerCase().equals(TAG_TAGNAME)) {
 			throw new ManagerFileException("Not tagged as a tag; "  + root.toString());
 		}
 		
-		return new Tag(root.getAttribute(NAME_ATTRNAME), Color.web(root.getAttribute(COLOR_ATTRNAME)));
+		Tag tag = new Tag(UUID.fromString(root.getAttribute(UUID_ATTRNAME)), parent);
+		tag.setName(root.getAttribute(NAME_ATTRNAME));
+		tag.setColor(Color.web(root.getAttribute(COLOR_ATTRNAME)));
+		
+		return tag;
 	}
 	
 	/**
@@ -356,7 +360,7 @@ public class ManagerFileHandler {
 			throw new ManagerFileException("Not tagged as a tag; "  + root.toString());
 		}
 		
-		return workspace.getTags().get(root.getTextContent().toLowerCase());
+		return workspace.getTags().get(UUID.fromString(root.getTextContent().toLowerCase()));
 	}
 	
 	
@@ -431,6 +435,7 @@ public class ManagerFileHandler {
 		Element root = doc.createElement(TAG_TAGNAME);
 		root.setAttribute(NAME_ATTRNAME, tag.getName());
 		root.setAttribute(COLOR_ATTRNAME, "#" + Integer.toHexString(tag.getColor().hashCode()));
+		root.setAttribute(UUID_ATTRNAME, tag.getIdentifier().toString());
 		return root;
 	}
 	
@@ -525,7 +530,7 @@ public class ManagerFileHandler {
 	 */
 	private static Element saveLinkedTag(Tag tag, Document doc) {
 		Element root = doc.createElement(TAG_TAGNAME);
-		root.setTextContent(tag.getName());
+		root.setTextContent(tag.getIdentifier().toString());
 		return root;
 	}
 }
