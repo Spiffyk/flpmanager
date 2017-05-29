@@ -16,10 +16,13 @@
 	visibility: hidden;
 }
 
+.tags-viewer {
+	-fx-padding: 0 6px;
+}
+
 .tag {
 	-fx-background-radius: 3px;
 	-fx-font-weight: bold;
 	-fx-font-size: 8pt;
 	-fx-padding: 1px 4px;
-	-fx-margin: 3px 0;
 }

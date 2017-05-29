@@ -22,6 +22,7 @@ public class TagsViewer extends HBox implements ListChangeListener<Tag> {
 	
 	public TagsViewer() {
 		super();
+		this.getStyleClass().add("tags-viewer");
 		this.setSpacing(3);
 	}
 	
