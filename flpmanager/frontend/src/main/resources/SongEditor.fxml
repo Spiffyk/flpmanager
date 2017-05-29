@@ -6,7 +6,7 @@
 <?import javafx.scene.control.DialogPane?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.control.ButtonType?>
-<?import cz.spiffyk.flpmanager.application.controls.tags.TagsList?>
+<?import cz.spiffyk.flpmanager.application.controls.tags.TagsSelector?>
 
 <GridPane hgap="3" vgap="3" xmlns:fx="http://javafx.com/fxml/1">
 	<Label text="Song name" GridPane.vgrow="NEVER" GridPane.columnIndex="0" GridPane.rowIndex="0" />
@@ -15,6 +15,6 @@
 	<Label text="Author" GridPane.vgrow="NEVER" GridPane.columnIndex="0" GridPane.rowIndex="1" />
 	<TextField fx:id="author" prefWidth="400" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 	
-	<TagsList fx:id="tags" prefHeight="200" GridPane.rowIndex="2" GridPane.columnSpan="2" />
+	<TagsSelector fx:id="tags" prefHeight="200" GridPane.rowIndex="2" GridPane.columnSpan="2" />
 </GridPane>
 

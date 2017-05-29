@@ -7,6 +7,7 @@ import java.util.Observer;
 
 import org.apache.commons.io.FileUtils;
 
+import cz.spiffyk.flpmanager.application.controls.tags.TagsViewer;
 import cz.spiffyk.flpmanager.application.screens.ProjectEditorDialog;
 import cz.spiffyk.flpmanager.application.screens.SongEditorDialog;
 import cz.spiffyk.flpmanager.data.Project;
@@ -27,8 +28,10 @@ import javafx.scene.control.Alert.AlertType;
 public class SongTreeCellContent extends WorkspaceNodeTreeCellContent<Song> implements Observer {
 	
 	private final Song song;
+	
 	private final CheckBox favoriteCheckBox;
 	private final ContextMenu contextMenu;
+	private final TagsViewer tags;
 	
 	public SongTreeCellContent(Song node) {
 		super(node);
@@ -39,12 +42,17 @@ public class SongTreeCellContent extends WorkspaceNodeTreeCellContent<Song> impl
 		getStyleClass().add("song-cell");
 		this.song = node;
 		node.addObserver(this);
+		
 		this.favoriteCheckBox = new CheckBox();
 		this.favoriteCheckBox.getStyleClass().add("favorite-check-box");
 		this.favoriteCheckBox.setOnAction((event) -> {
 			song.setFavorite(this.favoriteCheckBox.isSelected());
 		});
-		getLeftBox().getChildren().add(this.favoriteCheckBox);
+		getLeftBox().getChildren().addAll(this.favoriteCheckBox);
+		
+		this.tags = new TagsViewer();
+		tags.setTags(this.song.getTags());
+		getRightBox().getChildren().add(this.tags);
 		
 		update();
 	}

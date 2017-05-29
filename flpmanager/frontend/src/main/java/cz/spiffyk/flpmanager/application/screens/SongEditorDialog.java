@@ -2,7 +2,7 @@ package cz.spiffyk.flpmanager.application.screens;
 
 import java.io.IOException;
 
-import cz.spiffyk.flpmanager.application.controls.tags.TagsList;
+import cz.spiffyk.flpmanager.application.controls.tags.TagsSelector;
 import cz.spiffyk.flpmanager.data.Song;
 import cz.spiffyk.flpmanager.data.Workspace;
 import javafx.application.Platform;
@@ -21,7 +21,7 @@ public class SongEditorDialog extends Dialog<Boolean> {
 	
 	@FXML private TextField name;
 	@FXML private TextField author;
-	@FXML private TagsList tags;
+	@FXML private TagsSelector tags;
 	
 	private Song song;
 	

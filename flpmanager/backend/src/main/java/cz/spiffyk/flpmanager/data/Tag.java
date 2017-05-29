@@ -1,5 +1,6 @@
 package cz.spiffyk.flpmanager.data;
 
+import java.util.Comparator;
 import java.util.Observable;
 import java.util.UUID;
 
@@ -9,6 +10,8 @@ import lombok.NonNull;
 
 public class Tag extends Observable {
 
+	public static final Comparator<Tag> NAME_COMPARATOR = new NameComparator();
+	
 	/**
 	 * The unique identifier of the tag
 	 */
@@ -65,5 +68,12 @@ public class Tag extends Observable {
 	@Override
 	public String toString() {
 		return this.getName();
+	}
+	
+	public static class NameComparator implements Comparator<Tag> {
+		@Override
+		public int compare(Tag o1, Tag o2) {
+			return o1.getName().compareTo(o2.getName());
+		}
 	}
 }

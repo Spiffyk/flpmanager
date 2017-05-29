@@ -10,11 +10,11 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 
-public class TagsList extends ListView<Tag> {
+public class TagsSelector extends ListView<Tag> {
 	
 	private List<Tag> tags;
 	
-	public TagsList() {
+	public TagsSelector() {
 		super();
 		this.setCellFactory((view) -> new TagListCell());
 	}

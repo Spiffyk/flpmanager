@@ -6,12 +6,14 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
+import lombok.Getter;
 
 public abstract class WorkspaceNodeTreeCellContent<N extends WorkspaceNode> extends HBox {
 	
-	private final Label label;
-	private final HBox buttonBox;
-	private final HBox leftBox;
+	@Getter private final Label label;
+	@Getter private final HBox buttonBox;
+	@Getter private final HBox leftBox;
+	@Getter private final HBox rightBox;
 	
 	private final N node;
 	
@@ -22,27 +24,16 @@ public abstract class WorkspaceNodeTreeCellContent<N extends WorkspaceNode> exte
 		
 		this.leftBox = new HBox();
 		this.label = new Label();
+		this.rightBox = new HBox();
 		this.buttonBox = new HBox();
 		
 		final Region separatorRegion = new Region();
 		HBox.setHgrow(separatorRegion, Priority.ALWAYS);
 		
-		this.getChildren().addAll(this.leftBox, this.label, separatorRegion, this.buttonBox);
+		this.getChildren().addAll(this.leftBox, this.label, this.rightBox, separatorRegion, this.buttonBox);
 	}
 	
 	public final N getNode() {
 		return node;
-	}
-	
-	protected final Label getLabel() {
-		return label;
-	}
-	
-	protected final Pane getButtonBox() {
-		return buttonBox;
-	}
-	
-	protected final Pane getLeftBox() {
-		return leftBox;
 	}
 }
