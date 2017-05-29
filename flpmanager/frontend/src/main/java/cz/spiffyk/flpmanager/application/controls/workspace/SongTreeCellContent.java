@@ -33,6 +33,8 @@ public class SongTreeCellContent extends WorkspaceNodeTreeCellContent<Song> impl
 	private final ContextMenu contextMenu;
 	private final TagsViewer tags;
 	
+	private Window owner;
+	
 	public SongTreeCellContent(Song node) {
 		super(node);
 		this.contextMenu = new SongContextMenu();
@@ -63,6 +65,12 @@ public class SongTreeCellContent extends WorkspaceNodeTreeCellContent<Song> impl
 	}
 	
 	private void update() {
+		if (getScene() != null) {
+			this.owner = getScene().getWindow();
+		} else {
+			this.owner = null;
+		}
+		
 		this.favoriteCheckBox.setSelected(song.isFavorite());
 		if (song.getAuthor().isEmpty()) {
 			getLabel().setText(song.getName());
@@ -73,8 +81,6 @@ public class SongTreeCellContent extends WorkspaceNodeTreeCellContent<Song> impl
 	
 	private class SongContextMenu extends ContextMenu {
 		public SongContextMenu() {
-			final Window owner = this.getOwnerWindow();
-			
 			MenuItem editItem = new MenuItem("_Edit song info...");
 			editItem.setOnAction((event) -> {
 				new SongEditorDialog(song).showAndWait();
@@ -114,9 +120,9 @@ public class SongTreeCellContent extends WorkspaceNodeTreeCellContent<Song> impl
 					dialog.showAndWait().ifPresent((b) -> {
 						if (b.booleanValue()) {
 							try {
-								FileUtils.copyFile(file, project.getProjectFile());
 								song.getProjects().add(project);
 								project.updateFiles();
+								FileUtils.copyFile(file, project.getProjectFile());
 							} catch (IOException e) {
 								e.printStackTrace();
 								Messenger.get().message(MessageType.ERROR, "Could not copy project file.", e.getMessage());
