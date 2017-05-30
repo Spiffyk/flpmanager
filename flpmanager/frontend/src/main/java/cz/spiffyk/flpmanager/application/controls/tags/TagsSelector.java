@@ -10,44 +10,74 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 
+/**
+ * A list view for picking {@link Tag}s to mark a {@link Song} with
+ * @author spiffyk
+ */
 public class TagsSelector extends ListView<Tag> {
 	
-	private List<Tag> tags;
+	/**
+	 * {@link Tag}s to mark the {@link Song} with
+	 */
+	private List<Tag> selectedTags;
 	
+	
+	
+	/**
+	 * Creates a new empty selector
+	 */
 	public TagsSelector() {
 		super();
 		this.setCellFactory((view) -> new TagListCell());
 	}
 	
+	
+	
+	/**
+	 * Marks {@link Tag}s in the provided {@link Collection} as selected
+	 * @param tags The {@link Tag}s to be selected
+	 */
 	public void setSelected(Collection<Tag> tags) {
-		if (this.tags == null) {
-			this.tags = new ArrayList<>();
+		if (this.selectedTags == null) {
+			this.selectedTags = new ArrayList<>();
 		} else {
-			this.tags.clear();
+			this.selectedTags.clear();
 		}
 		
-		this.tags.addAll(tags);
+		this.selectedTags.addAll(tags);
 	}
 	
+	/**
+	 * Gets the {@link List} of selected {@link Tag}s
+	 * @return Selected {@link Tag}s
+	 */
 	public List<Tag> getSelected() {
-		return tags;
+		return selectedTags;
 	}
 	
-	public class TagListCell extends ListCell<Tag> {
+	
+	
+	
+	/**
+	 * The cell to be rendered in the {@link TagsSelector}
+	 * @author spiffyk
+	 */
+	private class TagListCell extends ListCell<Tag> {
+		
+		/**
+		 * Checkbox for marking as selected
+		 */
 		private CheckBox checkbox;
 		
+		
+		
+		/**
+		 * Creates a new cell
+		 */
 		public TagListCell() {
 			super();
 			
 			this.checkbox = new CheckBox();
-		}
-		
-		public void setChecked(boolean selected) {
-			this.checkbox.setSelected(selected);
-		}
-		
-		public boolean isChecked() {
-			return this.checkbox.isSelected();
 		}
 		
 		@Override
@@ -58,15 +88,15 @@ public class TagsSelector extends ListView<Tag> {
 				this.setText(null);
 				this.setGraphic(null);
 			} else {
-				checkbox.setSelected(tags != null && tags.contains(item));
+				checkbox.setSelected(selectedTags != null && selectedTags.contains(item));
 				checkbox.setOnAction((e) -> {
-					if (tags != null) {
+					if (selectedTags != null) {
 						if (checkbox.isSelected()) {
-							if (!tags.contains(item)) {
-								tags.add(item);
+							if (!selectedTags.contains(item)) {
+								selectedTags.add(item);
 							}
 						} else {
-							tags.remove(item);
+							selectedTags.remove(item);
 						}
 					}
 				});
