@@ -4,6 +4,7 @@ import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
 
+import cz.spiffyk.flpmanager.util.FXUtils;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -59,24 +60,14 @@ public class AboutDialog extends Dialog<Boolean> {
 	}
 	
 	@FXML private void mitLicense() {
-		openWebPage("https://opensource.org/licenses/MIT");
+		FXUtils.openWebPage("https://opensource.org/licenses/MIT");
 	}
 	
 	@FXML private void github() {
-		openWebPage("https://github.com/Spiffyk/flpmanager");
+		FXUtils.openWebPage("https://github.com/Spiffyk/flpmanager");
 	}
 	
 	@FXML private void bug() {
-		openWebPage("https://github.com/Spiffyk/flpmanager/issues");
-	}
-	
-	private void openWebPage(String url) {
-		new Thread(new Task<Void>() {
-			@Override
-			protected Void call() throws Exception {
-				Desktop.getDesktop().browse(new URI(url));
-				return null;
-			}
-		}).start();
+		FXUtils.openWebPage("https://github.com/Spiffyk/flpmanager/issues");
 	}
 }

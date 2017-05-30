@@ -8,6 +8,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.control.Label?>
 <?import cz.spiffyk.flpmanager.application.views.songs.SongsView?>
+<?import javafx.scene.control.MenuItem?>
 
 <fx:root type="cz.spiffyk.flpmanager.application.screens.MainScreen" xmlns:fx="http://javafx.com/fxml/1">
 	
@@ -20,6 +21,7 @@
 			<MenuItem onAction="#quitMenuAction" text="E_xit" accelerator="Alt+F4" />
 		</Menu>
 		<Menu text="_Help">
+			<MenuItem onAction="#checkForUpdates" text="Check for _updates..." />
 			<MenuItem onAction="#showAbout" text="_About..." />
 		</Menu>
 	</MenuBar>

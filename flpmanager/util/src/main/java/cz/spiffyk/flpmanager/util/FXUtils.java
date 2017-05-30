@@ -1,5 +1,9 @@
 package cz.spiffyk.flpmanager.util;
 
+import java.awt.Desktop;
+import java.net.URI;
+
+import javafx.concurrent.Task;
 import javafx.scene.paint.Color;
 
 /**
@@ -43,5 +47,15 @@ public class FXUtils {
 	public static double getLuminance(Color color) {
 		// Perceived luminance
 		return (0.299 * color.getRed() + 0.587 * color.getGreen() + 0.114 * color.getBlue());
+	}
+	
+	public static void openWebPage(String url) {
+		new Thread(new Task<Void>() {
+			@Override
+			protected Void call() throws Exception {
+				Desktop.getDesktop().browse(new URI(url));
+				return null;
+			}
+		}).start();
 	}
 }

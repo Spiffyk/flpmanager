@@ -1,8 +1,11 @@
 package cz.spiffyk.flpmanager.application.screens;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
 import cz.spiffyk.flpmanager.ManagerFileHandler;
+import cz.spiffyk.flpmanager.UpdateChecker;
+import cz.spiffyk.flpmanager.UpdateChecker.UpdateInfo;
 import cz.spiffyk.flpmanager.application.views.songs.SongsView;
 import cz.spiffyk.flpmanager.data.Project;
 import cz.spiffyk.flpmanager.data.Workspace;
@@ -10,11 +13,13 @@ import cz.spiffyk.flpmanager.util.Messenger;
 import cz.spiffyk.flpmanager.util.Messenger.MessageType;
 import cz.spiffyk.flpmanager.util.Messenger.Subscriber;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Dialog;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -87,6 +92,7 @@ public class MainScreen extends VBox implements Subscriber {
 	 */
 	@FXML protected void initialize() {
 		messenger.addListener(this);
+		checkForUpdates();
 	}
 	
 	/**
@@ -116,10 +122,43 @@ public class MainScreen extends VBox implements Subscriber {
 	
 	/**
 	 * Fired when Quit menu item is selected
-	 * @param e Event
 	 */
-	@FXML protected void quitMenuAction(ActionEvent e) {
+	@FXML protected void quitMenuAction() {
 		Platform.exit();
+	}
+	
+	/**
+	 * In a separate thread, checks for updates and opens a dialog if a new version has been released
+	 */
+	@FXML protected void checkForUpdates() {
+		final Task<UpdateInfo> task = new Task<UpdateInfo>() {
+			@Override
+			protected UpdateInfo call() throws Exception {
+				System.out.println("Checking for updates...");
+				UpdateInfo info = UpdateChecker.getUpdate();
+				System.out.println("Got: " + info.toString());
+				return info;
+			}
+		};
+		
+		task.setOnSucceeded((event) -> {
+			UpdateInfo info = null;
+			try {
+				info = task.get();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			} catch (ExecutionException e) {
+				e.printStackTrace();
+			}
+			
+			if (info != null) {
+				Dialog<Boolean> dialog = new UpdateDialog(info);
+				dialog.initOwner(primaryStage);
+				dialog.showAndWait();
+			}
+		});
+		
+		new Thread(task).start();
 	}
 	
 	
