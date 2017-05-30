@@ -10,6 +10,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
@@ -52,7 +53,9 @@ public class ProjectTreeCellContent extends WorkspaceNodeTreeCellContent<Project
 		public ProjectContextMenu() {
 			MenuItem editItem = new MenuItem("_Rename...");
 			editItem.setOnAction((event) -> {
-				new ProjectEditorDialog(project).showAndWait();
+				Dialog<Boolean> dialog = new ProjectEditorDialog(project);
+				dialog.initOwner(this.getOwnerWindow());
+				dialog.showAndWait();
 				update();
 			});
 			
@@ -80,6 +83,7 @@ public class ProjectTreeCellContent extends WorkspaceNodeTreeCellContent<Project
 			MenuItem deleteItem = new MenuItem("Delete");
 			deleteItem.setOnAction((event) -> {
 				final Alert alert = new Alert(AlertType.CONFIRMATION);
+				alert.initOwner(this.getOwnerWindow());
 				alert.setHeaderText(null);
 				alert.setContentText("Do you really wish to delete this project? (no undo)");
 				ButtonType bt = alert.showAndWait().orElse(ButtonType.CANCEL);

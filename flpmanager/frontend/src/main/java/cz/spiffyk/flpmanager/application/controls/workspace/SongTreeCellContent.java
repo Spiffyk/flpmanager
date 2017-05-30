@@ -18,11 +18,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
-import javafx.stage.Window;
 import javafx.scene.control.Alert.AlertType;
 
 public class SongTreeCellContent extends WorkspaceNodeTreeCellContent<Song> implements Observer {
@@ -32,8 +32,6 @@ public class SongTreeCellContent extends WorkspaceNodeTreeCellContent<Song> impl
 	private final CheckBox favoriteCheckBox;
 	private final ContextMenu contextMenu;
 	private final TagsViewer tags;
-	
-	private Window owner;
 	
 	public SongTreeCellContent(Song node) {
 		super(node);
@@ -65,12 +63,6 @@ public class SongTreeCellContent extends WorkspaceNodeTreeCellContent<Song> impl
 	}
 	
 	private void update() {
-		if (getScene() != null) {
-			this.owner = getScene().getWindow();
-		} else {
-			this.owner = null;
-		}
-		
 		this.favoriteCheckBox.setSelected(song.isFavorite());
 		if (song.getAuthor().isEmpty()) {
 			getLabel().setText(song.getName());
@@ -83,7 +75,9 @@ public class SongTreeCellContent extends WorkspaceNodeTreeCellContent<Song> impl
 		public SongContextMenu() {
 			MenuItem editItem = new MenuItem("_Edit song info...");
 			editItem.setOnAction((event) -> {
-				new SongEditorDialog(song).showAndWait();
+				Dialog<Boolean> dialog = new SongEditorDialog(song);
+				dialog.initOwner(this.getOwnerWindow());
+				dialog.showAndWait();
 				update();
 			});
 			
@@ -95,8 +89,9 @@ public class SongTreeCellContent extends WorkspaceNodeTreeCellContent<Song> impl
 			MenuItem newProjectItem = new MenuItem("Create a new project...");
 			newProjectItem.setOnAction((event) -> {
 				final Project project = new Project(song);
+				
 				final ProjectEditorDialog dialog = new ProjectEditorDialog(project);
-				dialog.initOwner(owner);
+				dialog.initOwner(this.getOwnerWindow());
 				dialog.showAndWait().ifPresent((b) -> {
 					if (b.booleanValue()) {
 						song.getProjects().add(project);
@@ -111,12 +106,13 @@ public class SongTreeCellContent extends WorkspaceNodeTreeCellContent<Song> impl
 				final FileChooser chooser = new FileChooser();
 				chooser.setTitle("Select FLP to import...");
 				chooser.getExtensionFilters().add(new ExtensionFilter("FL Studio project file", "*.flp"));
-				File file = chooser.showOpenDialog(getOwnerWindow());
+				File file = chooser.showOpenDialog(this.getOwnerWindow());
 				if (file != null) {
 					Project project = new Project(song);
 					project.setName(file.getName());
+					
 					ProjectEditorDialog dialog = new ProjectEditorDialog(project);
-					dialog.initOwner(owner);
+					dialog.initOwner(this.getOwnerWindow());
 					dialog.showAndWait().ifPresent((b) -> {
 						if (b.booleanValue()) {
 							try {
@@ -135,6 +131,7 @@ public class SongTreeCellContent extends WorkspaceNodeTreeCellContent<Song> impl
 			MenuItem deleteItem = new MenuItem("Delete");
 			deleteItem.setOnAction((event) -> {
 				final Alert alert = new Alert(AlertType.CONFIRMATION);
+				alert.initOwner(this.getOwnerWindow());
 				alert.setHeaderText(null);
 				alert.setContentText("Do you really wish to delete this song? (no undo)");
 				ButtonType bt = alert.showAndWait().orElse(ButtonType.CANCEL);
