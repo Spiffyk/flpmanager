@@ -80,6 +80,17 @@ public class TagEditorDialog extends Dialog<Boolean> {
 			return;
 		}
 		
+		if (color.getValue() == null) {
+			event.consume();
+			
+			final Alert alert = new Alert(AlertType.ERROR);
+			alert.initOwner(this.getDialogPane().getScene().getWindow());
+			alert.setHeaderText(null);
+			alert.setContentText("The tag color must be set!");
+			alert.showAndWait();
+			return;
+		}
+		
 		tag.setName(name.getText().trim());
 		tag.setColor(color.getValue());
 	}
