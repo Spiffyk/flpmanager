@@ -28,7 +28,7 @@ public class ProjectHelper extends Stage {
 			e.consume();
 		});
 		
-		final FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("ProjectHelper.fxml"));
+		final FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/ProjectHelper.fxml"));
 		loader.setController(this);
 		this.setTitle("Current project");
 		

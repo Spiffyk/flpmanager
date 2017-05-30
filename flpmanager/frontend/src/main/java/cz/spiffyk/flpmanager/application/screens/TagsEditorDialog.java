@@ -40,7 +40,7 @@ public class TagsEditorDialog extends Dialog<Boolean> {
 		this.setTitle("Tags editor");
 		this.workspace = workspace;
 		
-		final FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("TagsEditor.fxml"));
+		final FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/dialogs/TagsEditorDialog.fxml"));
 		loader.setController(this);
 		
 		try {

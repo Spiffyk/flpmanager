@@ -40,7 +40,7 @@ public class ProjectEditorDialog extends Dialog<Boolean> {
 		this.project = project;
 		this.setTitle("Edit project...");
 		
-		final FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("ProjectEditor.fxml"));
+		final FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/dialogs/ProjectEditorDialog.fxml"));
 		loader.setController(this);
 		this.setResultConverter(this::convertResult);
 		

@@ -113,7 +113,7 @@ public class SettingsDialog extends Dialog<Boolean> {
 		super();
 		this.setTitle("Settings");
 		
-		final FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("SettingsDialog.fxml"));
+		final FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/dialogs/SettingsDialog.fxml"));
 		loader.setController(this);
 		this.setResultConverter(this::convertResult);
 		

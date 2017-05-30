@@ -76,7 +76,7 @@ public class SetupDialog extends Dialog<Boolean> {
 		super();
 		this.setTitle("First time setup");
 		
-		final FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("SetupDialog.fxml"));
+		final FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/dialogs/SetupDialog.fxml"));
 		loader.setController(this);
 		this.setResultConverter(this::convertResult);
 		

@@ -58,7 +58,7 @@ public class MainScreen extends VBox implements Subscriber {
 	 * @param primaryStage
 	 */
 	public MainScreen(Stage primaryStage) {
-		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("MainScreen.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/MainScreen.fxml"));
 		loader.setRoot(this);
 		loader.setController(this);
 		this.primaryStage = primaryStage;

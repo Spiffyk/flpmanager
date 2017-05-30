@@ -6,7 +6,6 @@ import cz.spiffyk.flpmanager.application.SongsListener;
 import cz.spiffyk.flpmanager.application.WorkspaceNodeListener;
 import cz.spiffyk.flpmanager.application.controls.workspace.SongTreeItem;
 import cz.spiffyk.flpmanager.application.screens.SongEditorDialog;
-import cz.spiffyk.flpmanager.application.screens.TagEditorDialog;
 import cz.spiffyk.flpmanager.application.screens.TagsEditorDialog;
 import cz.spiffyk.flpmanager.data.Song;
 import cz.spiffyk.flpmanager.data.Workspace;
@@ -34,7 +33,7 @@ public final class SongsView extends VBox {
 	public SongsView() {
 		super();
 		
-		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("SongsView.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/views/SongsView.fxml"));
 		loader.setRoot(this);
 		loader.setController(this);
 		

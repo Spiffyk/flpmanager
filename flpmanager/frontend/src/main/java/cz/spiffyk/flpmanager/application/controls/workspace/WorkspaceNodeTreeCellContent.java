@@ -3,7 +3,6 @@ package cz.spiffyk.flpmanager.application.controls.workspace;
 import cz.spiffyk.flpmanager.data.WorkspaceNode;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import lombok.Getter;

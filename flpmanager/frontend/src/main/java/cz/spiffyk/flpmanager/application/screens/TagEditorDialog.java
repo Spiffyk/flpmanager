@@ -29,7 +29,7 @@ public class TagEditorDialog extends Dialog<Boolean> {
 		this.tag = tag;
 		this.setTitle("Edit song...");
 		
-		final FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("TagEditor.fxml"));
+		final FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/dialogs/TagEditorDialog.fxml"));
 		loader.setController(this);
 		this.setResultConverter(this::convertResult);
 		

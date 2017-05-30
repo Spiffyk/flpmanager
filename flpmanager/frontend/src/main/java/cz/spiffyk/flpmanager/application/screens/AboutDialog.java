@@ -32,7 +32,7 @@ public class AboutDialog extends Dialog<Boolean> {
 		super();
 		this.setTitle("About");
 		
-		final FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("AboutDialog.fxml"));
+		final FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/dialogs/AboutDialog.fxml"));
 		loader.setController(this);
 		
 		try {
