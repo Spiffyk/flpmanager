@@ -9,6 +9,11 @@ import javafx.scene.paint.Color;
 public class FXUtils {
 	
 	/**
+	 * The threshold for {@code getTagStyle()} to determine whether the text color should be black or white
+	 */
+	public static final double LUMINANCE_THRESHOLD = 0.6;
+	
+	/**
 	 * Converts the color into HTML hex notation
 	 * @param color
 	 * @return
@@ -22,4 +27,21 @@ public class FXUtils {
             (int)( color.getGreen() * 255 ),
             (int)( color.getBlue() * 255 ) );
     }
+	
+	/**
+	 * 
+	 * @param backgroundColor
+	 * @return
+	 */
+	public static String getTagStyle(Color backgroundColor) {
+		return "-fx-background-color: "
+				+ FXUtils.toRGBCode(backgroundColor) + ";"
+				+ "-fx-text-fill: "
+				+ ((getLuminance(backgroundColor) < LUMINANCE_THRESHOLD) ? "white" : "black") + ";";
+	}
+	
+	public static double getLuminance(Color color) {
+		// Perceived luminance
+		return (0.299 * color.getRed() + 0.587 * color.getGreen() + 0.114 * color.getBlue());
+	}
 }

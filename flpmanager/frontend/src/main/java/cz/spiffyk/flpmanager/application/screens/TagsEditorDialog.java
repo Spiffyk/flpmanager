@@ -105,17 +105,7 @@ public class TagsEditorDialog extends Dialog<Boolean> {
 		}
 		
 		private void update() {
-			String textColor;
-			if (tag.getColor().getBrightness() < 0.7) {
-				textColor = "white";
-			} else {
-				textColor = "black";
-			}
-			
-			this.setStyle(
-					"-fx-background-color: " + FXUtils.toRGBCode(tag.getColor()) + ";"
-							+ "-fx-text-fill: " + textColor + ";");
-			
+			this.setStyle(FXUtils.getTagStyle(tag.getColor()));
 			this.setText(tag.getName());
 		}
 

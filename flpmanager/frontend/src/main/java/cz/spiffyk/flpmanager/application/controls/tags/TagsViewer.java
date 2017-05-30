@@ -58,23 +58,17 @@ public class TagsViewer extends HBox implements ListChangeListener<Tag> {
 			this.tag = tag;
 			this.getStyleClass().add("tag");
 			tag.addObserver(this);
-			this.setText(tag.getName());
-			
-			String textColor;
-			if (tag.getColor().getBrightness() < 0.7) {
-				textColor = "white";
-			} else {
-				textColor = "black";
-			}
-			
-			this.setStyle(
-					"-fx-background-color: " + FXUtils.toRGBCode(tag.getColor()) + ";"
-							+ "-fx-text-fill: " + textColor + ";");
+			update();
 		}
 
 		@Override
 		public void update(Observable o, Object arg) {
+			update();
+		}
+		
+		private void update() {
 			this.setText(tag.getName());
+			this.setStyle(FXUtils.getTagStyle(tag.getColor()));
 		}
 	}
 }

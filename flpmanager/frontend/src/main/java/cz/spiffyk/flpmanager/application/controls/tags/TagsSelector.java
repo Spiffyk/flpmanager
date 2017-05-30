@@ -116,17 +116,7 @@ public class TagsSelector extends ListView<Tag> {
 					}
 				});
 				
-				String textColor;
-				if (item.getColor().getBrightness() < 0.7) {
-					textColor = "white";
-				} else {
-					textColor = "black";
-				}
-				
-				this.label.setStyle(
-						"-fx-background-color: " + FXUtils.toRGBCode(item.getColor()) + ";"
-								+ "-fx-text-fill: " + textColor + ";");
-				
+				this.label.setStyle(FXUtils.getTagStyle(item.getColor()));
 				this.label.setText(item.getName());
 				
 				this.setText(null);
