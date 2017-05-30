@@ -38,6 +38,7 @@ public class SongTreeCellContent extends WorkspaceNodeTreeCellContent<Song> impl
 		this.contextMenu = new SongContextMenu();
 		this.setOnContextMenuRequested((event) -> {
 			this.contextMenu.show(this.getScene().getWindow(), event.getScreenX(), event.getScreenY());
+			event.consume();
 		});
 		getStyleClass().add("song-cell");
 		this.song = node;

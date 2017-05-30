@@ -9,6 +9,8 @@
 <?import cz.spiffyk.flpmanager.application.views.songs.SongsView?>
 <?import cz.spiffyk.flpmanager.application.controls.workspace.WorkspaceNodeTreeCell?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.MenuItem?>
 
 <fx:root type="cz.spiffyk.flpmanager.application.views.songs.SongsView" xmlns:fx="http://javafx.com/fxml/1">
 	
@@ -20,10 +22,21 @@
 	</HBox>
 	
 	<StackPane VBox.vgrow="ALWAYS">
-		<TreeView fx:id="innerTreeView" showRoot="false" onKeyReleased="#onTreeViewKey">
+		<TreeView
+				fx:id="innerTreeView"
+				showRoot="false"
+				onKeyReleased="#onTreeViewKey">
 			<cellFactory>
 				<WorkspaceNodeTreeCell fx:factory="factory" />
 			</cellFactory>
+			
+			<contextMenu>
+				<ContextMenu>
+					<items>
+						<MenuItem text="New song..." onAction="#newSongAction" />
+					</items>
+				</ContextMenu>
+			</contextMenu>
 		</TreeView>
 		
 		<VBox fx:id="placeholder" alignment="CENTER">

@@ -29,6 +29,7 @@ public class ProjectTreeCellContent extends WorkspaceNodeTreeCellContent<Project
 		this.contextMenu = new ProjectContextMenu();
 		this.setOnContextMenuRequested((event) -> {
 			this.contextMenu.show(this.getScene().getWindow(), event.getScreenX(), event.getScreenY());
+			event.consume();
 		});
 		
 		getStyleClass().add("project-cell");

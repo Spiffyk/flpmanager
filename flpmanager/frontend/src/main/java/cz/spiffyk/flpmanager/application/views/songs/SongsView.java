@@ -17,6 +17,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
@@ -78,6 +79,10 @@ public final class SongsView extends VBox {
 				}
 			}
 		}
+	}
+	
+	@FXML private void onTreeViewContextMenu(ContextMenuEvent event) {
+		
 	}
 	
 	public void setWorkspace(@NonNull final Workspace workspace) {
