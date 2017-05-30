@@ -7,8 +7,10 @@ import java.util.List;
 import cz.spiffyk.flpmanager.data.Tag;
 import cz.spiffyk.flpmanager.util.FXUtils;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.HBox;
 
 /**
  * A list view for picking {@link Tag}s to mark a {@link Song} with
@@ -69,7 +71,15 @@ public class TagsSelector extends ListView<Tag> {
 		 */
 		private CheckBox checkbox;
 		
+		/**
+		 * The label rendered as a tag
+		 */
+		private Label label;
 		
+		/**
+		 * The box set as the graphic of the cell, containing the checkbox and the label
+		 */
+		private HBox box;
 		
 		/**
 		 * Creates a new cell
@@ -77,7 +87,12 @@ public class TagsSelector extends ListView<Tag> {
 		public TagListCell() {
 			super();
 			
+			this.box = new HBox();
 			this.checkbox = new CheckBox();
+			this.label = new Label();
+			this.label.getStyleClass().add("tag");
+			
+			this.box.getChildren().addAll(this.checkbox, this.label);
 		}
 		
 		@Override
@@ -108,12 +123,14 @@ public class TagsSelector extends ListView<Tag> {
 					textColor = "black";
 				}
 				
-				this.setStyle(
+				this.label.setStyle(
 						"-fx-background-color: " + FXUtils.toRGBCode(item.getColor()) + ";"
 								+ "-fx-text-fill: " + textColor + ";");
 				
-				this.setText(item.getName());
-				this.setGraphic(checkbox);
+				this.label.setText(item.getName());
+				
+				this.setText(null);
+				this.setGraphic(box);
 			}
 		}
 	}
