@@ -114,6 +114,7 @@ public class Project extends Observable implements WorkspaceNode {
 	public Project(@NonNull UUID identifier, @NonNull Song parent) {
 		this.parent = parent;
 		this.identifier = identifier;
+		updateFiles();
 	}
 	
 	
