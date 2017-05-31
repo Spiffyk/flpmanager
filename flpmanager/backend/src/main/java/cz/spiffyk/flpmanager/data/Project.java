@@ -440,13 +440,35 @@ public class Project extends Observable implements WorkspaceNode {
 	 * @author spiffyk
 	 */
 	public static enum RenderFormat {
-		MP3("mp3"), WAV("wav"), FLAC("flac"), VORBIS("ogg");
+		/**
+		 * MPEG Layer 3
+		 */
+		MP3("mp3"),
+		
+		/**
+		 * Wave
+		 */
+		WAV("wav"),
+		
+		/**
+		 * Free Lossless Audio Codec
+		 */
+		FLAC("flac"),
+		
+		/**
+		 * OGG Vorbis
+		 */
+		VORBIS("ogg");
 		
 		/**
 		 * The extension as well as the identifier FL Studio uses for the format
 		 */
 		@Getter private final String formatId;
 		
+		/**
+		 * Enum constructor
+		 * @param formatId The identifier of the format
+		 */
 		private RenderFormat(String formatId) {
 			this.formatId = formatId;
 		}

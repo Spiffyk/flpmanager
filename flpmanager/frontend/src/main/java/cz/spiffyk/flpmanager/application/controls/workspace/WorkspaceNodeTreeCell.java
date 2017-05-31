@@ -11,19 +11,40 @@ import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeView;
 import javafx.util.Callback;
 
+/**
+ * A {@link TreeCell} for {@link WorkspaceNode}s
+ * @author spiffyk
+ */
 public class WorkspaceNodeTreeCell extends TreeCell<WorkspaceNode> {
 
+	/**
+	 * A map of contents for {@link WorkspaceNode}s. (An optimization so that contents are not recreated after each
+	 * redraw)
+	 */
 	private static final Map<WorkspaceNode, Node> contents = new HashMap<>();
 
+	
+	
+	/**
+	 * Creates a new tree cell
+	 */
 	public WorkspaceNodeTreeCell() {
 		super();
 		this.setText(null);
 	}
 	
+	
+	
+	/**
+	 * Gets the factory callback for this tree cell (used in FXML).
+	 * @return The factory
+	 */
 	public static Callback<TreeView<WorkspaceNode>, TreeCell<WorkspaceNode>> factory() {
 		return (view) -> new WorkspaceNodeTreeCell();
 	}
 
+	
+	
 	@Override
 	protected void updateItem(WorkspaceNode item, boolean empty) {
 		super.updateItem(item, empty);

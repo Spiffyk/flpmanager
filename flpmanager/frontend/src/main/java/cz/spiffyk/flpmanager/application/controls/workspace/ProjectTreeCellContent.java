@@ -16,11 +16,28 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.Alert.AlertType;
 
+/**
+ * The content box of a tree cell representing a {@link Project}
+ * @author spiffyk
+ */
 public class ProjectTreeCellContent extends WorkspaceNodeTreeCellContent<Project> implements Observer {
-
+	
+	/**
+	 * The context menu
+	 */
 	private final ContextMenu contextMenu;
+	
+	/**
+	 * The {@link Project} represented by this node
+	 */
 	private final Project project;
 	
+	
+	
+	/**
+	 * Creates a new tree cell content box representing the specified {@link Project}.
+	 * @param node The {@link Project} to represent
+	 */
 	public ProjectTreeCellContent(Project node) {
 		super(node);
 		
@@ -41,16 +58,31 @@ public class ProjectTreeCellContent extends WorkspaceNodeTreeCellContent<Project
 		getButtonBox().getChildren().add(openButton);
 	}
 
+	
+	
 	@Override
 	public void update(Observable o, Object arg) {
 		update();
 	}
 	
+	/**
+	 * Updates the content
+	 */
 	private void update() {
 		getLabel().setText(project.getName());
 	}
 	
+	
+	
+	/**
+	 * Context menu for the content
+	 * @author spiffyk
+	 */
 	private class ProjectContextMenu extends ContextMenu {
+		
+		/**
+		 * Creates a new context menu
+		 */
 		public ProjectContextMenu() {
 			MenuItem editItem = new MenuItem("_Rename...");
 			editItem.setOnAction((event) -> {
@@ -103,8 +135,4 @@ public class ProjectTreeCellContent extends WorkspaceNodeTreeCellContent<Project
 					deleteItem);
 		}
 	}
-
-
-	
-	
 }

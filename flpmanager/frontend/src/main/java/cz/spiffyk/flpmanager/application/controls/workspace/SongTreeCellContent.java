@@ -25,14 +25,38 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.scene.control.Alert.AlertType;
 
+/**
+ * The content box of a tree cell representing a {@link Song}
+ * @author spiffyk
+ */
 public class SongTreeCellContent extends WorkspaceNodeTreeCellContent<Song> implements Observer {
 	
+	/**
+	 * The {@link Song} to represent
+	 */
 	private final Song song;
 	
+	/**
+	 * A checkbox indicating whether the {@link Song} is marked as favorite
+	 */
 	private final CheckBox favoriteCheckBox;
+	
+	/**
+	 * The context menu
+	 */
 	private final ContextMenu contextMenu;
+	
+	/**
+	 * The {@link Song}'s {@link TagsViewer}
+	 */
 	private final TagsViewer tags;
 	
+	
+	
+	/**
+	 * Creates a new tree cell content box representing the specified {@link Song}.
+	 * @param node The {@link Song} to represent
+	 */
 	public SongTreeCellContent(Song node) {
 		super(node);
 		this.contextMenu = new SongContextMenu();
@@ -58,11 +82,16 @@ public class SongTreeCellContent extends WorkspaceNodeTreeCellContent<Song> impl
 		update();
 	}
 
+	
+	
 	@Override
 	public void update(Observable o, Object arg) {
 		update();
 	}
 	
+	/**
+	 * Updates the content
+	 */
 	private void update() {
 		this.favoriteCheckBox.setSelected(song.isFavorite());
 		if (song.getAuthor().isEmpty()) {
@@ -72,7 +101,17 @@ public class SongTreeCellContent extends WorkspaceNodeTreeCellContent<Song> impl
 		}
 	}
 	
+	
+	
+	/**
+	 * Context menu for the content
+	 * @author spiffyk
+	 */
 	private class SongContextMenu extends ContextMenu {
+		
+		/**
+		 * Creates a new context menu
+		 */
 		public SongContextMenu() {
 			MenuItem editItem = new MenuItem("_Edit song info...");
 			editItem.setOnAction((event) -> {

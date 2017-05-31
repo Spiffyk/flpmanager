@@ -5,5 +5,13 @@ package cz.spiffyk.flpmanager.data;
  * @author spiffyk
  */
 public enum WorkspaceNodeType {
-	SONG, PROJECT
+	/**
+	 * Indicates a {@link Song}
+	 */
+	SONG,
+	
+	/**
+	 * Indicates a {@link Project}
+	 */
+	PROJECT
 }

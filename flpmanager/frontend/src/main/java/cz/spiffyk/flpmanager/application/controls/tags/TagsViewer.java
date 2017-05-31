@@ -14,18 +14,40 @@ import javafx.scene.layout.HBox;
 import lombok.Getter;
 import lombok.NonNull;
 
+/**
+ * A HBox showing tags in the given model
+ * @author spiffyk
+ */
 public class TagsViewer extends HBox implements ListChangeListener<Tag> {
 	
+	/**
+	 * The {@link Tag}s to render
+	 */
 	@Getter private ObservableList<Tag> tags;
 	
+	/**
+	 * The list of {@link Label}s representing the {@link Tag}s
+	 */
 	private List<TagLabel> labels = new ArrayList<>();
 	
+	
+	
+	/**
+	 * Creates a new tags viewer
+	 */
 	public TagsViewer() {
 		super();
 		this.getStyleClass().add("tags-viewer");
 		this.setSpacing(3);
 	}
 	
+	
+	
+	/**
+	 * Sets the list of {@link Tag}s that this viewer should observe. If a list is already being observed, the viewer
+	 * is automatically unregistered as a listener from that list.
+	 * @param tags The list to observe
+	 */
 	public void setTags(ObservableList<Tag> tags) {
 		if (this.tags != null) {
 			this.tags.removeListener(this);
@@ -36,9 +58,13 @@ public class TagsViewer extends HBox implements ListChangeListener<Tag> {
 		updateLabels();
 	}
 	
+	/**
+	 * Updates labels
+	 */
 	private void updateLabels() {
 		labels.clear();
 		for (Tag tag : tags) {
+			// TODO optimize this
 			labels.add(new TagLabel(tag));
 		}
 		labels.sort((a, b) -> a.getTag().getName().compareTo(b.getTag().getName()));
@@ -51,21 +77,40 @@ public class TagsViewer extends HBox implements ListChangeListener<Tag> {
 		updateLabels();
 	}
 	
+	/**
+	 * A label observing a {@link Tag}
+	 * @author spiffyk
+	 */
 	private class TagLabel extends Label implements Observer {
+		
+		/**
+		 * The {@link Tag} this label is observing
+		 */
 		@Getter private final Tag tag;
 		
+		
+		
+		/**
+		 * Creates a new tag label
+		 * @param tag
+		 */
 		TagLabel(@NonNull Tag tag) {
 			this.tag = tag;
 			this.getStyleClass().add("tag");
 			tag.addObserver(this);
 			update();
 		}
-
+		
+		
+		
 		@Override
 		public void update(Observable o, Object arg) {
 			update();
 		}
 		
+		/**
+		 * Updates the label
+		 */
 		private void update() {
 			this.setText(tag.getName());
 			this.setStyle(FXUtils.getTagStyle(tag.getColor()));
