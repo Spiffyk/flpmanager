@@ -18,7 +18,7 @@
 		<Button onAction="#newSongAction" text="_New song" />
 		<Button onAction="#editTagsAction" text="Edit _tags" />
 		<Region HBox.hgrow="ALWAYS" />
-		<Button text="_Album view" disable="true" />
+		<!-- <Button text="_Album view" disable="true" /> --> <!-- To be implemented -->
 	</HBox>
 	
 	<StackPane VBox.vgrow="ALWAYS">
