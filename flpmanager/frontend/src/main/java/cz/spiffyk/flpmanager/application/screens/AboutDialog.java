@@ -1,12 +1,9 @@
 package cz.spiffyk.flpmanager.application.screens;
 
-import java.awt.Desktop;
 import java.io.IOException;
-import java.net.URI;
 
 import cz.spiffyk.flpmanager.util.FXUtils;
 import javafx.application.Platform;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Dialog;
