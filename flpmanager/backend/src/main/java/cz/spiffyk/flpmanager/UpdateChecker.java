@@ -30,6 +30,11 @@ public class UpdateChecker {
 	 */
 	private static final String GITHUB_API_RELEASE_URL = "https://api.github.com/repos/Spiffyk/flpmanager/releases/latest";
 	
+	/**
+	 * The {@code Accept} header for the GitHub API
+	 */
+	private static final String GITHUB_API_ACCEPT_HEADER = "application/vnd.github.v3+json";
+	
 	
 	
 	/**
@@ -63,6 +68,7 @@ public class UpdateChecker {
 		try {
 			final URL url = new URL(GITHUB_API_RELEASE_URL);
 			final HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+			conn.addRequestProperty("Accept", GITHUB_API_ACCEPT_HEADER);
 			conn.setRequestMethod("GET");
 			
 			final BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
