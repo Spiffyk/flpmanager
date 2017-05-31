@@ -86,13 +86,16 @@ public class TagsEditorDialog extends Dialog<Boolean> {
 			
 			MenuItem editItem = new MenuItem("Edit tag...");
 			editItem.setOnAction((event) -> {
-				new TagEditorDialog(this.tag).showAndWait();
+				Dialog<Boolean> dialog = new TagEditorDialog(this.tag);
+				dialog.initOwner(getScene().getWindow());
+				dialog.showAndWait();
 				update();
 			});
 			
 			MenuItem deleteItem = new MenuItem("Delete");
 			deleteItem.setOnAction((event) -> {
 				final Alert alert = new Alert(AlertType.CONFIRMATION);
+				alert.initOwner(getScene().getWindow());
 				alert.setHeaderText(null);
 				alert.setContentText("Do you really wish to delete this tag? (no undo)");
 				ButtonType bt = alert.showAndWait().orElse(ButtonType.CANCEL);
