@@ -24,26 +24,26 @@ import lombok.ToString;
  * @author spiffyk
  */
 public class UpdateChecker {
-	
+
 	/**
 	 * The URL to fetch the release information from
 	 */
-	private static final String GITHUB_API_RELEASE_URL = "https://api.github.com/repos/Spiffyk/flpmanager/releases/latest";
-	
+	private static final String GITHUB_API_RELEASE_URL = "https://api.github.com/repos/Spiffyk/flpmanager/releases";
+
 	/**
 	 * The {@code Accept} header for the GitHub API
 	 */
 	private static final String GITHUB_API_ACCEPT_HEADER = "application/vnd.github.v3+json";
-	
-	
-	
+
+
+
 	/**
 	 * Disabled constructor, this is a static library class
 	 */
 	private UpdateChecker() {}
-	
-	
-	
+
+
+
 	/**
 	 * Checks for updates and, if an update is available, returns information about it.
 	 * @return Information about the update. If no update is available, returns {@code null}.
@@ -51,7 +51,7 @@ public class UpdateChecker {
 	public static UpdateInfo getUpdate() {
 		return getUpdate(UpdateChecker.class.getPackage().getImplementationVersion());
 	}
-	
+
 	/**
 	 * Checks for updates and, if an update is available, returns information about it. Uses the version string
 	 * provided as the "current" version installed (this is mainly for debugging purposes; normally,
@@ -64,13 +64,13 @@ public class UpdateChecker {
 		if (version == null) {
 			return null;
 		}
-		
+
 		try {
 			final URL url = new URL(GITHUB_API_RELEASE_URL);
 			final HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
 			conn.addRequestProperty("Accept", GITHUB_API_ACCEPT_HEADER);
 			conn.setRequestMethod("GET");
-			
+
 			final BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 			final StringBuilder sb = new StringBuilder();
 			String line;
@@ -78,26 +78,34 @@ public class UpdateChecker {
 				sb.append(line);
 			}
 			br.close();
-			
+
 			final Gson gson = new Gson();
-			final GitHubRelease release = gson.fromJson(sb.toString(), GitHubRelease.class);
+			final GitHubRelease[] releases = gson.fromJson(sb.toString(), GitHubRelease[].class);
+			GitHubRelease release = null;
 			
-			if (release.prerelease) {
-				return null;
-			} else {
-				int[] current = parseVersion(version);
-				int[] released = parseVersion(release.tag_name);
-				
-				if (isUpdateable(current, released)) {
-					final UpdateInfo info = new UpdateInfo();
-					info.name = release.name;
-					info.version = released;
-					info.notes = markdownToHtml(release.body);
-					info.url = release.html_url;
-					return info;
-				} else {
-					return null;
+			for (int i = 0; i < releases.length; i++) {
+				if (!releases[i].prerelease) {
+					release = releases[i];
+					break;
 				}
+			}
+			
+			if (release == null) {
+				return null;
+			}
+			
+			int[] current = parseVersion(version);
+			int[] released = parseVersion(release.tag_name);
+
+			if (isUpdateable(current, released)) {
+				final UpdateInfo info = new UpdateInfo();
+				info.name = release.name;
+				info.version = released;
+				info.notes = markdownToHtml(release.body);
+				info.url = release.html_url;
+				return info;
+			} else {
+				return null;
 			}
 		} catch (MalformedURLException e) {
 			throw new IllegalStateException(e);
@@ -107,7 +115,7 @@ public class UpdateChecker {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Uses Commonmark to convert a markdown string into a HTML string.
 	 * @param markdown The markdown string
@@ -119,7 +127,7 @@ public class UpdateChecker {
 		HtmlRenderer renderer = HtmlRenderer.builder().build();
 		return renderer.render(document);
 	}
-	
+
 	/**
 	 * Parses a version string and returns the version as an array of integers. Ignores any characters other than
 	 * numbers ({@code 0-9}) and fullstops ({@code .}).
@@ -129,23 +137,23 @@ public class UpdateChecker {
 	 */
 	private static int[] parseVersion(String string) {
 		StringBuilder sb = new StringBuilder();
-		
+
 		for (int i = 0; i < string.length(); i++) {
 			char c = string.charAt(i);
 			if ((c >= '0' && c <= '9') || c == '.') {
 				sb.append(c);
 			}
 		}
-		
+
 		String[] numbers = sb.toString().split("\\.");
 		int[] version = new int[numbers.length];
 		for (int i = 0; i < version.length; i++) {
 			version[i] = Integer.parseInt(numbers[i]);
 		}
-		
+
 		return version;
 	}
-	
+
 	/**
 	 * Takes two arrays of integers as versions and compares them to check whether the released version is newer than
 	 * the current installed version.
@@ -159,7 +167,7 @@ public class UpdateChecker {
 		} else if (current.length < released.length) {
 			current = Arrays.copyOf(current, released.length);
 		}
-		
+
 		int length = current.length;
 		for (int i = 0; i < length; i++) {
 			if (released[i] > current[i]) {
@@ -168,10 +176,10 @@ public class UpdateChecker {
 				return false;
 			}
 		}
-		
+
 		return false;
 	}
-	
+
 	/**
 	 * A class for GSON to store parsed data from GitHub in.
 	 * @author spiffyk
@@ -183,7 +191,7 @@ public class UpdateChecker {
 		@Getter private String html_url;
 		@Getter private boolean prerelease;
 	}
-	
+
 	/**
 	 * The final update information data. This data is immutable outside of the update checker.
 	 * @author spiffyk
@@ -194,17 +202,17 @@ public class UpdateChecker {
 		 * The name of the release
 		 */
 		@Getter private String name;
-		
+
 		/**
 		 * The array representation of the version
 		 */
 		@Getter private int[] version;
-		
+
 		/**
 		 * Release notes in HTML format
 		 */
 		@Getter private String notes;
-		
+
 		/**
 		 * The download URL of the release
 		 */
