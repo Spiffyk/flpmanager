@@ -82,18 +82,22 @@ public class UpdateChecker {
 			final Gson gson = new Gson();
 			final GitHubRelease release = gson.fromJson(sb.toString(), GitHubRelease.class);
 			
-			int[] current = parseVersion(version);
-			int[] released = parseVersion(release.tag_name);
-			
-			if (isUpdateable(current, released)) {
-				final UpdateInfo info = new UpdateInfo();
-				info.name = release.name;
-				info.version = released;
-				info.notes = markdownToHtml(release.body);
-				info.url = release.html_url;
-				return info;
-			} else {
+			if (release.prerelease) {
 				return null;
+			} else {
+				int[] current = parseVersion(version);
+				int[] released = parseVersion(release.tag_name);
+				
+				if (isUpdateable(current, released)) {
+					final UpdateInfo info = new UpdateInfo();
+					info.name = release.name;
+					info.version = released;
+					info.notes = markdownToHtml(release.body);
+					info.url = release.html_url;
+					return info;
+				} else {
+					return null;
+				}
 			}
 		} catch (MalformedURLException e) {
 			throw new IllegalStateException(e);
@@ -177,6 +181,7 @@ public class UpdateChecker {
 		@Getter private String name;
 		@Getter private String body;
 		@Getter private String html_url;
+		@Getter private boolean prerelease;
 	}
 	
 	/**
