@@ -92,7 +92,7 @@ public class MainScreen extends VBox implements Subscriber {
 	 */
 	@FXML protected void initialize() {
 		messenger.addListener(this);
-		checkForUpdates();
+		checkForUpdates(true);
 	}
 	
 	/**
@@ -128,15 +128,29 @@ public class MainScreen extends VBox implements Subscriber {
 	}
 	
 	/**
-	 * In a separate thread, checks for updates and opens a dialog if a new version has been released
+	 * In a separate thread, checks for updates.
 	 */
 	@FXML protected void checkForUpdates() {
+		checkForUpdates(false);
+	}
+	
+	/**
+	 * In a separate thread, checks for updates and opens a dialog if a new version has been released.<br />
+	 * If quiet mode is set to {@code true}, the user won't be notified of the check until an update is available.
+	 * @param quiet
+	 */
+	private void checkForUpdates(final boolean quiet) {
+		final Stage status = new StatusWindow("Checking for updates...");
+		status.initOwner(primaryStage);
+		
+		if (!quiet) {
+			status.show();
+		}
+		
 		final Task<UpdateInfo> task = new Task<UpdateInfo>() {
 			@Override
 			protected UpdateInfo call() throws Exception {
-				System.out.println("Checking for updates...");
 				UpdateInfo info = UpdateChecker.getUpdate();
-				System.out.println("Got: " + info.toString());
 				return info;
 			}
 		};
@@ -151,15 +165,38 @@ public class MainScreen extends VBox implements Subscriber {
 				e.printStackTrace();
 			}
 			
+			if (status.isShowing()) {
+				status.hide();
+			}
+			
 			if (info != null) {
 				Dialog<Boolean> dialog = new UpdateDialog(info);
 				dialog.initOwner(primaryStage);
 				dialog.showAndWait();
+			} else if (!quiet) {
+				info("FLP Manager is up to date!");
+			}
+		});
+		
+		task.setOnCancelled((event) -> {
+			if (status.isShowing()) {
+				status.hide();
+			}
+		});
+		
+		task.setOnFailed((event) -> {
+			if (status.isShowing()) {
+				status.hide();
+			}
+			
+			if (!quiet) {
+				error("Check failed!", event.getSource().getException().toString());
 			}
 		});
 		
 		new Thread(task).start();
 	}
+	
 	
 	
 	
