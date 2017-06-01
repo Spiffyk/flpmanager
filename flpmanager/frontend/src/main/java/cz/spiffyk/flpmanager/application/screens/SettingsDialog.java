@@ -114,12 +114,12 @@ public class SettingsDialog extends Dialog<Boolean> {
 	/**
 	 * Check box for ignoring pre-releases when checking for updates
 	 */
-	@FXML private CheckBox ignoreUpdatePreReleases;
+	@FXML private CheckBox doUpdatePreReleases;
 	
 	/**
 	 * Is set to {@code true} if ignoring pre-releases state was modified by the user
 	 */
-	private boolean ignoreUpdatePreReleasesModified = false;
+	private boolean doUpdatePreReleasesModified = false;
 	
 	
 	
@@ -159,7 +159,7 @@ public class SettingsDialog extends Dialog<Boolean> {
 		pathToTemplate.setText(appConfiguration.getFlpTemplatePath());
 		pathToWorkspace.setText(appConfiguration.getWorkspacePath());
 		autoUpdateCheck.setSelected(appConfiguration.isAutoUpdateCheck());
-		ignoreUpdatePreReleases.setSelected(appConfiguration.isIgnoreUpdatePreReleases());
+		doUpdatePreReleases.setSelected(!appConfiguration.isIgnoreUpdatePreReleases());
 	}
 	
 	private void onOk(ActionEvent event) {
@@ -200,8 +200,8 @@ public class SettingsDialog extends Dialog<Boolean> {
 			return;
 		}
 		
-		if (ignoreUpdatePreReleasesModified && !ignoreUpdatePreReleases.isSelected()) {
-			final Alert alert = new Alert(AlertType.CONFIRMATION);
+		if (doUpdatePreReleasesModified && doUpdatePreReleases.isSelected()) {
+			final Alert alert = new Alert(AlertType.WARNING, null, ButtonType.CANCEL, ButtonType.OK);
 			alert.initOwner(this.getDialogPane().getScene().getWindow());
 			alert.setHeaderText("Pre-releases are experimental and may have potentially dangerous bugs!");
 			alert.setContentText("Do you really wish to proceed?");
@@ -225,7 +225,7 @@ public class SettingsDialog extends Dialog<Boolean> {
 		appConfiguration.setFlpTemplatePath(template.getAbsolutePath());
 		appConfiguration.setWorkspacePath(workspace.getAbsolutePath());
 		appConfiguration.setAutoUpdateCheck(autoUpdateCheck.isSelected());
-		appConfiguration.setIgnoreUpdatePreReleases(ignoreUpdatePreReleases.isSelected());
+		appConfiguration.setIgnoreUpdatePreReleases(!doUpdatePreReleases.isSelected());
 	}
 	
 	/**
@@ -269,8 +269,8 @@ public class SettingsDialog extends Dialog<Boolean> {
 	/**
 	 * Called when the ignore update pre-releases check box is clicked
 	 */
-	@FXML private void changedIgnoreUpdatePreReleases() {
-		ignoreUpdatePreReleasesModified = true;
+	@FXML private void changedDoUpdatePreReleases() {
+		doUpdatePreReleasesModified = true;
 	}
 	
 	/**

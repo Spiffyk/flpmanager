@@ -30,5 +30,5 @@
 	<Separator />
 	
 	<CheckBox fx:id="autoUpdateCheck" text="Check for updates on startup" />
-	<CheckBox fx:id="ignoreUpdatePreReleases" text="Ignore pre-releases when checking for updates (recommended)" onAction="#changedIgnoreUpdatePreReleases" />
+	<CheckBox fx:id="doUpdatePreReleases" text="Also show pre-releases when checking for updates (experimental)" onAction="#changedDoUpdatePreReleases" />
 </VBox>
