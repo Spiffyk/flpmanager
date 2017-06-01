@@ -24,6 +24,13 @@ import lombok.ToString;
  * @author spiffyk
  */
 public class UpdateChecker {
+	
+	/**
+	 * App configuration
+	 */
+	private static final AppConfiguration appConfiguration = AppConfiguration.get();
+	
+	
 
 	/**
 	 * The URL to fetch the release information from
@@ -84,7 +91,7 @@ public class UpdateChecker {
 			GitHubRelease release = null;
 			
 			for (int i = 0; i < releases.length; i++) {
-				if (!releases[i].prerelease) {
+				if (!appConfiguration.isIgnoreUpdatePreReleases() || !releases[i].prerelease) {
 					release = releases[i];
 					break;
 				}

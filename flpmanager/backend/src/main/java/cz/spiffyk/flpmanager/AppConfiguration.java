@@ -2,6 +2,8 @@ package cz.spiffyk.flpmanager;
 
 import java.util.Properties;
 
+import com.google.gson.Gson;
+
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -22,17 +24,27 @@ public class AppConfiguration {
 	/**
 	 * The path to the FL Studio project template
 	 */
-	@Getter @Setter @NonNull private String flpTemplatePath = "";
+	@Getter @Setter @NonNull private String flpTemplatePath;
 	
 	/**
 	 * The path to the FL Studio executable
 	 */
-	@Getter @Setter @NonNull private String flExecutablePath = "";
+	@Getter @Setter @NonNull private String flExecutablePath;
 	
 	/**
 	 * The path to the user's workspace
 	 */
-	@Getter @Setter @NonNull private String workspacePath = "";
+	@Getter @Setter @NonNull private String workspacePath;
+	
+	/**
+	 * Whether FLP Manager should check for updates on startup
+	 */
+	@Getter @Setter private boolean autoUpdateCheck;
+	
+	/**
+	 * Whether pre-release updates should be ignored
+	 */
+	@Getter @Setter private boolean ignoreUpdatePreReleases;
 	
 	
 	
@@ -69,6 +81,8 @@ public class AppConfiguration {
 		setFlpTemplatePath(properties.getProperty("flp_template", ""));
 		setFlExecutablePath(properties.getProperty("fl_studio_executable", ""));
 		setWorkspacePath(properties.getProperty("workspace", ""));
+		setAutoUpdateCheck(Boolean.parseBoolean(properties.getProperty("auto_update_check", "true")));
+		setIgnoreUpdatePreReleases(Boolean.parseBoolean(properties.getProperty("ignore_update_pre_releases", "true")));
 		setLoaded(true);
 	}
 	
@@ -81,7 +95,8 @@ public class AppConfiguration {
 		properties.setProperty("flp_template", getFlpTemplatePath());
 		properties.setProperty("fl_studio_executable", getFlExecutablePath());
 		properties.setProperty("workspace", getWorkspacePath());
+		properties.setProperty("auto_update_check", Boolean.toString(isAutoUpdateCheck()));
+		properties.setProperty("ignore_update_pre_releases", Boolean.toString(isIgnoreUpdatePreReleases()));
 		return properties;
 	}
-	
 }

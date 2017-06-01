@@ -3,6 +3,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.CheckBox?>
 
 <VBox prefWidth="800" spacing="3" xmlns:fx="http://javafx.com/fxml/1">
 	<HBox spacing="8">
@@ -24,4 +26,9 @@
 		<TextField fx:id="pathToWorkspace" onKeyTyped="#changedWorkspace" HBox.hgrow="ALWAYS" />
 		<Button text="..." onAction="#setPathToWorkspace" HBox.hgrow="NEVER" />
 	</HBox>
+	
+	<Separator />
+	
+	<CheckBox fx:id="autoUpdateCheck" text="Check for updates on startup" />
+	<CheckBox fx:id="ignoreUpdatePreReleases" text="Ignore pre-releases when checking for updates (recommended)" onAction="#changedIgnoreUpdatePreReleases" />
 </VBox>

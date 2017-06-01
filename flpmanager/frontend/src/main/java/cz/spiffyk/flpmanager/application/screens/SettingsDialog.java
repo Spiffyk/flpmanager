@@ -12,6 +12,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.TextField;
@@ -96,11 +97,29 @@ public class SettingsDialog extends Dialog<Boolean> {
 		workspaceDirChooser.setTitle("Select path to your workspace");
 	}
 	
-	
 	/**
 	 * Is set to {@code true} if workspace directory is modified by the user
 	 */
 	private boolean workspaceModified = false;
+	
+	
+	
+	/**
+	 * Check box for automatic update check on startup
+	 */
+	@FXML private CheckBox autoUpdateCheck;
+	
+	
+	
+	/**
+	 * Check box for ignoring pre-releases when checking for updates
+	 */
+	@FXML private CheckBox ignoreUpdatePreReleases;
+	
+	/**
+	 * Is set to {@code true} if ignoring pre-releases state was modified by the user
+	 */
+	private boolean ignoreUpdatePreReleasesModified = false;
 	
 	
 	
@@ -139,6 +158,8 @@ public class SettingsDialog extends Dialog<Boolean> {
 		pathToExe.setText(appConfiguration.getFlExecutablePath());
 		pathToTemplate.setText(appConfiguration.getFlpTemplatePath());
 		pathToWorkspace.setText(appConfiguration.getWorkspacePath());
+		autoUpdateCheck.setSelected(appConfiguration.isAutoUpdateCheck());
+		ignoreUpdatePreReleases.setSelected(appConfiguration.isIgnoreUpdatePreReleases());
 	}
 	
 	private void onOk(ActionEvent event) {
@@ -179,6 +200,19 @@ public class SettingsDialog extends Dialog<Boolean> {
 			return;
 		}
 		
+		if (ignoreUpdatePreReleasesModified && !ignoreUpdatePreReleases.isSelected()) {
+			final Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.initOwner(this.getDialogPane().getScene().getWindow());
+			alert.setHeaderText("Pre-releases are experimental and may have potentially dangerous bugs!");
+			alert.setContentText("Do you really wish to proceed?");
+			ButtonType b = alert.showAndWait().orElse(ButtonType.CANCEL);
+			
+			if (b == ButtonType.CANCEL) {
+				event.consume();
+				return;
+			}
+		}
+		
 		if (workspaceModified) {
 			final Alert alert = new Alert(AlertType.WARNING);
 			alert.initOwner(this.getDialogPane().getScene().getWindow());
@@ -190,6 +224,8 @@ public class SettingsDialog extends Dialog<Boolean> {
 		appConfiguration.setFlExecutablePath(exe.getAbsolutePath());
 		appConfiguration.setFlpTemplatePath(template.getAbsolutePath());
 		appConfiguration.setWorkspacePath(workspace.getAbsolutePath());
+		appConfiguration.setAutoUpdateCheck(autoUpdateCheck.isSelected());
+		appConfiguration.setIgnoreUpdatePreReleases(ignoreUpdatePreReleases.isSelected());
 	}
 	
 	/**
@@ -228,6 +264,13 @@ public class SettingsDialog extends Dialog<Boolean> {
 			pathToWorkspace.setText(f.getAbsolutePath());
 			workspaceModified = true;
 		}
+	}
+	
+	/**
+	 * Called when the ignore update pre-releases check box is clicked
+	 */
+	@FXML private void changedIgnoreUpdatePreReleases() {
+		ignoreUpdatePreReleasesModified = true;
 	}
 	
 	/**

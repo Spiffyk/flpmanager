@@ -3,6 +3,7 @@ package cz.spiffyk.flpmanager.application.screens;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
+import cz.spiffyk.flpmanager.AppConfiguration;
 import cz.spiffyk.flpmanager.ManagerFileHandler;
 import cz.spiffyk.flpmanager.UpdateChecker;
 import cz.spiffyk.flpmanager.UpdateChecker.UpdateInfo;
@@ -27,6 +28,11 @@ import javafx.stage.Stage;
  * @author spiffyk
  */
 public class MainScreen extends VBox implements Subscriber {
+	
+	/**
+	 * App configuration
+	 */
+	private static final AppConfiguration appConfiguration = AppConfiguration.get();
 	
 	/**
 	 * Messenger
@@ -91,7 +97,10 @@ public class MainScreen extends VBox implements Subscriber {
 	 */
 	@FXML protected void initialize() {
 		messenger.addListener(this);
-		checkForUpdates(true);
+		
+		if (appConfiguration.isAutoUpdateCheck()) {
+			checkForUpdates(true);
+		}
 	}
 	
 	/**
