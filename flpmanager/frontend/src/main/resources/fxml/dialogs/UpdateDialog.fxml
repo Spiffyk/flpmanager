@@ -12,6 +12,6 @@
 	<Label fx:id="name" style="-fx-font-size: 30px; -fx-font-weight: bold" />
 	
 	<Label text="Release notes:" style="-fx-font-size: 20px;" />
-	<WebView fx:id="webView" />
+	<WebView fx:id="webView" prefHeight="400" />
 	<Label text="Clicking OK will take you to the download page." />
 </VBox>
