@@ -15,14 +15,54 @@
 			
 			<Separator />
 			
-			<Hyperlink onAction="#bug" text="Report a bug!" style="-fx-padding: 0" />
-			<Hyperlink onAction="#github" text="Fork me on GitHub!" style="-fx-padding: 0" />
+			<VBox alignment="CENTER">
+				<Hyperlink onAction="#bug" text="Report a bug!" style="-fx-padding: 0" />
+				<Hyperlink onAction="#github" text="Fork me on GitHub!" style="-fx-padding: 0" />
+			</VBox>
+			
+			<Separator />
+			
+			<Label text="Powered by:" style="-fx-font-weight: bold" />
+			
+			<VBox alignment="CENTER">
+				<HBox alignment="CENTER">
+					<Hyperlink onAction="#lombok" text="Project Lombok" style="-fx-padding: 0" />
+					<Label text=" (" />
+					<Hyperlink onAction="#mitLicense" text="MIT License" style="-fx-padding: 0" />
+					<Label text=")" />
+				</HBox>
+				
+				<HBox alignment="CENTER">
+					<Hyperlink onAction="#apacheCommons" text="Apache Commons" style="-fx-padding: 0" />
+					<Label text=" (" />
+					<Hyperlink onAction="#apacheLicense" text="Apache License 2.0" style="-fx-padding: 0" />
+					<Label text=")" />
+				</HBox>
+				
+				<HBox alignment="CENTER">
+					<Hyperlink onAction="#gson" text="GSON" style="-fx-padding: 0" />
+					<Label text=" (" />
+					<Hyperlink onAction="#apacheLicense" text="Apache License 2.0" style="-fx-padding: 0" />
+					<Label text=")" />
+				</HBox>
+				
+				<HBox alignment="CENTER">
+					<Hyperlink onAction="#commonmark" text="Atlassian CommonMark-Java" style="-fx-padding: 0" />
+					<Label text=" (" />
+					<Hyperlink onAction="#bsd2ClauseLicense" text="BSD 2-clause &quot;Simplified&quot; license" style="-fx-padding: 0" />
+					<Label text=")" />
+				</HBox>
+			</VBox>
+			
+			<Separator />
+			
 			<HBox alignment="CENTER">
 				<Label text="This software is distributed under the " />
 				<Hyperlink onAction="#mitLicense" text="MIT License" style="-fx-padding: 0" />
 				<Label text="." />
 			</HBox>
-			<Label text="FLP Manager is in no way affiliated with or endorsed by Image-Line Software." />
+			
+			<Label style="-fx-font-weight: bold" text="FLP Manager is in no way affiliated with or endorsed by Image-Line Software." />
 		</VBox>
 	</content>
 	

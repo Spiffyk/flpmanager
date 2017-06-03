@@ -56,6 +56,30 @@ public class AboutDialog extends Dialog<Boolean> {
 		}
 	}
 	
+	@FXML private void lombok() {
+		FXUtils.openWebPage("https://projectlombok.org/");
+	}
+	
+	@FXML private void apacheCommons() {
+		FXUtils.openWebPage("https://commons.apache.org/");
+	}
+	
+	@FXML private void gson() {
+		FXUtils.openWebPage("https://github.com/google/gson");
+	}
+	
+	@FXML private void commonmark() {
+		FXUtils.openWebPage("https://github.com/atlassian/commonmark-java");
+	}
+	
+	@FXML private void apacheLicense() {
+		FXUtils.openWebPage("http://www.apache.org/licenses/LICENSE-2.0");
+	}
+	
+	@FXML private void bsd2ClauseLicense() {
+		FXUtils.openWebPage("https://spdx.org/licenses/BSD-2-Clause.html");
+	}
+	
 	@FXML private void mitLicense() {
 		FXUtils.openWebPage("https://opensource.org/licenses/MIT");
 	}
