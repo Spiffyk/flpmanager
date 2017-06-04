@@ -33,22 +33,32 @@ public class FXUtils {
     }
 	
 	/**
-	 * 
-	 * @param backgroundColor
+	 * Gets the style string for a tag, automatically coloring the text based on the background color's perceived
+	 * luminance.
+	 * @param backgroundColor 
 	 * @return
 	 */
 	public static String getTagStyle(Color backgroundColor) {
 		return "-fx-background-color: "
-				+ FXUtils.toRGBCode(backgroundColor) + ";"
+				+ FXUtils.toRGBCode(backgroundColor) + "; "
 				+ "-fx-text-fill: "
 				+ ((getLuminance(backgroundColor) < LUMINANCE_THRESHOLD) ? "white" : "black") + ";";
 	}
 	
+	/**
+	 * Gets the perceived luminance of the specified color
+	 * @param color The color
+	 * @return Perceived luminance, a number from {@code 0.0} to {@code 1.0}.
+	 */
 	public static double getLuminance(Color color) {
 		// Perceived luminance
 		return (0.299 * color.getRed() + 0.587 * color.getGreen() + 0.114 * color.getBlue());
 	}
 	
+	/**
+	 * Opens the specified URL in the system's default web browser
+	 * @param url The URL to open
+	 */
 	public static void openWebPage(String url) {
 		new Thread(new Task<Void>() {
 			@Override
