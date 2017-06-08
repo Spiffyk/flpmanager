@@ -8,6 +8,6 @@
 <?import javafx.scene.control.ButtonType?>
 
 <GridPane hgap="3" vgap="3" xmlns:fx="http://javafx.com/fxml/1">
-	<Label text="Project name" GridPane.vgrow="NEVER" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+	<Label text="%project_edit.name" GridPane.vgrow="NEVER" GridPane.columnIndex="0" GridPane.rowIndex="0" />
 	<TextField fx:id="name" prefWidth="400" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 </GridPane>

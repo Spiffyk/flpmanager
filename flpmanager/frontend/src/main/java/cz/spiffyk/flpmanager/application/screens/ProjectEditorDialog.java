@@ -2,6 +2,7 @@ package cz.spiffyk.flpmanager.application.screens;
 
 import java.io.IOException;
 
+import cz.spiffyk.flpmanager.Text;
 import cz.spiffyk.flpmanager.data.Project;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -22,6 +23,13 @@ import javafx.scene.control.Alert.AlertType;
 public class ProjectEditorDialog extends Dialog<Boolean> {
 	
 	/**
+	 * Text manager
+	 */
+	private static final Text text = Text.get();
+	
+	
+	
+	/**
 	 * The project to edit
 	 */
 	private final Project project;
@@ -38,9 +46,10 @@ public class ProjectEditorDialog extends Dialog<Boolean> {
 	public ProjectEditorDialog(Project project) {
 		super();
 		this.project = project;
-		this.setTitle("Edit project...");
+		this.setTitle(text.get("project_edit.title"));
 		
 		final FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/dialogs/ProjectEditorDialog.fxml"));
+		loader.setResources(text.getResourceBundle());
 		loader.setController(this);
 		this.setResultConverter(this::convertResult);
 		
@@ -73,7 +82,7 @@ public class ProjectEditorDialog extends Dialog<Boolean> {
 			final Alert alert = new Alert(AlertType.ERROR);
 			alert.initOwner(this.getDialogPane().getScene().getWindow());
 			alert.setHeaderText(null);
-			alert.setContentText("The project name cannot be empty!");
+			alert.setContentText(text.get("project_edit.name_empty"));
 			alert.showAndWait();
 			return;
 		}
