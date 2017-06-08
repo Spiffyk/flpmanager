@@ -2,6 +2,7 @@ package cz.spiffyk.flpmanager.application.screens;
 
 import java.io.IOException;
 
+import cz.spiffyk.flpmanager.Text;
 import cz.spiffyk.flpmanager.application.controls.tags.TagsSelector;
 import cz.spiffyk.flpmanager.data.Song;
 import cz.spiffyk.flpmanager.data.Workspace;
@@ -19,6 +20,10 @@ import javafx.scene.control.Alert.AlertType;
 
 public class SongEditorDialog extends Dialog<Boolean> {
 	
+	private static final Text text = Text.get();
+	
+	
+	
 	@FXML private TextField name;
 	@FXML private TextField author;
 	@FXML private TagsSelector tags;
@@ -28,9 +33,10 @@ public class SongEditorDialog extends Dialog<Boolean> {
 	public SongEditorDialog(Song song) {
 		super();
 		this.song = song;
-		this.setTitle("Edit song...");
+		this.setTitle(text.get("song_edit.title"));
 		
 		final FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/dialogs/SongEditorDialog.fxml"));
+		loader.setResources(text.getResourceBundle());
 		loader.setController(this);
 		this.setResultConverter(this::convertResult);
 		
@@ -81,7 +87,7 @@ public class SongEditorDialog extends Dialog<Boolean> {
 			final Alert alert = new Alert(AlertType.ERROR);
 			alert.initOwner(this.getDialogPane().getScene().getWindow());
 			alert.setHeaderText(null);
-			alert.setContentText("The song name cannot be empty!");
+			alert.setContentText(text.get("song_edit.name_empty"));
 			alert.showAndWait();
 			return;
 		}
