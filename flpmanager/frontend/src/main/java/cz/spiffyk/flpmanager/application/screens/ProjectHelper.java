@@ -2,6 +2,7 @@ package cz.spiffyk.flpmanager.application.screens;
 
 import java.io.IOException;
 
+import cz.spiffyk.flpmanager.Text;
 import cz.spiffyk.flpmanager.application.controls.tags.TagsViewer;
 import cz.spiffyk.flpmanager.data.Project;
 import cz.spiffyk.flpmanager.data.Song;
@@ -17,6 +18,8 @@ import lombok.Getter;
 import lombok.NonNull;
 
 public class ProjectHelper extends Stage {
+	
+	private static final Text text = Text.get();
 	
 	@Getter private Project project;
 	
@@ -34,8 +37,9 @@ public class ProjectHelper extends Stage {
 		});
 		
 		final FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/ProjectHelper.fxml"));
+		loader.setResources(text.getResourceBundle());
 		loader.setController(this);
-		this.setTitle("Current project");
+		this.setTitle(text.get("helper.title"));
 		
 		try {
 			final Scene scene = new Scene(loader.load());

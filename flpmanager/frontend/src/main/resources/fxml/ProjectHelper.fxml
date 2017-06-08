@@ -11,21 +11,21 @@
 <VBox alignment="CENTER" spacing="8" style="-fx-padding: 16px" xmlns:fx="http://javafx.com/fxml/1">
 	<VBox>
 		<HBox>
-			<Label text="Song: " style="-fx-font-weight: bold" />
+			<Label text="%helper.song" style="-fx-font-weight: bold" />
 			<Label fx:id="songName" />
 		</HBox>
 		
 		<HBox fx:id="tagsWrapper">
-			<Label text="Tags: " style="-fx-font-weight: bold" />
+			<Label text="%helper.tags" style="-fx-font-weight: bold" />
 			<TagsViewer fx:id="tagsViewer" />
 		</HBox>
 		
 		<HBox>
-			<Label text="Project: " style="-fx-font-weight: bold" />
+			<Label text="%helper.project" style="-fx-font-weight: bold" />
 			<Label fx:id="projectName" />
 		</HBox>
 	</VBox>
 	
-	<Button onAction="#openDirectory" text="Open project directory..." HBox.hgrow="ALWAYS" />
+	<Button onAction="#openDirectory" text="%helper.open_directory" HBox.hgrow="ALWAYS" />
 	
 </VBox>
