@@ -5,6 +5,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Button?>
+<?import cz.spiffyk.flpmanager.application.controls.tags.TagsViewer?>
 
 
 <VBox alignment="CENTER" spacing="8" style="-fx-padding: 16px" xmlns:fx="http://javafx.com/fxml/1">
@@ -12,6 +13,11 @@
 		<HBox>
 			<Label text="Song: " style="-fx-font-weight: bold" />
 			<Label fx:id="songName" />
+		</HBox>
+		
+		<HBox fx:id="tagsWrapper">
+			<Label text="Tags: " style="-fx-font-weight: bold" />
+			<TagsViewer fx:id="tagsViewer" />
 		</HBox>
 		
 		<HBox>

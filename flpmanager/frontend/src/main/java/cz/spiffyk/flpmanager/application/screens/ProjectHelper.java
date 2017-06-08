@@ -2,10 +2,13 @@ package cz.spiffyk.flpmanager.application.screens;
 
 import java.io.IOException;
 
+import cz.spiffyk.flpmanager.application.controls.tags.TagsViewer;
 import cz.spiffyk.flpmanager.data.Project;
+import cz.spiffyk.flpmanager.data.Song;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Modality;
@@ -19,6 +22,8 @@ public class ProjectHelper extends Stage {
 	
 	@FXML private Label songName;
 	@FXML private Label projectName;
+	@FXML private Node tagsWrapper;
+	@FXML private TagsViewer tagsViewer;
 	
 	public ProjectHelper() {
 		super();
@@ -34,6 +39,7 @@ public class ProjectHelper extends Stage {
 		
 		try {
 			final Scene scene = new Scene(loader.load());
+			scene.getStylesheets().add(getClass().getClassLoader().getResource("css/style.css").toExternalForm());
 			this.setScene(scene);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -47,8 +53,18 @@ public class ProjectHelper extends Stage {
 	}
 	
 	private void update() {
-		songName.setText(project.getParent().getName());
+		Song song = project.getParent();
+		songName.setText(song.getName());
 		projectName.setText(project.getName());
+		
+		if (song.getTags().isEmpty()) {
+			tagsWrapper.setVisible(false);
+			tagsWrapper.setManaged(false);
+		} else {
+			tagsViewer.setTags(song.getTags());
+			tagsWrapper.setVisible(true);
+			tagsWrapper.setManaged(false);
+		}
 	}
 	
 	@FXML private void openDirectory() {
