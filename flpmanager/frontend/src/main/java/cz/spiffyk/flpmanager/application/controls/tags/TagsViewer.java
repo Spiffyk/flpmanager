@@ -62,9 +62,12 @@ public class TagsViewer extends HBox implements ListChangeListener<Tag> {
 	 * Updates labels
 	 */
 	private void updateLabels() {
+		for (TagLabel label : labels) {
+			label.cleanUp();
+		}
 		labels.clear();
+		
 		for (Tag tag : tags) {
-			// TODO optimize this
 			labels.add(new TagLabel(tag));
 		}
 		labels.sort((a, b) -> a.getTag().getName().compareTo(b.getTag().getName()));
@@ -114,6 +117,14 @@ public class TagsViewer extends HBox implements ListChangeListener<Tag> {
 		private void update() {
 			this.setText(tag.getName());
 			this.setStyle(FXUtils.getTagStyle(tag.getColor()));
+		}
+		
+		/**
+		 * Stops observing the {@link Tag} and prepares for cleanup
+		 */
+		public void cleanUp() {
+			tag.deleteObserver(this);
+			this.setVisible(false);
 		}
 	}
 }
