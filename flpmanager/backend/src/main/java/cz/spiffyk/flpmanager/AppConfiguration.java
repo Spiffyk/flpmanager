@@ -2,8 +2,6 @@ package cz.spiffyk.flpmanager;
 
 import java.util.Properties;
 
-import com.google.gson.Gson;
-
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
