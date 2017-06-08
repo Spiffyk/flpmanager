@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import cz.spiffyk.flpmanager.AppConfiguration;
+import cz.spiffyk.flpmanager.Text;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -31,6 +32,11 @@ public class SettingsDialog extends Dialog<Boolean> {
 	 */
 	private static final AppConfiguration appConfiguration = AppConfiguration.get();
 	
+	/**
+	 * Language API
+	 */
+	private static final Text text = Text.get();
+	
 	
 	
 	/**
@@ -48,14 +54,14 @@ public class SettingsDialog extends Dialog<Boolean> {
 	 */
 	private final FileChooser exeFileChooser = new FileChooser();
 	{
-		exeFileChooser.setTitle("Select path to FL Studio executable");
+		exeFileChooser.setTitle(text.get("settings.fl_exe_title"));
 		exeFileChooser.setInitialDirectory(pathToExeFile);
 		exeFileChooser.getExtensionFilters().addAll(
-				new ExtensionFilter("Executable", "*.exe", "*.bat", "*.sh"),
-				new ExtensionFilter("Windows Executable", "*.exe"),
-				new ExtensionFilter("Batch file", "*.bat"),
-				new ExtensionFilter("Shell script", "*.sh"),
-				new ExtensionFilter("All files", "*.*"));
+				new ExtensionFilter(text.get("file_type.executable"), "*.exe", "*.bat", "*.sh"),
+				new ExtensionFilter(text.get("file_type.exe"), "*.exe"),
+				new ExtensionFilter(text.get("file_type.bat"), "*.bat"),
+				new ExtensionFilter(text.get("file_type.sh"), "*.sh"),
+				new ExtensionFilter(text.get("file_type.all"), "*.*"));
 	}
 	
 	
@@ -75,11 +81,11 @@ public class SettingsDialog extends Dialog<Boolean> {
 	 */
 	private final FileChooser templateFileChooser = new FileChooser();
 	{
-		templateFileChooser.setTitle("Select path to the default template");
+		templateFileChooser.setTitle(text.get("settings.template_title"));
 		templateFileChooser.setInitialDirectory(pathToTemplateFile);
 		templateFileChooser.getExtensionFilters().addAll(
-				new ExtensionFilter("FL Studio project file", "*.flp"),
-				new ExtensionFilter("All files", "*.*"));
+				new ExtensionFilter(text.get("file_type.flp"), "*.flp"),
+				new ExtensionFilter(text.get("file_type.all"), "*.*"));
 	}
 	
 	
@@ -94,7 +100,7 @@ public class SettingsDialog extends Dialog<Boolean> {
 	 */
 	private final DirectoryChooser workspaceDirChooser = new DirectoryChooser();
 	{
-		workspaceDirChooser.setTitle("Select path to your workspace");
+		workspaceDirChooser.setTitle(text.get("settings.workspace_title"));
 	}
 	
 	/**
@@ -130,9 +136,10 @@ public class SettingsDialog extends Dialog<Boolean> {
 	 */
 	public SettingsDialog() {
 		super();
-		this.setTitle("Settings");
+		this.setTitle(text.get("settings.title"));
 		
 		final FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/dialogs/SettingsDialog.fxml"));
+		loader.setResources(text.getResourceBundle());
 		loader.setController(this);
 		this.setResultConverter(this::convertResult);
 		
@@ -173,7 +180,7 @@ public class SettingsDialog extends Dialog<Boolean> {
 			final Alert alert = new Alert(AlertType.ERROR);
 			alert.initOwner(this.getDialogPane().getScene().getWindow());
 			alert.setHeaderText(null);
-			alert.setContentText("The executable must be a valid file!");
+			alert.setContentText(text.get("settings.fl_exe_invalid"));
 			alert.showAndWait();
 			return;
 		}
@@ -184,7 +191,7 @@ public class SettingsDialog extends Dialog<Boolean> {
 			final Alert alert = new Alert(AlertType.ERROR);
 			alert.initOwner(this.getDialogPane().getScene().getWindow());
 			alert.setHeaderText(null);
-			alert.setContentText("The template must be a valid file!");
+			alert.setContentText(text.get("settings.template_invalid"));
 			alert.showAndWait();
 			return;
 		}
@@ -195,7 +202,7 @@ public class SettingsDialog extends Dialog<Boolean> {
 			final Alert alert = new Alert(AlertType.ERROR);
 			alert.initOwner(this.getDialogPane().getScene().getWindow());
 			alert.setHeaderText(null);
-			alert.setContentText("The workspace must be a valid directory or must not exist!");
+			alert.setContentText(text.get("settings.workspace_invalid"));
 			alert.showAndWait();
 			return;
 		}
@@ -203,8 +210,8 @@ public class SettingsDialog extends Dialog<Boolean> {
 		if (doUpdatePreReleasesModified && doUpdatePreReleases.isSelected()) {
 			final Alert alert = new Alert(AlertType.WARNING, null, ButtonType.CANCEL, ButtonType.OK);
 			alert.initOwner(this.getDialogPane().getScene().getWindow());
-			alert.setHeaderText("Pre-releases are experimental and may have potentially dangerous bugs!");
-			alert.setContentText("Do you really wish to proceed?");
+			alert.setHeaderText(text.get("settings.prerelease_warning"));
+			alert.setContentText(text.get("settings.prerelease_confirmation"));
 			ButtonType b = alert.showAndWait().orElse(ButtonType.CANCEL);
 			
 			if (b == ButtonType.CANCEL) {
@@ -216,8 +223,8 @@ public class SettingsDialog extends Dialog<Boolean> {
 		if (workspaceModified) {
 			final Alert alert = new Alert(AlertType.WARNING);
 			alert.initOwner(this.getDialogPane().getScene().getWindow());
-			alert.setHeaderText("The workspace directory has been changed");
-			alert.setContentText("Restart the program in order for the changes to take effect");
+			alert.setHeaderText(text.get("settings.workspace_warning"));
+			alert.setContentText(text.get("settings.workspace_restart"));
 			alert.showAndWait();
 		}
 		

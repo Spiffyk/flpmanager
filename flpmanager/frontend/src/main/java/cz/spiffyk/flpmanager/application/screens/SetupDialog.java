@@ -6,6 +6,7 @@ import java.io.IOException;
 import org.apache.commons.lang3.SystemUtils;
 
 import cz.spiffyk.flpmanager.AppConfiguration;
+import cz.spiffyk.flpmanager.Text;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -25,6 +26,8 @@ public class SetupDialog extends Dialog<Boolean> {
 	
 	private static final AppConfiguration appConfiguration = AppConfiguration.get();
 	
+	private static final Text text = Text.get();
+	
 	private static final String FL_EXE_NAME = "FL.exe";
 	private static final String DEFAULT_TEMPLATE_NAME =
 			"Data" + File.separator +
@@ -38,45 +41,46 @@ public class SetupDialog extends Dialog<Boolean> {
 	private File pathToFlFile;
 	private final DirectoryChooser flDirChooser = new DirectoryChooser();
 	{
-		flDirChooser.setTitle("Select path to FL Studio");
+		flDirChooser.setTitle(text.get("settings.fl_directory_title"));
 	}
 	
 	@FXML private TextField pathToExe;
 	private final FileChooser exeFileChooser = new FileChooser();
 	{
-		exeFileChooser.setTitle("Select path to FL Studio executable");
+		exeFileChooser.setTitle(text.get("settings.fl_exe_title"));
 		exeFileChooser.setInitialDirectory(pathToFlFile);
 		exeFileChooser.getExtensionFilters().addAll(
-				new ExtensionFilter("Executable", "*.exe", "*.bat", "*.sh"),
-				new ExtensionFilter("Windows Executable", "*.exe"),
-				new ExtensionFilter("Batch file", "*.bat"),
-				new ExtensionFilter("Shell script", "*.sh"),
-				new ExtensionFilter("All files", "*.*"));
+				new ExtensionFilter(text.get("file_type.executable"), "*.exe", "*.bat", "*.sh"),
+				new ExtensionFilter(text.get("file_type.exe"), "*.exe"),
+				new ExtensionFilter(text.get("file_type.bat"), "*.bat"),
+				new ExtensionFilter(text.get("file_type.sh"), "*.sh"),
+				new ExtensionFilter(text.get("file_type.all"), "*.*"));
 	}
 	
 	@FXML private TextField pathToTemplate;
 	private final FileChooser templateFileChooser = new FileChooser();
 	{
-		templateFileChooser.setTitle("Select path to the default template");
+		templateFileChooser.setTitle(text.get("settings.template_title"));
 		templateFileChooser.setInitialDirectory(pathToFlFile);
 		templateFileChooser.getExtensionFilters().addAll(
-				new ExtensionFilter("FL Studio project file", "*.flp"),
-				new ExtensionFilter("All files", "*.*"));
+				new ExtensionFilter(text.get("file_type.flp"), "*.flp"),
+				new ExtensionFilter(text.get("file_type.all"), "*.*"));
 	}
 	
 	@FXML private TextField pathToWorkspace;
 	private final DirectoryChooser workspaceDirChooser = new DirectoryChooser();
 	{
-		workspaceDirChooser.setTitle("Select path to your workspace");
+		workspaceDirChooser.setTitle(text.get("settings.workspace_title"));
 	}
 	
 	
 	
 	public SetupDialog() {
 		super();
-		this.setTitle("First time setup");
+		this.setTitle(text.get("settings.first_time_setup_title"));
 		
 		final FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/dialogs/SetupDialog.fxml"));
+		loader.setResources(text.getResourceBundle());
 		loader.setController(this);
 		this.setResultConverter(this::convertResult);
 		
@@ -117,7 +121,7 @@ public class SetupDialog extends Dialog<Boolean> {
 			final Alert alert = new Alert(AlertType.ERROR);
 			alert.initOwner(this.getDialogPane().getScene().getWindow());
 			alert.setHeaderText(null);
-			alert.setContentText("The executable must be a valid file!");
+			alert.setContentText(text.get("settings.fl_exe_invalid"));
 			alert.showAndWait();
 			return;
 		}
@@ -128,7 +132,7 @@ public class SetupDialog extends Dialog<Boolean> {
 			final Alert alert = new Alert(AlertType.ERROR);
 			alert.initOwner(this.getDialogPane().getScene().getWindow());
 			alert.setHeaderText(null);
-			alert.setContentText("The template must be a valid file!");
+			alert.setContentText(text.get("settings.template_invalid"));
 			alert.showAndWait();
 			return;
 		}
@@ -139,7 +143,7 @@ public class SetupDialog extends Dialog<Boolean> {
 			final Alert alert = new Alert(AlertType.ERROR);
 			alert.initOwner(this.getDialogPane().getScene().getWindow());
 			alert.setHeaderText(null);
-			alert.setContentText("The workspace must be a valid directory or must not exist!");
+			alert.setContentText(text.get("settings.workspace_invalid"));
 			alert.showAndWait();
 			return;
 		}

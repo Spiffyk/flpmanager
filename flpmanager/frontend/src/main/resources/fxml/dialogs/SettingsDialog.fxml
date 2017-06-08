@@ -8,13 +8,13 @@
 
 <VBox prefWidth="800" spacing="3" xmlns:fx="http://javafx.com/fxml/1">
 	<HBox spacing="8">
-		<Label text="FL Studio executable" prefWidth="200" HBox.hgrow="NEVER" />
+		<Label text="%settings.fl_exe" prefWidth="200" HBox.hgrow="NEVER" />
 		<TextField fx:id="pathToExe" HBox.hgrow="ALWAYS" />
 		<Button text="..." onAction="#setPathToExe" HBox.hgrow="NEVER" />
 	</HBox>
 	
 	<HBox spacing="8">
-		<Label text="Project template" prefWidth="200" HBox.hgrow="NEVER" />
+		<Label text="%settings.template" prefWidth="200" HBox.hgrow="NEVER" />
 		<TextField fx:id="pathToTemplate" HBox.hgrow="ALWAYS" />
 		<Button text="..." onAction="#setPathToTemplate" HBox.hgrow="NEVER" />
 	</HBox>
@@ -22,13 +22,13 @@
 	<Separator />
 	
 	<HBox spacing="8">
-		<Label text="Path to your workspace" prefWidth="200" HBox.hgrow="NEVER" />
+		<Label text="%settings.workspace" prefWidth="200" HBox.hgrow="NEVER" />
 		<TextField fx:id="pathToWorkspace" onKeyTyped="#changedWorkspace" HBox.hgrow="ALWAYS" />
 		<Button text="..." onAction="#setPathToWorkspace" HBox.hgrow="NEVER" />
 	</HBox>
 	
 	<Separator />
 	
-	<CheckBox fx:id="autoUpdateCheck" text="Check for updates on startup" />
-	<CheckBox fx:id="doUpdatePreReleases" text="Also show pre-releases when checking for updates (experimental)" onAction="#changedDoUpdatePreReleases" />
+	<CheckBox fx:id="autoUpdateCheck" text="%settings.update_on_startup" />
+	<CheckBox fx:id="doUpdatePreReleases" text="%settings.update_prereleases" onAction="#changedDoUpdatePreReleases" />
 </VBox>
