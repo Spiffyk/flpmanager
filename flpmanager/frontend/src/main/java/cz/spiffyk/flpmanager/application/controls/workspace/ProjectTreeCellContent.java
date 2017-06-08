@@ -55,6 +55,12 @@ public class ProjectTreeCellContent extends WorkspaceNodeTreeCellContent<Project
 		openButton.setOnAction((event) -> {
 			node.openProject();
 		});
+		
+		this.setOnMouseClicked((event) -> {
+			if (event.getClickCount() == 2) {
+				node.openProject();
+			}
+		});
 		getButtonBox().getChildren().add(openButton);
 	}
 
