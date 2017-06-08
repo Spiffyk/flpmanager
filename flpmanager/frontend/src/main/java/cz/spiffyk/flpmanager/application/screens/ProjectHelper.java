@@ -63,7 +63,7 @@ public class ProjectHelper extends Stage {
 		} else {
 			tagsViewer.setTags(song.getTags());
 			tagsWrapper.setVisible(true);
-			tagsWrapper.setManaged(false);
+			tagsWrapper.setManaged(true);
 		}
 	}
 	
