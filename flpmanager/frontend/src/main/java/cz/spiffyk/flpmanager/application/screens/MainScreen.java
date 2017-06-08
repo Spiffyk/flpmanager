@@ -5,6 +5,7 @@ import java.util.concurrent.ExecutionException;
 
 import cz.spiffyk.flpmanager.AppConfiguration;
 import cz.spiffyk.flpmanager.ManagerFileHandler;
+import cz.spiffyk.flpmanager.Text;
 import cz.spiffyk.flpmanager.UpdateChecker;
 import cz.spiffyk.flpmanager.UpdateChecker.UpdateInfo;
 import cz.spiffyk.flpmanager.application.views.songs.SongsView;
@@ -33,6 +34,11 @@ public class MainScreen extends VBox implements Subscriber {
 	 * App configuration
 	 */
 	private static final AppConfiguration appConfiguration = AppConfiguration.get();
+	
+	/**
+	 * Text manager
+	 */
+	private static final Text text = Text.get();
 	
 	/**
 	 * Messenger
@@ -69,6 +75,7 @@ public class MainScreen extends VBox implements Subscriber {
 	 */
 	public MainScreen(Stage primaryStage) {
 		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/MainScreen.fxml"));
+		loader.setResources(text.getResourceBundle());
 		loader.setRoot(this);
 		loader.setController(this);
 		this.primaryStage = primaryStage;
@@ -148,7 +155,7 @@ public class MainScreen extends VBox implements Subscriber {
 	 * @param quiet
 	 */
 	private void checkForUpdates(final boolean quiet) {
-		final Stage status = new StatusWindow("Checking for updates...");
+		final Stage status = new StatusWindow(text.get("main_screen.update_check"));
 		status.initOwner(primaryStage);
 		
 		if (!quiet) {
@@ -182,7 +189,7 @@ public class MainScreen extends VBox implements Subscriber {
 				dialog.initOwner(primaryStage);
 				dialog.showAndWait();
 			} else if (!quiet) {
-				info("FLP Manager is up to date!");
+				info(text.get("main_screen.up_to_date"));
 			}
 		});
 		
@@ -198,7 +205,7 @@ public class MainScreen extends VBox implements Subscriber {
 			}
 			
 			if (!quiet) {
-				error("Check failed!", event.getSource().getException().toString());
+				error(text.get("main_screen.update_fail"), event.getSource().getException().toString());
 			}
 		});
 		

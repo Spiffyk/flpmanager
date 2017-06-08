@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.List;
 import java.util.Properties;
 
 import org.apache.commons.lang3.SystemUtils;
@@ -13,6 +12,7 @@ import org.apache.commons.lang3.SystemUtils;
 import cz.spiffyk.flpmanager.AppConfiguration;
 import cz.spiffyk.flpmanager.ManagerFileException;
 import cz.spiffyk.flpmanager.ManagerFileHandler;
+import cz.spiffyk.flpmanager.Text;
 import cz.spiffyk.flpmanager.application.screens.MainScreen;
 import cz.spiffyk.flpmanager.application.screens.SetupDialog;
 import cz.spiffyk.flpmanager.data.Workspace;
@@ -33,6 +33,11 @@ public class Main extends Application {
 	 * App configuration
 	 */
 	private static final AppConfiguration appConfiguration = AppConfiguration.get();
+	
+	/**
+	 * Text manager
+	 */
+	private static final Text text = Text.get();
 	
 	/**
 	 * The name of the configuration directory (in AppData for Windows, Application Support on OS X, home directory
@@ -96,7 +101,7 @@ public class Main extends Application {
 		Properties props = appConfiguration.toProperties();
 		try {
 			FileOutputStream fos = new FileOutputStream(CONFIG_FILE);
-			props.store(fos, "FLPManager config file");
+			props.store(fos, "FLP Manager config file");
 			fos.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -130,15 +135,14 @@ public class Main extends Application {
 		MainScreen mainScreen = new MainScreen(primaryStage);
 		Scene scene = new Scene(mainScreen, 640, 600);
 		
-		List<String> stylesheets = scene.getStylesheets();
-		stylesheets.add(getClass().getClassLoader().getResource("css/style.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getClassLoader().getResource("css/style.css").toExternalForm());
 		
 		try {
 			final Workspace workspace = ManagerFileHandler.loadWorkspace(appConfiguration.getWorkspacePath());
 			mainScreen.setWorkspace(workspace);
 		
 			primaryStage.setScene(scene);
-			primaryStage.setTitle("FLP Manager");
+			primaryStage.setTitle(text.get("application.name"));
 			primaryStage.setOnCloseRequest((e) -> {
 				saveConfiguration();
 				ManagerFileHandler.saveWorkspace(workspace);
@@ -149,7 +153,7 @@ public class Main extends Application {
 			e.printStackTrace();
 			
 			final Alert alert = new Alert(AlertType.ERROR);
-			alert.setHeaderText("Startup error");
+			alert.setHeaderText(text.get("init.startup_error"));
 			alert.setContentText(e.getMessage());
 			alert.showAndWait();
 			Platform.exit();
@@ -157,7 +161,7 @@ public class Main extends Application {
 			e.printStackTrace();
 			
 			final Alert alert = new Alert(AlertType.ERROR);
-			alert.setHeaderText("Error in workspace file");
+			alert.setHeaderText(text.get("init.workspace_error"));
 			alert.setContentText(e.getMessage());
 			alert.showAndWait();
 			Platform.exit();

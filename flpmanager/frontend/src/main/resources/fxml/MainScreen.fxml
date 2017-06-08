@@ -13,16 +13,16 @@
 <fx:root type="cz.spiffyk.flpmanager.application.screens.MainScreen" xmlns:fx="http://javafx.com/fxml/1">
 	
 	<MenuBar fx:id="menuBar">
-		<Menu text="_File">
-			<MenuItem onAction="#saveWorkspace" text="Save _workspace" accelerator="Ctrl+S" />
+		<Menu text="%menu.file">
+			<MenuItem onAction="#saveWorkspace" text="%menu.workspace_save" accelerator="Ctrl+S" />
 			<SeparatorMenuItem />
-			<MenuItem onAction="#openSettings" text="_Settings..." />
+			<MenuItem onAction="#openSettings" text="%menu.settings" />
 			<SeparatorMenuItem />
-			<MenuItem onAction="#quitMenuAction" text="E_xit" accelerator="Alt+F4" />
+			<MenuItem onAction="#quitMenuAction" text="%menu.exit" accelerator="Alt+F4" />
 		</Menu>
-		<Menu text="_Help">
-			<MenuItem onAction="#checkForUpdates" text="Check for _updates..." />
-			<MenuItem onAction="#showAbout" text="_About..." />
+		<Menu text="%menu.help">
+			<MenuItem onAction="#checkForUpdates" text="%menu.check_for_updates" />
+			<MenuItem onAction="#showAbout" text="%menu.about" />
 		</Menu>
 	</MenuBar>
 	
