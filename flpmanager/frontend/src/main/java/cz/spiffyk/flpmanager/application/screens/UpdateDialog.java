@@ -2,6 +2,7 @@ package cz.spiffyk.flpmanager.application.screens;
 
 import java.io.IOException;
 
+import cz.spiffyk.flpmanager.Text;
 import cz.spiffyk.flpmanager.UpdateChecker.UpdateInfo;
 import cz.spiffyk.flpmanager.util.FXUtils;
 import javafx.application.Platform;
@@ -19,6 +20,8 @@ import lombok.NonNull;
 
 public class UpdateDialog extends Dialog<Boolean> {
 	
+	private static final Text text = Text.get();
+	
 	private final UpdateInfo info;
 
 	@FXML private Label name;
@@ -27,9 +30,10 @@ public class UpdateDialog extends Dialog<Boolean> {
 	public UpdateDialog(@NonNull UpdateInfo info) {
 		super();
 		this.info = info;
-		this.setTitle("A new version is available!");
+		this.setTitle(text.get("updater.title"));
 		
 		final FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/dialogs/UpdateDialog.fxml"));
+		loader.setResources(text.getResourceBundle());
 		loader.setController(this);
 		
 		try {

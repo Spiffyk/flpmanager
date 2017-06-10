@@ -11,7 +11,7 @@
 <VBox prefWidth="650" spacing="8" alignment="CENTER" xmlns:fx="http://javafx.com/fxml/1">
 	<Label fx:id="name" style="-fx-font-size: 30px; -fx-font-weight: bold" />
 	
-	<Label text="Release notes:" style="-fx-font-size: 20px;" />
+	<Label text="%updater.release_notes" style="-fx-font-size: 20px;" />
 	<WebView fx:id="webView" prefHeight="400" />
-	<Label text="Clicking OK will take you to the download page." />
+	<Label text="%updater.download_page_note" />
 </VBox>
