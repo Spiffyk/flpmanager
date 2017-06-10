@@ -9,10 +9,10 @@
 <?import javafx.scene.control.ColorPicker?>
 
 <GridPane hgap="3" vgap="3" xmlns:fx="http://javafx.com/fxml/1">
-	<Label text="Tag name" GridPane.vgrow="NEVER" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+	<Label text="%tag_edit.name" GridPane.vgrow="NEVER" GridPane.columnIndex="0" GridPane.rowIndex="0" />
 	<TextField fx:id="name" prefWidth="400" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 	
-	<Label text="Color" GridPane.vgrow="NEVER" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+	<Label text="%tag_edit.color" GridPane.vgrow="NEVER" GridPane.columnIndex="0" GridPane.rowIndex="1" />
 	<ColorPicker fx:id="color" prefWidth="400" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 </GridPane>
 

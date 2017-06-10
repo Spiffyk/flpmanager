@@ -2,6 +2,7 @@ package cz.spiffyk.flpmanager.application.screens;
 
 import java.io.IOException;
 
+import cz.spiffyk.flpmanager.Text;
 import cz.spiffyk.flpmanager.data.Tag;
 import cz.spiffyk.flpmanager.data.Workspace;
 import javafx.application.Platform;
@@ -19,6 +20,8 @@ import javafx.scene.control.Alert.AlertType;
 
 public class TagEditorDialog extends Dialog<Boolean> {
 	
+	private static final Text text = Text.get();
+	
 	@FXML private TextField name;
 	@FXML private ColorPicker color;
 	
@@ -27,9 +30,10 @@ public class TagEditorDialog extends Dialog<Boolean> {
 	public TagEditorDialog(Tag tag) {
 		super();
 		this.tag = tag;
-		this.setTitle("Edit song...");
+		this.setTitle(text.get("tag_edit.title"));
 		
 		final FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/dialogs/TagEditorDialog.fxml"));
+		loader.setResources(text.getResourceBundle());
 		loader.setController(this);
 		this.setResultConverter(this::convertResult);
 		
@@ -75,7 +79,7 @@ public class TagEditorDialog extends Dialog<Boolean> {
 			final Alert alert = new Alert(AlertType.ERROR);
 			alert.initOwner(this.getDialogPane().getScene().getWindow());
 			alert.setHeaderText(null);
-			alert.setContentText("The tag name cannot be empty!");
+			alert.setContentText(text.get("tag_edit.name_empty"));
 			alert.showAndWait();
 			return;
 		}
@@ -86,7 +90,7 @@ public class TagEditorDialog extends Dialog<Boolean> {
 			final Alert alert = new Alert(AlertType.ERROR);
 			alert.initOwner(this.getDialogPane().getScene().getWindow());
 			alert.setHeaderText(null);
-			alert.setContentText("The tag color must be set!");
+			alert.setContentText(text.get("tag_edit.color_empty"));
 			alert.showAndWait();
 			return;
 		}
