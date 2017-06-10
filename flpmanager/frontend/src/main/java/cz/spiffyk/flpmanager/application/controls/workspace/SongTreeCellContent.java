@@ -7,6 +7,7 @@ import java.util.Observer;
 
 import org.apache.commons.io.FileUtils;
 
+import cz.spiffyk.flpmanager.Text;
 import cz.spiffyk.flpmanager.application.controls.tags.TagsViewer;
 import cz.spiffyk.flpmanager.application.screens.ProjectEditorDialog;
 import cz.spiffyk.flpmanager.application.screens.SongEditorDialog;
@@ -30,6 +31,8 @@ import javafx.scene.control.Alert.AlertType;
  * @author spiffyk
  */
 public class SongTreeCellContent extends WorkspaceNodeTreeCellContent<Song> implements Observer {
+	
+	private static final Text text = Text.get();
 	
 	/**
 	 * The {@link Song} to represent
@@ -113,7 +116,7 @@ public class SongTreeCellContent extends WorkspaceNodeTreeCellContent<Song> impl
 		 * Creates a new context menu
 		 */
 		public SongContextMenu() {
-			MenuItem editItem = new MenuItem("_Edit song info...");
+			MenuItem editItem = new MenuItem(text.get("song.ctx.edit"));
 			editItem.setOnAction((event) -> {
 				Dialog<Boolean> dialog = new SongEditorDialog(song);
 				dialog.initOwner(this.getOwnerWindow());
@@ -121,12 +124,12 @@ public class SongTreeCellContent extends WorkspaceNodeTreeCellContent<Song> impl
 				update();
 			});
 			
-			MenuItem openDirItem = new MenuItem("_Open in system explorer...");
+			MenuItem openDirItem = new MenuItem(text.get("song.ctx.open_dir"));
 			openDirItem.setOnAction((event) -> {
 				song.openInSystemBrowser();
 			});
 			
-			MenuItem newProjectItem = new MenuItem("Create a new project...");
+			MenuItem newProjectItem = new MenuItem(text.get("song.ctx.new_project"));
 			newProjectItem.setOnAction((event) -> {
 				final Project project = new Project(song);
 				
@@ -140,12 +143,12 @@ public class SongTreeCellContent extends WorkspaceNodeTreeCellContent<Song> impl
 				});
 			});
 			
-			MenuItem importProjectItem = new MenuItem("Import project from file...");
+			MenuItem importProjectItem = new MenuItem(text.get("song.ctx.import_project"));
 			importProjectItem.setOnAction((event) -> {
 				
 				final FileChooser chooser = new FileChooser();
-				chooser.setTitle("Select FLP to import...");
-				chooser.getExtensionFilters().add(new ExtensionFilter("FL Studio project file", "*.flp"));
+				chooser.setTitle(text.get("song.import_project.title"));
+				chooser.getExtensionFilters().add(new ExtensionFilter(text.get("file_type.flp"), "*.flp"));
 				File file = chooser.showOpenDialog(this.getOwnerWindow());
 				if (file != null) {
 					Project project = new Project(song);
@@ -161,19 +164,19 @@ public class SongTreeCellContent extends WorkspaceNodeTreeCellContent<Song> impl
 								FileUtils.copyFile(file, project.getProjectFile());
 							} catch (IOException e) {
 								e.printStackTrace();
-								Messenger.get().message(MessageType.ERROR, "Could not copy project file.", e.getMessage());
+								Messenger.get().message(MessageType.ERROR, text.get("song.import_project.cpy_err"), e.getMessage());
 							}
 						}
 					});
 				}
 			});
 			
-			MenuItem deleteItem = new MenuItem("Delete");
+			MenuItem deleteItem = new MenuItem(text.get("song.ctx.delete"));
 			deleteItem.setOnAction((event) -> {
 				final Alert alert = new Alert(AlertType.CONFIRMATION);
 				alert.initOwner(this.getOwnerWindow());
 				alert.setHeaderText(null);
-				alert.setContentText("Do you really wish to delete this song? (no undo)");
+				alert.setContentText(text.get("song.delete_confirm"));
 				ButtonType bt = alert.showAndWait().orElse(ButtonType.CANCEL);
 				if (bt == ButtonType.OK) {
 					song.getParent().getSongs().remove(song);
