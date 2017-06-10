@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
+import cz.spiffyk.flpmanager.Text;
 import cz.spiffyk.flpmanager.data.Tag;
 import cz.spiffyk.flpmanager.data.Workspace;
 import cz.spiffyk.flpmanager.util.FXUtils;
@@ -27,6 +28,8 @@ import lombok.NonNull;
 
 public class TagsEditorDialog extends Dialog<Boolean> {
 	
+	private static final Text text = Text.get();
+	
 	@Getter private final Workspace workspace;
 	
 	private static final Map<Tag, TagListCellContent> contents = new HashMap<>();
@@ -37,10 +40,11 @@ public class TagsEditorDialog extends Dialog<Boolean> {
 	
 	public TagsEditorDialog(@NonNull Workspace workspace) {
 		super();
-		this.setTitle("Tags editor");
+		this.setTitle(text.get("tags_edit.title"));
 		this.workspace = workspace;
 		
 		final FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/dialogs/TagsEditorDialog.fxml"));
+		loader.setResources(text.getResourceBundle());
 		loader.setController(this);
 		
 		try {
@@ -84,7 +88,7 @@ public class TagsEditorDialog extends Dialog<Boolean> {
 			
 			this.menu = new ContextMenu();
 			
-			MenuItem editItem = new MenuItem("Edit tag...");
+			MenuItem editItem = new MenuItem(text.get("tag.ctx.edit"));
 			editItem.setOnAction((event) -> {
 				Dialog<Boolean> dialog = new TagEditorDialog(this.tag);
 				dialog.initOwner(getScene().getWindow());
@@ -92,12 +96,12 @@ public class TagsEditorDialog extends Dialog<Boolean> {
 				update();
 			});
 			
-			MenuItem deleteItem = new MenuItem("Delete");
+			MenuItem deleteItem = new MenuItem(text.get("tag.ctx.delete"));
 			deleteItem.setOnAction((event) -> {
 				final Alert alert = new Alert(AlertType.CONFIRMATION);
 				alert.initOwner(getScene().getWindow());
 				alert.setHeaderText(null);
-				alert.setContentText("Do you really wish to delete this tag? (no undo)");
+				alert.setContentText(text.get("tag.delete_confirm"));
 				ButtonType bt = alert.showAndWait().orElse(ButtonType.CANCEL);
 				if (bt == ButtonType.OK) {
 					workspace.getTags().remove(tag);

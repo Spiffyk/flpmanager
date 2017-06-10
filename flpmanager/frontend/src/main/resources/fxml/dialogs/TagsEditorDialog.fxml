@@ -13,6 +13,6 @@
 	<ListView fx:id="tags" VBox.vgrow="ALWAYS" />
 	
 	<HBox spacing="3" alignment="CENTER" VBox.vgrow="NEVER">
-		<Button onAction="#newTagAction" text="_New tag" />
+		<Button onAction="#newTagAction" text="%tags_edit.new_tag" />
 	</HBox>
 </VBox>
