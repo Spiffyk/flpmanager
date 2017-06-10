@@ -10,46 +10,46 @@
 <DialogPane xmlns:fx="http://javafx.com/fxml/1">
 	<content>
 		<VBox prefWidth="650" spacing="8" alignment="CENTER">
-			<Label text="FLP Manager" style="-fx-font-size: 50px; -fx-font-weight: bold" />
+			<Label text="%application.name" style="-fx-font-size: 50px; -fx-font-weight: bold" />
 			<Label fx:id="version" />
 			
 			<Separator />
 			
 			<VBox alignment="CENTER">
-				<Hyperlink onAction="#bug" text="Report a bug!" style="-fx-padding: 0" />
-				<Hyperlink onAction="#github" text="Fork me on GitHub!" style="-fx-padding: 0" />
+				<Hyperlink onAction="#bug" text="%about.report_bug" style="-fx-padding: 0" />
+				<Hyperlink onAction="#github" text="%about.fork" style="-fx-padding: 0" />
 			</VBox>
 			
 			<Separator />
 			
-			<Label text="Powered by:" style="-fx-font-weight: bold" />
+			<Label text="%about.powered_by" style="-fx-font-weight: bold" />
 			
 			<VBox alignment="CENTER">
 				<HBox alignment="CENTER">
 					<Hyperlink onAction="#lombok" text="Project Lombok" style="-fx-padding: 0" />
 					<Label text=" (" />
-					<Hyperlink onAction="#mitLicense" text="MIT License" style="-fx-padding: 0" />
+					<Hyperlink onAction="#mitLicense" text="%about.mit_license" style="-fx-padding: 0" />
 					<Label text=")" />
 				</HBox>
 				
 				<HBox alignment="CENTER">
 					<Hyperlink onAction="#apacheCommons" text="Apache Commons" style="-fx-padding: 0" />
 					<Label text=" (" />
-					<Hyperlink onAction="#apacheLicense" text="Apache License 2.0" style="-fx-padding: 0" />
+					<Hyperlink onAction="#apacheLicense" text="%about.apache_license_2" style="-fx-padding: 0" />
 					<Label text=")" />
 				</HBox>
 				
 				<HBox alignment="CENTER">
 					<Hyperlink onAction="#gson" text="GSON" style="-fx-padding: 0" />
 					<Label text=" (" />
-					<Hyperlink onAction="#apacheLicense" text="Apache License 2.0" style="-fx-padding: 0" />
+					<Hyperlink onAction="#apacheLicense" text="%about.apache_license_2" style="-fx-padding: 0" />
 					<Label text=")" />
 				</HBox>
 				
 				<HBox alignment="CENTER">
 					<Hyperlink onAction="#commonmark" text="Atlassian CommonMark-Java" style="-fx-padding: 0" />
 					<Label text=" (" />
-					<Hyperlink onAction="#bsd2ClauseLicense" text="BSD 2-clause &quot;Simplified&quot; license" style="-fx-padding: 0" />
+					<Hyperlink onAction="#bsd2ClauseLicense" text="%about.bsd_2c_license" style="-fx-padding: 0" />
 					<Label text=")" />
 				</HBox>
 			</VBox>
@@ -57,12 +57,12 @@
 			<Separator />
 			
 			<HBox alignment="CENTER">
-				<Label text="This software is distributed under the " />
-				<Hyperlink onAction="#mitLicense" text="MIT License" style="-fx-padding: 0" />
+				<Label text="%about.licensed_under.text" />
+				<Hyperlink onAction="#mitLicense" text="%about.licensed_under.link" style="-fx-padding: 0" />
 				<Label text="." />
 			</HBox>
 			
-			<Label style="-fx-font-weight: bold" text="FLP Manager is in no way affiliated with or endorsed by Image-Line Software." />
+			<Label style="-fx-font-weight: bold" text="%about.no_imageline" />
 		</VBox>
 	</content>
 	

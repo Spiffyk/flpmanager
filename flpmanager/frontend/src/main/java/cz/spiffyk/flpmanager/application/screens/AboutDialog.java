@@ -2,6 +2,7 @@ package cz.spiffyk.flpmanager.application.screens;
 
 import java.io.IOException;
 
+import cz.spiffyk.flpmanager.Text;
 import cz.spiffyk.flpmanager.util.FXUtils;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -16,6 +17,8 @@ import javafx.scene.control.Label;
  */
 public class AboutDialog extends Dialog<Boolean> {
 	
+	private static final Text text = Text.get();
+	
 	/**
 	 * The label containing the program version
 	 */
@@ -28,9 +31,10 @@ public class AboutDialog extends Dialog<Boolean> {
 	 */
 	public AboutDialog() {
 		super();
-		this.setTitle("About");
+		this.setTitle(text.get("about.title"));
 		
 		final FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/dialogs/AboutDialog.fxml"));
+		loader.setResources(text.getResourceBundle());
 		loader.setController(this);
 		
 		try {
@@ -50,9 +54,9 @@ public class AboutDialog extends Dialog<Boolean> {
 	@FXML private void initialize() {
 		String version = getClass().getPackage().getImplementationVersion();
 		if (version != null) {
-			this.version.setText("Version: " + version);
+			this.version.setText(text.get("about.version") + version);
 		} else {
-			this.version.setText("Unpackaged development build");
+			this.version.setText(text.get("about.dev_build"));
 		}
 	}
 	
