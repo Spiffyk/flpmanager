@@ -106,6 +106,11 @@ public class ProjectTreeCellContent extends WorkspaceNodeTreeCellContent<Project
 				project.copy(true);
 			});
 			
+			MenuItem openDirItem = new MenuItem(text.get("project.ctx.open_dir"));
+			openDirItem.setOnAction((event) -> {
+				project.getParent().openInSystemBrowser();
+			});
+			
 			Menu renderMenu = new Menu(text.get("project.ctx.render"));
 			
 			MenuItem renderWavItem = new MenuItem(text.get("audio_format.wav"));
@@ -138,6 +143,7 @@ public class ProjectTreeCellContent extends WorkspaceNodeTreeCellContent<Project
 			this.getItems().addAll(
 					editItem,
 					cloneItem,
+					openDirItem,
 					new SeparatorMenuItem(),
 					renderMenu,
 					new SeparatorMenuItem(),
