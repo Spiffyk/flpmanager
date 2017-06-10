@@ -63,8 +63,6 @@ public class Messenger {
 	 * @param args The arguments of the message
 	 */
 	public void message(@NonNull MessageType type, Object... args) {
-		System.out.println("Message (" + type.name() + "): " + Arrays.toString(args));
-		
 		for (Subscriber sub : subscribers) {
 			sub.onMessage(type, args);
 		}
