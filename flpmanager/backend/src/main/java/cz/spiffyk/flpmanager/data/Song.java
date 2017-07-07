@@ -17,6 +17,7 @@ import org.w3c.dom.NodeList;
 
 import cz.spiffyk.flpmanager.ManagerFileException;
 import cz.spiffyk.flpmanager.ManagerFileHandler;
+import cz.spiffyk.flpmanager.util.ManagerUtils;
 import cz.spiffyk.flpmanager.util.Messenger;
 import cz.spiffyk.flpmanager.util.Messenger.MessageType;
 import javafx.collections.FXCollections;
@@ -93,6 +94,11 @@ public class Song extends Observable implements WorkspaceNode {
 	@Getter private String author;
 	
 	/**
+	 * The name of the song directory
+	 */
+	@Getter private String filename;
+	
+	/**
 	 * The directory the files belonging to the song are stored in
 	 */
 	@Getter private File songDir;
@@ -118,16 +124,32 @@ public class Song extends Observable implements WorkspaceNode {
 	}
 	
 	/**
-	 * Creates a song with the specified UUID and the specified {@link Workspace} as its parent
+	 * Creates a song with the specified UUID and the specified {@link Workspace} as its parent.<br />
+	 * The song's filename is set to the {@code String} representation of the identifier.
 	 * @param identifier The UUID of the song
 	 * @param parent The parent {@link Workspace}
 	 */
 	public Song(@NonNull UUID identifier, @NonNull Workspace parent) {
+		this(identifier, identifier.toString(), parent);
+	}
+	
+	/**
+	 * Creates a song with the specified UUID, the specified filename and the specified {@link Workspace} as its parent
+	 * @param identifier The UUID of the song
+	 * @param filename The filename of the song's directory
+	 * @param parent The parent {@link Workspace}
+	 */
+	public Song(@NonNull UUID identifier, @NonNull String filename, @NonNull Workspace parent) {
 		this.identifier = identifier;
 		this.parent = parent;
+		boolean validFilename = this.setFilename(filename, false);
 		this.setName("");
 		this.setAuthor("");
 		this.setFavorite(false);
+		
+		if (!validFilename) {
+			throw new IllegalArgumentException("Invalid filename");
+		}
 	}
 	
 	
@@ -147,6 +169,12 @@ public class Song extends Observable implements WorkspaceNode {
 		final Song song = new Song(UUID.fromString(root.getAttribute(ManagerFileHandler.UUID_ATTRNAME)), parent);
 		song.setName(root.getAttribute(ManagerFileHandler.NAME_ATTRNAME));
 		song.setAuthor(root.getAttribute(ManagerFileHandler.AUTHOR_ATTRNAME));
+		String filename = root.getAttribute(ManagerFileHandler.FILENAME_ATTRNAME);
+		if (filename.isEmpty()) {
+			song.setFilename(song.getIdentifier().toString(), false);
+		} else {
+			song.setFilename(filename, false);
+		}
 		song.updateFiles();
 		String favoriteAttribute = root.getAttribute(ManagerFileHandler.FAVORITE_ATTRNAME);
 		if (!favoriteAttribute.isEmpty()) {
@@ -296,8 +324,6 @@ public class Song extends Observable implements WorkspaceNode {
 	 * Sets and, if they don't exist, creates all the directories and subdirectories of the song.
 	 */
 	public void updateFiles() {
-		File workspaceDir = parent.getDirectory();
-		songDir = new File(workspaceDir, identifier.toString());
 		if (!songDir.exists()) {
 			songDir.mkdir();
 		} else if(!songDir.isDirectory()) {
@@ -372,6 +398,42 @@ public class Song extends Observable implements WorkspaceNode {
 	}
 	
 	/**
+	 * Sets a new directory filename for the song and moves the original directory.
+	 * @param filename The new directory filename
+	 * @return {@code true} if the filename was valid and no other file with that name existed, otherwise {@code false}.
+	 */
+	public boolean setFilename(@NonNull String filename) {
+		return setFilename(filename, true);
+	}
+	
+	/**
+	 * Sets a new directory filename for the song.
+	 * @param filename The new directory filename
+	 * @param move Whether the current directory should be renamed
+	 * @return {@code true} if the filename was valid and no other file with that name existed, otherwise {@code false}.
+	 */
+	public boolean setFilename(@NonNull String filename, boolean move) {
+		if (filename.matches(ManagerUtils.FILE_REGEX)) {
+			this.filename = filename;
+			File newFile = new File(this.parent.getDirectory(), filename);
+			
+			if (move && this.songDir.isDirectory()) {
+				if (newFile.exists()) {
+					throw new IllegalStateException("File already exists");
+				}
+				
+				this.songDir.renameTo(newFile);
+			} else {
+				this.songDir = newFile;
+			}
+			
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	/**
 	 * Sets the favorite state of the song
 	 * @param favorite
 	 */
@@ -400,6 +462,7 @@ public class Song extends Observable implements WorkspaceNode {
 		root.setAttribute(ManagerFileHandler.NAME_ATTRNAME, this.getName());
 		root.setAttribute(ManagerFileHandler.AUTHOR_ATTRNAME, this.getAuthor());
 		root.setAttribute(ManagerFileHandler.UUID_ATTRNAME, this.getIdentifier().toString());
+		root.setAttribute(ManagerFileHandler.FILENAME_ATTRNAME, this.getFilename());
 		
 		if (this.isFavorite()) {
 			root.setAttribute(ManagerFileHandler.FAVORITE_ATTRNAME, "true");

@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import cz.spiffyk.flpmanager.Text;
 import cz.spiffyk.flpmanager.UpdateChecker.UpdateInfo;
-import cz.spiffyk.flpmanager.util.FXUtils;
+import cz.spiffyk.flpmanager.util.ManagerUtils;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -60,6 +60,6 @@ public class UpdateDialog extends Dialog<Boolean> {
 	}
 	
 	private void onOk(ActionEvent event) {
-		FXUtils.openWebPage(info.getUrl());
+		ManagerUtils.openWebPage(info.getUrl());
 	}
 }

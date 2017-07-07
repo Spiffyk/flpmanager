@@ -3,7 +3,7 @@ package cz.spiffyk.flpmanager.application.screens;
 import java.io.IOException;
 
 import cz.spiffyk.flpmanager.Text;
-import cz.spiffyk.flpmanager.util.FXUtils;
+import cz.spiffyk.flpmanager.util.ManagerUtils;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -61,38 +61,38 @@ public class AboutDialog extends Dialog<Boolean> {
 	}
 	
 	@FXML private void lombok() {
-		FXUtils.openWebPage("https://projectlombok.org/");
+		ManagerUtils.openWebPage("https://projectlombok.org/");
 	}
 	
 	@FXML private void apacheCommons() {
-		FXUtils.openWebPage("https://commons.apache.org/");
+		ManagerUtils.openWebPage("https://commons.apache.org/");
 	}
 	
 	@FXML private void gson() {
-		FXUtils.openWebPage("https://github.com/google/gson");
+		ManagerUtils.openWebPage("https://github.com/google/gson");
 	}
 	
 	@FXML private void commonmark() {
-		FXUtils.openWebPage("https://github.com/atlassian/commonmark-java");
+		ManagerUtils.openWebPage("https://github.com/atlassian/commonmark-java");
 	}
 	
 	@FXML private void apacheLicense() {
-		FXUtils.openWebPage("http://www.apache.org/licenses/LICENSE-2.0");
+		ManagerUtils.openWebPage("http://www.apache.org/licenses/LICENSE-2.0");
 	}
 	
 	@FXML private void bsd2ClauseLicense() {
-		FXUtils.openWebPage("https://spdx.org/licenses/BSD-2-Clause.html");
+		ManagerUtils.openWebPage("https://spdx.org/licenses/BSD-2-Clause.html");
 	}
 	
 	@FXML private void mitLicense() {
-		FXUtils.openWebPage("https://opensource.org/licenses/MIT");
+		ManagerUtils.openWebPage("https://opensource.org/licenses/MIT");
 	}
 	
 	@FXML private void github() {
-		FXUtils.openWebPage("https://github.com/Spiffyk/flpmanager");
+		ManagerUtils.openWebPage("https://github.com/Spiffyk/flpmanager");
 	}
 	
 	@FXML private void bug() {
-		FXUtils.openWebPage("https://github.com/Spiffyk/flpmanager/issues");
+		ManagerUtils.openWebPage("https://github.com/Spiffyk/flpmanager/issues");
 	}
 }

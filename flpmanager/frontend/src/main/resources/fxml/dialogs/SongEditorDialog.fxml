@@ -15,6 +15,9 @@
 	<Label text="%song_edit.author" GridPane.vgrow="NEVER" GridPane.columnIndex="0" GridPane.rowIndex="1" />
 	<TextField fx:id="author" prefWidth="400" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 	
-	<TagsSelector fx:id="tags" prefHeight="200" GridPane.rowIndex="2" GridPane.columnSpan="2" />
+	<Label text="%song_edit.filename" GridPane.vgrow="NEVER" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+	<TextField fx:id="filename" prefWidth="400" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+	
+	<TagsSelector fx:id="tags" prefHeight="200" GridPane.rowIndex="3" GridPane.columnSpan="2" />
 </GridPane>
 

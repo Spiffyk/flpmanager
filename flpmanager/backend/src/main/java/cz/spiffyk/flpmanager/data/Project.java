@@ -17,6 +17,7 @@ import org.w3c.dom.NodeList;
 import cz.spiffyk.flpmanager.AppConfiguration;
 import cz.spiffyk.flpmanager.ManagerFileException;
 import cz.spiffyk.flpmanager.ManagerFileHandler;
+import cz.spiffyk.flpmanager.util.ManagerUtils;
 import cz.spiffyk.flpmanager.util.Messenger;
 import cz.spiffyk.flpmanager.util.StreamEater;
 import cz.spiffyk.flpmanager.util.Messenger.MessageType;
@@ -55,11 +56,6 @@ public class Project extends Observable implements WorkspaceNode {
 	 * The file extension of a project
 	 */
 	private static final String PROJECT_FILE_EXTENSION = ".flp";
-	
-	/**
-	 * A regex of characters accepted in a filename
-	 */
-	private static final String FILE_REGEX = "[a-zA-Z0-9- ]+";
 	
 	/**
 	 * The project template file
@@ -373,8 +369,8 @@ public class Project extends Observable implements WorkspaceNode {
 						process.waitFor();
 						
 						String outName;
-						if (name.matches(FILE_REGEX)) {
-							if (parent.getName().matches(FILE_REGEX)) {
+						if (name.matches(ManagerUtils.FILE_REGEX)) {
+							if (parent.getName().matches(ManagerUtils.FILE_REGEX)) {
 								outName = parent.getName() + " (" + parent.getName() + ")";
 							} else {
 								outName = name;

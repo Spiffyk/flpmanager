@@ -9,7 +9,7 @@ import java.util.Observer;
 import cz.spiffyk.flpmanager.Text;
 import cz.spiffyk.flpmanager.data.Tag;
 import cz.spiffyk.flpmanager.data.Workspace;
-import cz.spiffyk.flpmanager.util.FXUtils;
+import cz.spiffyk.flpmanager.util.ManagerUtils;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -112,7 +112,7 @@ public class TagsEditorDialog extends Dialog<Boolean> {
 		}
 		
 		private void update() {
-			this.setStyle(FXUtils.getTagStyle(tag.getColor()));
+			this.setStyle(ManagerUtils.getTagStyle(tag.getColor()));
 			this.setText(tag.getName());
 		}
 

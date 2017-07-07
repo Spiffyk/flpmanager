@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import cz.spiffyk.flpmanager.data.Tag;
-import cz.spiffyk.flpmanager.util.FXUtils;
+import cz.spiffyk.flpmanager.util.ManagerUtils;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
@@ -116,7 +116,7 @@ public class TagsSelector extends ListView<Tag> {
 					}
 				});
 				
-				this.label.setStyle(FXUtils.getTagStyle(item.getColor()));
+				this.label.setStyle(ManagerUtils.getTagStyle(item.getColor()));
 				this.label.setText(item.getName());
 				
 				this.setText(null);

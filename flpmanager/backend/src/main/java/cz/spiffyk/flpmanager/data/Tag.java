@@ -13,7 +13,7 @@ import org.w3c.dom.NodeList;
 
 import cz.spiffyk.flpmanager.ManagerFileException;
 import cz.spiffyk.flpmanager.ManagerFileHandler;
-import cz.spiffyk.flpmanager.util.FXUtils;
+import cz.spiffyk.flpmanager.util.ManagerUtils;
 import javafx.scene.paint.Color;
 import lombok.Getter;
 import lombok.NonNull;
@@ -173,7 +173,7 @@ public class Tag extends Observable {
 	public Element toElement(Document doc) {
 		Element root = doc.createElement(TAG_TAGNAME);
 		root.setAttribute(ManagerFileHandler.NAME_ATTRNAME, this.getName());
-		root.setAttribute(ManagerFileHandler.COLOR_ATTRNAME, FXUtils.toRGBCode(this.getColor()));
+		root.setAttribute(ManagerFileHandler.COLOR_ATTRNAME, ManagerUtils.toRGBCode(this.getColor()));
 		root.setAttribute(ManagerFileHandler.UUID_ATTRNAME, this.getIdentifier().toString());
 		return root;
 	}

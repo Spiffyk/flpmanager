@@ -6,7 +6,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import cz.spiffyk.flpmanager.data.Tag;
-import cz.spiffyk.flpmanager.util.FXUtils;
+import cz.spiffyk.flpmanager.util.ManagerUtils;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Label;
@@ -116,7 +116,7 @@ public class TagsViewer extends HBox implements ListChangeListener<Tag> {
 		 */
 		private void update() {
 			this.setText(tag.getName());
-			this.setStyle(FXUtils.getTagStyle(tag.getColor()));
+			this.setStyle(ManagerUtils.getTagStyle(tag.getColor()));
 		}
 		
 		/**

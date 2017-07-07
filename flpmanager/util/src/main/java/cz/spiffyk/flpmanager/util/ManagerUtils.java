@@ -7,10 +7,15 @@ import javafx.concurrent.Task;
 import javafx.scene.paint.Color;
 
 /**
- * Utility class for JavaFX
+ * Utility class for FLP Manager
  * @author spiffyk
  */
-public class FXUtils {
+public class ManagerUtils {
+	
+	/**
+	 * A regex of characters accepted in a filename
+	 */
+	public static final String FILE_REGEX = "[a-zA-Z0-9-_ ]+";
 	
 	/**
 	 * The threshold for {@code getTagStyle()} to determine whether the text color should be black or white
@@ -40,7 +45,7 @@ public class FXUtils {
 	 */
 	public static String getTagStyle(Color backgroundColor) {
 		return "-fx-background-color: "
-				+ FXUtils.toRGBCode(backgroundColor) + "; "
+				+ ManagerUtils.toRGBCode(backgroundColor) + "; "
 				+ "-fx-text-fill: "
 				+ ((getLuminance(backgroundColor) < LUMINANCE_THRESHOLD) ? "white" : "black") + ";";
 	}

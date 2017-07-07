@@ -45,6 +45,11 @@ public class ManagerFileHandler {
 	public static final String AUTHOR_ATTRNAME = "author";
 	
 	/**
+	 * Attribute name for filename
+	 */
+	public static final String FILENAME_ATTRNAME = "filename";
+	
+	/**
 	 * Attribute name for node favorite mark
 	 */
 	public static final String FAVORITE_ATTRNAME = "favorite";
