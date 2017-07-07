@@ -327,7 +327,7 @@ public class Song extends Observable implements WorkspaceNode {
 		if (!songDir.exists()) {
 			songDir.mkdir();
 		} else if(!songDir.isDirectory()) {
-			throw new IllegalStateException("There is a file with the name matching the UUID but is not a directory");
+			throw new IllegalStateException("There is a file with the specified name but is not a directory");
 		}
 		
 		projectsDir = new File(songDir, PROJECTS_DIRECTORY);
@@ -423,9 +423,9 @@ public class Song extends Observable implements WorkspaceNode {
 				}
 				
 				this.songDir.renameTo(newFile);
-			} else {
-				this.songDir = newFile;
 			}
+			
+			this.songDir = newFile;
 			
 			return true;
 		} else {
