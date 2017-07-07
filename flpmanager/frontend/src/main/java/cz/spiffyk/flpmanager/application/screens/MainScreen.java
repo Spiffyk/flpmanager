@@ -143,6 +143,13 @@ public class MainScreen extends VBox implements Subscriber {
 	}
 	
 	/**
+	 * Fired when Open workspace directory menu item is selected
+	 */
+	@FXML protected void openWorkspaceDir() {
+		workspace.openInSystemBrowser();
+	}
+	
+	/**
 	 * In a separate thread, checks for updates.
 	 */
 	@FXML protected void checkForUpdates() {

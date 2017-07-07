@@ -1,6 +1,8 @@
 package cz.spiffyk.flpmanager.data;
 
+import java.awt.Desktop;
 import java.io.File;
+import java.io.IOException;
 import java.util.Observable;
 import java.util.UUID;
 
@@ -10,10 +12,13 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import cz.spiffyk.flpmanager.ManagerFileException;
+import cz.spiffyk.flpmanager.util.Messenger;
+import cz.spiffyk.flpmanager.util.Messenger.MessageType;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
+import javafx.concurrent.Task;
 import lombok.Getter;
 import lombok.NonNull;
 
@@ -22,6 +27,11 @@ import lombok.NonNull;
  * @author spiffyk
  */
 public class Workspace extends Observable {
+	
+	/**
+	 * Messenger
+	 */
+	private static final Messenger messenger = Messenger.get();
 	
 	/**
 	 * The name of the XML tag representing a workspace
@@ -136,6 +146,27 @@ public class Workspace extends Observable {
 	 */
 	public Tag getTag(final UUID uuid) {
 		return tagMap.get(uuid);
+	}
+	
+	/**
+	 * Opens the directory of the workspace in the system browser
+	 */
+	public void openInSystemBrowser() {
+		Task<Void> task = new Task<Void>() {
+			@Override
+			protected Void call() throws Exception {
+				if (Desktop.isDesktopSupported()) {
+					try {
+						Desktop.getDesktop().open(directory);
+					} catch (IOException e) {
+						messenger.message(MessageType.ERROR, "Could not open workspace directory.", e.getMessage());
+					}
+				}
+				return null;
+			}
+		};
+		
+		new Thread(task).start();
 	}
 	
 	/**

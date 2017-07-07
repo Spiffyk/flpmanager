@@ -15,6 +15,7 @@
 	<MenuBar fx:id="menuBar">
 		<Menu text="%menu.file">
 			<MenuItem onAction="#saveWorkspace" text="%menu.workspace_save" accelerator="Ctrl+S" />
+			<MenuItem onAction="#openWorkspaceDir" text="%menu.workspace_dir" />
 			<SeparatorMenuItem />
 			<MenuItem onAction="#openSettings" text="%menu.settings" />
 			<SeparatorMenuItem />
