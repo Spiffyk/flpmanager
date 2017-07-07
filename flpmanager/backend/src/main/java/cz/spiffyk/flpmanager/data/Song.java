@@ -352,7 +352,7 @@ public class Song extends Observable implements WorkspaceNode {
 		try {
 			FileUtils.deleteDirectory(songDir);
 		} catch (IOException e) {
-			messenger.message(MessageType.ERROR, "Could not open delete song directory.", e.getMessage());
+			messenger.message(MessageType.ERROR, "Could not delete song directory.", e.getMessage());
 		}
 	}
 	
