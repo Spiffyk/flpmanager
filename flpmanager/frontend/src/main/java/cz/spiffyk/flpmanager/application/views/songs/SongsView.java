@@ -81,10 +81,6 @@ public final class SongsView extends VBox {
 		}
 	}
 	
-	@FXML private void onTreeViewContextMenu(ContextMenuEvent event) {
-		
-	}
-	
 	public void setWorkspace(@NonNull final Workspace workspace) {
 		if (this.workspace == null) {
 			this.workspace = workspace;
