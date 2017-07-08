@@ -2,6 +2,7 @@ package cz.spiffyk.flpmanager.application.views.songs;
 
 import java.io.IOException;
 
+import cz.spiffyk.flpmanager.Text;
 import cz.spiffyk.flpmanager.application.SongsListener;
 import cz.spiffyk.flpmanager.application.WorkspaceNodeListener;
 import cz.spiffyk.flpmanager.application.controls.workspace.SongTreeItem;
@@ -25,6 +26,9 @@ import lombok.NonNull;
 
 public final class SongsView extends VBox {
 	
+	private static final Text text = Text.get();
+	
+	
 	private Workspace workspace;
 	private WorkspaceNodeListener listener;
 	
@@ -35,6 +39,7 @@ public final class SongsView extends VBox {
 		super();
 		
 		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/views/SongsView.fxml"));
+		loader.setResources(text.getResourceBundle());
 		loader.setRoot(this);
 		loader.setController(this);
 		

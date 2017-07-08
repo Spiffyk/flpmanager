@@ -33,15 +33,15 @@
 			<contextMenu>
 				<ContextMenu>
 					<items>
-						<MenuItem text="New song..." onAction="#newSongAction" />
+						<MenuItem text="%songs_view.new_song" onAction="#newSongAction" />
 					</items>
 				</ContextMenu>
 			</contextMenu>
 		</TreeView>
 		
 		<VBox fx:id="placeholder" alignment="CENTER">
-			<Label text="There are no songs in this workspace." />
-			<Button text="Create a new song" onAction="#newSongAction" />
+			<Label text="%songs_view.no_songs" />
+			<Button text="%songs_view.create_new_song" onAction="#newSongAction" />
 		</VBox>
 	</StackPane>
 	
