@@ -417,7 +417,7 @@ public class Song extends Observable implements WorkspaceNode {
 			this.filename = filename;
 			File newFile = new File(this.parent.getDirectory(), filename);
 			
-			if (move && this.songDir.isDirectory()) {
+			if (move && this.songDir.isDirectory() && !this.songDir.equals(newFile)) {
 				if (newFile.exists()) {
 					throw new IllegalStateException("File already exists");
 				}
