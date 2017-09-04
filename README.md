@@ -23,6 +23,8 @@ Once the `.jar` file is downloaded, on *Windows*, double-clicking it should be e
  * Everything that is needed to run the program
  * **Apache Maven**
  
+Please note that a plugin for *Lombok* support may need to be installed in your IDE. More information on [Lombok website](https://projectlombok.org/).
+ 
 ### Building
 
 To build the project, run:
