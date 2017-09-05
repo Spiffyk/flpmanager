@@ -172,6 +172,7 @@ public class Project extends Observable implements WorkspaceNode {
 		} else {
 			project.setFilename(filename, false);
 		}
+		project.updateFiles();
 		project.setName(root.getAttribute(ManagerFileHandler.NAME_ATTRNAME));
 		
 		return project;
@@ -258,7 +259,7 @@ public class Project extends Observable implements WorkspaceNode {
 			this.filename = filename;
 			File newFile = new File(this.parent.getProjectsDir(), filename);
 
-			if (move && this.projectFile.isDirectory() && !this.projectFile.equals(newFile)) {
+			if (move && this.projectFile.isFile() && !this.projectFile.equals(newFile)) {
 				if (newFile.exists()) {
 					throw new IllegalStateException("File already exists");
 				}
@@ -266,7 +267,8 @@ public class Project extends Observable implements WorkspaceNode {
 				this.projectFile.renameTo(newFile);
 			}
 
-			this.updateFiles();
+			projectFile = new File(parent.getProjectsDir(), filename);
+			openedProjectFile = new File(parent.getSongDir(), filename);
 
 			return true;
 		} else {
