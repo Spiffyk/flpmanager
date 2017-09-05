@@ -15,7 +15,7 @@ public class ManagerUtils {
 	/**
 	 * A regex of characters accepted in a filename
 	 */
-	public static final String FILE_REGEX = "[a-zA-Z0-9-_ ]+";
+	public static final String FILE_REGEX = "[a-zA-Z0-9-_ .]+";
 	
 	/**
 	 * The threshold for {@code getTagStyle()} to determine whether the text color should be black or white
