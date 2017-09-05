@@ -2,9 +2,9 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>${flpmanager.groupId}</groupId>
+		<groupId>cz.spiffyk.flpmanager</groupId>
 		<artifactId>flpmanager</artifactId>
-		<version>${flpmanager.version}</version>
+		<version>0.3</version>
 	</parent>
 	<artifactId>bundle</artifactId>
 	<dependencies>
