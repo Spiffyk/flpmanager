@@ -55,13 +55,20 @@ public class Project extends Observable implements WorkspaceNode {
 	/**
 	 * The file extension of a project
 	 */
-	private static final String PROJECT_FILE_EXTENSION = ".flp";
+	public static final String PROJECT_FILE_EXTENSION = ".flp";
+
+	/**
+	 * The suffix added to copies of project files
+	 */
+	private static final String COPY_FILENAME_SUFFIX = "-copy";
 	
 	/**
 	 * The project template file
 	 */
 	private static final File FLP_TEMPLATE = new File(appConfiguration.getFlpTemplatePath());
-	
+
+
+
 	/**
 	 * Unique identifier
 	 */
@@ -75,7 +82,12 @@ public class Project extends Observable implements WorkspaceNode {
 	/**
 	 * The project's name
 	 */
-	@Getter @NonNull private String name;
+	@Getter private String name;
+
+	/**
+	 * The project's file name
+	 */
+	@Getter private String filename;
 	
 	/**
 	 * The stored project file
@@ -95,25 +107,51 @@ public class Project extends Observable implements WorkspaceNode {
 	
 	
 	/**
-	 * Creates a project with a random UUID and the specified {@link Song} as the parent
+	 * Creates a project with a random UUID, the UUID's string representation as the filename and the specified
+	 * {@link Song} as the parent.
 	 * @param parent The parent {@link Song}
 	 */
 	public Project(@NonNull Song parent) {
 		this(UUID.randomUUID(), parent);
 	}
-	
+
 	/**
-	 * Creates a new project with the specified UUID and the specified {@link Song} as the parent
+	 * Creates a project with a random UUID, the specified filename and the specified {@link Song} as the parent.
+	 * @param filename The filename of the project
+	 * @param parent The parent {@link Song}
+	 */
+	public Project(@NonNull String filename, @NonNull Song parent) {
+		this(UUID.randomUUID(), filename, parent);
+	}
+
+	/**
+	 * Creates a new project with the specified UUID, UUID's string representation as the filename and the specified.
+	 * {@link Song} as the parent.
 	 * @param identifier The UUID to set
 	 * @param parent The parent {@link Song}
 	 */
 	public Project(@NonNull UUID identifier, @NonNull Song parent) {
-		this.parent = parent;
-		this.identifier = identifier;
-		updateFiles();
+		this(identifier, identifier.toString() + PROJECT_FILE_EXTENSION, parent);
 	}
 	
-	
+	/**
+	 * Creates a new project with the specified UUID, the specified filename and the specified {@link Song}
+	 * as the parent.
+	 * @param identifier The UUID to set
+	 * @param filename The filename of the project
+	 * @param parent The parent {@link Song}
+	 */
+	public Project(@NonNull UUID identifier, @NonNull String filename, @NonNull Song parent) {
+		this.parent = parent;
+		this.identifier = identifier;
+		boolean validFilename = this.setFilename(filename, false);
+
+		if (!validFilename) {
+			throw new IllegalArgumentException("Invalid filename");
+		}
+	}
+
+
 	
 	/**
 	 * Creates a project from the specified DOM {@link Element} with the specified {@link Song} as the parent. The tag
@@ -128,6 +166,12 @@ public class Project extends Observable implements WorkspaceNode {
 		}
 		
 		final Project project = new Project(UUID.fromString(root.getAttribute(ManagerFileHandler.UUID_ATTRNAME)), parent);
+		String filename = root.getAttribute(ManagerFileHandler.FILENAME_ATTRNAME);
+		if (filename.isEmpty()) {
+			project.setFilename(project.getIdentifier().toString() + PROJECT_FILE_EXTENSION, false);
+		} else {
+			project.setFilename(filename, false);
+		}
 		project.setName(root.getAttribute(ManagerFileHandler.NAME_ATTRNAME));
 		
 		return project;
@@ -193,6 +237,42 @@ public class Project extends Observable implements WorkspaceNode {
 		this.setChanged();
 		this.notifyObservers();
 	}
+
+	/**
+	 * Sets a new filename for the project and moves the original file.
+	 * @param filename The new filename
+	 * @return {@code true} if the filename was valid and no other file with that name existed, otherwise {@code false}.
+	 */
+	public boolean setFilename(@NonNull String filename) {
+		return setFilename(filename, true);
+	}
+
+	/**
+	 * Sets a new filename for the project.
+	 * @param filename The new filename
+	 * @param move Whether the current file should be renamed
+	 * @return {@code true} if the filename was valid and no other file with that name existed, otherwise {@code false}.
+	 */
+	public boolean setFilename(@NonNull String filename, boolean move) {
+		if (filename.matches(ManagerUtils.FILE_REGEX)) {
+			this.filename = filename;
+			File newFile = new File(this.parent.getProjectsDir(), filename);
+
+			if (move && this.projectFile.isDirectory() && !this.projectFile.equals(newFile)) {
+				if (newFile.exists()) {
+					throw new IllegalStateException("File already exists");
+				}
+
+				this.projectFile.renameTo(newFile);
+			}
+
+			this.updateFiles();
+
+			return true;
+		} else {
+			return false;
+		}
+	}
 	
 	@Override
 	public String toString() {
@@ -206,15 +286,38 @@ public class Project extends Observable implements WorkspaceNode {
 	public Project copy() {
 		return copy(false);
 	}
-	
+
 	/**
-	 * Creates a new copy of this project with a new random UUID and {@code " (copy)"} added to its name. If the
-	 * parameter is {@code true}, the project is automatically added to its parent
+	 * Creates a new copy of this project with a new random UUID, {@code "-copy"} added to the filename (taking the file
+	 * extension into account) and {@code " (copy)"} added to its name. If {@code addToParent} is {@code true},
+	 * the project is automatically added to its parent.
+	 *
 	 * @param addToParent Whether the project should be automatically added to its parent
 	 * @return The copy of the project
 	 */
 	public Project copy(boolean addToParent) {
-		final Project copy = new Project(this.parent);
+		String newName;
+		if (filename.endsWith(PROJECT_FILE_EXTENSION)) {
+			newName =
+					filename.substring(0, filename.length() - PROJECT_FILE_EXTENSION.length()) +
+							COPY_FILENAME_SUFFIX + PROJECT_FILE_EXTENSION;
+		} else {
+			newName = filename + COPY_FILENAME_SUFFIX;
+		}
+
+		return this.copy(newName, addToParent);
+	}
+	
+	/**
+	 * Creates a new copy of this project with a new random UUID, the specified filename and {@code " (copy)"} added
+	 * to its name. If {@code addToParent} is {@code true}, the project is automatically added to its parent.
+	 *
+	 * @param newFilename The filename of the new project
+	 * @param addToParent Whether the project should be automatically added to its parent
+	 * @return The copy of the project
+	 */
+	public Project copy(String newFilename, boolean addToParent) {
+		final Project copy = new Project(newFilename, this.parent);
 		copy.setName(this.getName() + " (copy)");
 		
 		if (this.projectFile.exists()) {
@@ -244,8 +347,8 @@ public class Project extends Observable implements WorkspaceNode {
 	 * Updates the project's files paths and if no stored project file exists, copies the template to its place.
 	 */
 	public synchronized void updateFiles() {
-		projectFile = new File(parent.getProjectsDir(), identifier.toString() + PROJECT_FILE_EXTENSION);
-		openedProjectFile = new File(parent.getSongDir(), identifier.toString() + PROJECT_FILE_EXTENSION);
+		projectFile = new File(parent.getProjectsDir(), filename);
+		openedProjectFile = new File(parent.getSongDir(), filename);
 		
 		if (!projectFile.exists()) {
 			try {
@@ -407,6 +510,7 @@ public class Project extends Observable implements WorkspaceNode {
 		Element root = doc.createElement(PROJECT_TAGNAME);
 		root.setAttribute(ManagerFileHandler.NAME_ATTRNAME, this.getName());
 		root.setAttribute(ManagerFileHandler.UUID_ATTRNAME, this.getIdentifier().toString());
+		root.setAttribute(ManagerFileHandler.FILENAME_ATTRNAME, this.getFilename());
 		return root;
 	}
 	
@@ -435,7 +539,7 @@ public class Project extends Observable implements WorkspaceNode {
 	 * An enum representing formats in which FL Studio is able to render
 	 * @author spiffyk
 	 */
-	public static enum RenderFormat {
+	public enum RenderFormat {
 		/**
 		 * MPEG Layer 3
 		 */
