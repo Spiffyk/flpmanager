@@ -306,7 +306,7 @@ public class Song extends Observable implements WorkspaceNode {
 	
 	/**
 	 * Creates a DOM {@link Element} representing a {@link List} of {@link Tag}s a song is marked with.
-	 * @param tags The {@link List} of {@link Tags} to be represented by the {@link Element}
+	 * @param tags The {@link List} of {@link Tag}s to be represented by the {@link Element}
 	 * @param doc The parent DOM {@link Document}
 	 * @return The {@link Element} representing a {@link List} of {@link Tag}s a song is marked with
 	 */
