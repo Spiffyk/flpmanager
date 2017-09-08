@@ -39,77 +39,8 @@ public class Main extends Application {
 	 */
 	private static final Text text = Text.get();
 	
-	/**
-	 * The name of the configuration directory (in AppData for Windows, Application Support on OS X, home directory
-	 * with preceding fullstop on others)
-	 */
-	public static final String CONFIG_DIRECTORY_NAME = "flpmanager";
-	
-	/**
-	 * Configuration directory
-	 */
-	public static final File CONFIG_DIRECTORY;
-	
-	/**
-	 * Main configuration file
-	 */
-	public static final File CONFIG_FILE;
-	
-	/*
-	 * Here the config directory and file are set based on the system running the application
-	 */
-	static {
-		if (SystemUtils.IS_OS_WINDOWS) {
-			CONFIG_DIRECTORY = new File(System.getenv("AppData") + File.separator + CONFIG_DIRECTORY_NAME);
-		} else if (SystemUtils.IS_OS_MAC) {
-			CONFIG_DIRECTORY = new File(SystemUtils.getUserHome(), "Library/Application Support/" + CONFIG_DIRECTORY_NAME);
-		} else {
-			CONFIG_DIRECTORY = new File(SystemUtils.getUserHome(), "." + CONFIG_DIRECTORY_NAME);
-		}
-		
-		if (!CONFIG_DIRECTORY.exists()) {
-			CONFIG_DIRECTORY.mkdir();
-		}
-		
-		CONFIG_FILE = new File(CONFIG_DIRECTORY, "flpmanager.properties");
-	}
-	
-	/**
-	 * Loads the configuration file and feeds it into {@code appConfiguration}.
-	 */
-	private static void loadConfiguration() {
-		if (CONFIG_FILE.exists()) {
-			Properties props = new Properties();
-			try {
-				FileInputStream fis = new FileInputStream(CONFIG_FILE);
-				props.load(fis);
-				fis.close();
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
-			appConfiguration.fromProperties(props);
-		}
-	}
-	
-	/**
-	 * Takes the {@code appConfiguration} and stores it in the file
-	 */
-	private static void saveConfiguration() {
-		Properties props = appConfiguration.toProperties();
-		try {
-			FileOutputStream fos = new FileOutputStream(CONFIG_FILE);
-			props.store(fos, "FLP Manager config file");
-			fos.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
+
+
 	@Override
 	public void start(Stage primaryStage) {
 		if (appConfiguration.isLoaded()) {
@@ -118,7 +49,7 @@ public class Main extends Application {
 			SetupDialog setupDialog = new SetupDialog();
 			setupDialog.showAndWait().ifPresent((b) -> {
 				if (b.booleanValue()) {
-					saveConfiguration();
+					appConfiguration.save();
 					startApplication(primaryStage);
 				}
 			});
@@ -144,7 +75,7 @@ public class Main extends Application {
 			primaryStage.setScene(scene);
 			primaryStage.setTitle(text.get("application.name"));
 			primaryStage.setOnCloseRequest((e) -> {
-				saveConfiguration();
+				appConfiguration.save();
 				ManagerFileHandler.saveWorkspace(workspace);
 				Platform.exit();
 			});
@@ -173,7 +104,7 @@ public class Main extends Application {
 	 * @param args Unused (for now)
 	 */
 	public static void main(String[] args) {
-		loadConfiguration();
+		appConfiguration.load();
 		launch(args);
 	}
 }
