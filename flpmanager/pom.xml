@@ -1,17 +1,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>${flpmanager.groupId}</groupId>
+	<groupId>cz.spiffyk.flpmanager</groupId>
 	<artifactId>flpmanager</artifactId>
-	<version>${flpmanager.version}</version>
+	<version>0.3</version>
 	<name>FLPManager</name>
 	<description>A simple manager for FL Studio project files</description>
 	<packaging>pom</packaging>
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<flpmanager.groupId>cz.spiffyk.flpmanager</flpmanager.groupId>
-		<flpmanager.version>0.3</flpmanager.version>
 	</properties>
 	<scm>
 		<connection>scm:git:https://github.com/Spiffyk/flpmanager.git</connection>

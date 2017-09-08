@@ -11,12 +11,12 @@
 		<dependency>
 			<groupId>cz.spiffyk.flpmanager</groupId>
 			<artifactId>backend</artifactId>
-			<version>${flpmanager.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>cz.spiffyk.flpmanager</groupId>
 			<artifactId>util</artifactId>
-			<version>${flpmanager.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 </project>

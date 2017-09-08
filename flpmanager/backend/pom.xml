@@ -8,9 +8,9 @@
   <artifactId>backend</artifactId>
   <dependencies>
   	<dependency>
-  		<groupId>${flpmanager.groupId}</groupId>
+  		<groupId>${project.groupId}</groupId>
   		<artifactId>util</artifactId>
-  		<version>${flpmanager.version}</version>
+  		<version>${project.version}</version>
   	</dependency>
   </dependencies>
 </project>

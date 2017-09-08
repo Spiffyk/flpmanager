@@ -9,14 +9,14 @@
 	<artifactId>bundle</artifactId>
 	<dependencies>
 		<dependency>
-			<groupId>${flpmanager.groupId}</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>frontend</artifactId>
-			<version>${flpmanager.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 
 	<build>
-		<finalName>flpmanager-${flpmanager.version}-r${buildNumber}</finalName>
+		<finalName>flpmanager-${project.version}-r${buildNumber}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -62,6 +62,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.4</version>
 				<configuration>
 					<archive>
 						<manifest>
