@@ -16,12 +16,12 @@ import lombok.NonNull;
 public class SongsListener extends WorkspaceNodeListener {
 	
 	/**
-	 * Comparator for sorting {@link Songs}s by name
+	 * Comparator for sorting {@link Song}s by name
 	 */
 	private static final Comparator<TreeItem<WorkspaceNode>> NAME_COMPARATOR = new Song.NameComparator();
 	
 	/**
-	 * Comparator for sorting {@link Songs}s marked as favorite first
+	 * Comparator for sorting {@link Song}s marked as favorite first
 	 */
 	private static final Comparator<TreeItem<WorkspaceNode>> FAVORITE_COMPARATOR = new Song.FavoriteComparator();
 	
