@@ -2,6 +2,7 @@ package cz.spiffyk.flpmanager.application.views.songs;
 
 import java.io.IOException;
 
+import cz.spiffyk.flpmanager.AppConfiguration;
 import cz.spiffyk.flpmanager.Text;
 import cz.spiffyk.flpmanager.application.SongsListener;
 import cz.spiffyk.flpmanager.application.WorkspaceNodeListener;
@@ -21,14 +22,18 @@ import javafx.scene.control.TreeView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
+import lombok.Getter;
 import lombok.NonNull;
 
 public final class SongsView extends VBox {
 	
 	private static final Text text = Text.get();
+
+	private static final AppConfiguration appConfiguration = AppConfiguration.get();
 	
 	
-	private Workspace workspace;
+	@Getter private Workspace workspace;
+	@Getter private boolean hidingUnfavorited;
 	private WorkspaceNodeListener listener;
 	
 	@FXML private TreeView<WorkspaceNode> innerTreeView;
@@ -36,7 +41,7 @@ public final class SongsView extends VBox {
 	
 	public SongsView() {
 		super();
-		
+
 		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/views/SongsView.fxml"));
 		loader.setResources(text.getResourceBundle());
 		loader.setRoot(this);
@@ -44,6 +49,7 @@ public final class SongsView extends VBox {
 		
 		try {
 			loader.load();
+			setHidingUnfavorited(appConfiguration.isHideNotFavorited());
 		} catch (IOException e) {
 			e.printStackTrace();
 			Platform.exit();
@@ -53,7 +59,7 @@ public final class SongsView extends VBox {
 	@FXML private void initialize() {
 		TreeItem<WorkspaceNode> root = new TreeItem<>();
 		this.listener = new SongsListener(root, this);
-		
+
 		innerTreeView.setRoot(root);
 	}
 	
@@ -94,7 +100,7 @@ public final class SongsView extends VBox {
 			}
 			workspace.getSongs().addListener(listener);
 			workspace.addObserver(listener);
-			listener.sort();
+			listener.update();
 		} else {
 			throw new UnsupportedOperationException("The workspace can be assigned only once");
 		}
@@ -103,6 +109,17 @@ public final class SongsView extends VBox {
 	public void setShowPlaceholder(final boolean show) {
 		placeholder.setVisible(show);
 		innerTreeView.setVisible(!show);
+	}
+
+	public void setHidingUnfavorited(final boolean hidingUnfavorited) {
+		this.hidingUnfavorited = hidingUnfavorited;
+		if (hidingUnfavorited) {
+			listener.getHidingPredicateSet().add(SongsListener.NOT_FAVORITE_PREDICATE);
+		} else {
+			listener.getHidingPredicateSet().remove(SongsListener.NOT_FAVORITE_PREDICATE);
+		}
+
+		listener.update();
 	}
 	
 }

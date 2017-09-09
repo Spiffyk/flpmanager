@@ -1,6 +1,7 @@
 package cz.spiffyk.flpmanager.application;
 
 import java.util.Comparator;
+import java.util.function.Predicate;
 
 import cz.spiffyk.flpmanager.application.controls.workspace.SongTreeItem;
 import cz.spiffyk.flpmanager.application.views.songs.SongsView;
@@ -24,6 +25,8 @@ public class SongsListener extends WorkspaceNodeListener {
 	 * Comparator for sorting {@link Song}s marked as favorite first
 	 */
 	private static final Comparator<TreeItem<WorkspaceNode>> FAVORITE_COMPARATOR = new Song.FavoriteComparator();
+
+	public static final Predicate<WorkspaceNode> NOT_FAVORITE_PREDICATE = new Song.NotFavoritePredicate();
 	
 	
 	

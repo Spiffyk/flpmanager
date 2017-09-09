@@ -8,6 +8,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Observable;
 import java.util.UUID;
+import java.util.function.Predicate;
 
 import org.apache.commons.io.FileUtils;
 import org.w3c.dom.Document;
@@ -529,6 +530,17 @@ public class Song extends Observable implements WorkspaceNode {
 			}
 			
 			return 0;
+		}
+	}
+
+	public static class NotFavoritePredicate implements Predicate<WorkspaceNode> {
+		@Override
+		public boolean test(WorkspaceNode workspaceNode) {
+			if (workspaceNode.getType() == WorkspaceNodeType.SONG) {
+				return !((Song) workspaceNode).isFavorite();
+			}
+
+			return false;
 		}
 	}
 }

@@ -16,10 +16,12 @@ import cz.spiffyk.flpmanager.util.Messenger.MessageType;
 import cz.spiffyk.flpmanager.util.Messenger.Subscriber;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Dialog;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -66,6 +68,8 @@ public class MainScreen extends VBox implements Subscriber {
 	 * The treeview showing the songs and underlying projects
 	 */
 	@FXML private SongsView songsView;
+
+	@FXML private CheckBox hideNotFavoritedCheckBox;
 	
 	
 	
@@ -108,6 +112,8 @@ public class MainScreen extends VBox implements Subscriber {
 		if (appConfiguration.isAutoUpdateCheck()) {
 			checkForUpdates(true);
 		}
+
+		hideNotFavoritedCheckBox.setSelected(appConfiguration.isHideNotFavorited());
 	}
 	
 	/**
@@ -154,6 +160,18 @@ public class MainScreen extends VBox implements Subscriber {
 	 */
 	@FXML protected void checkForUpdates() {
 		checkForUpdates(false);
+	}
+
+	/**
+	 * Fired when Hide Unfavorited checkbox is clicked
+	 * @param event The event fired by the checkbox
+	 */
+	@FXML protected void unfavoritedCheck(final ActionEvent event) {
+		if (event.getSource() instanceof CheckBox) {
+			final boolean selected = ((CheckBox) event.getSource()).isSelected();
+			songsView.setHidingUnfavorited(selected);
+			appConfiguration.setHideNotFavorited(selected);
+		}
 	}
 	
 	/**

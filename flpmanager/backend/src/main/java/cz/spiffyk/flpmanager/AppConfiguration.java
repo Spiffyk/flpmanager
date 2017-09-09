@@ -45,6 +45,11 @@ public class AppConfiguration {
 	 * Whether pre-release updates should be ignored
 	 */
 	@Getter @Setter private boolean ignoreUpdatePreReleases;
+
+	/**
+	 * Whether non-favorited {@link cz.spiffyk.flpmanager.data.Song}s should be hidden
+	 */
+	@Getter @Setter private boolean hideNotFavorited;
 	
 	
 	
@@ -154,6 +159,7 @@ public class AppConfiguration {
 		setWorkspacePath(properties.getProperty("workspace", ""));
 		setAutoUpdateCheck(Boolean.parseBoolean(properties.getProperty("auto_update_check", "true")));
 		setIgnoreUpdatePreReleases(Boolean.parseBoolean(properties.getProperty("ignore_update_pre_releases", "true")));
+		setHideNotFavorited(Boolean.parseBoolean(properties.getProperty("hide_not_favorited", "true")));
 		setLoaded(true);
 	}
 	
@@ -168,6 +174,7 @@ public class AppConfiguration {
 		properties.setProperty("workspace", getWorkspacePath());
 		properties.setProperty("auto_update_check", Boolean.toString(isAutoUpdateCheck()));
 		properties.setProperty("ignore_update_pre_releases", Boolean.toString(isIgnoreUpdatePreReleases()));
+		properties.setProperty("hide_not_favorited", Boolean.toString(isHideNotFavorited()));
 		return properties;
 	}
 }
