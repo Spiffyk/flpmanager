@@ -70,7 +70,11 @@ public class Main extends Application {
 			mainScreen.setWorkspace(workspace);
 		
 			primaryStage.setScene(scene);
-			primaryStage.setTitle(text.get("application.name"));
+			if (getClass().getPackage().getImplementationVersion() == null) {
+				primaryStage.setTitle(text.get("application.name") + " (unpackaged dev. build)");
+			} else {
+				primaryStage.setTitle(text.get("application.name") + " " + getClass().getPackage().getImplementationVersion());
+			}
 			primaryStage.setOnCloseRequest((e) -> {
 				appConfiguration.save();
 				ManagerFileHandler.saveWorkspace(workspace);
