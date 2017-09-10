@@ -2,6 +2,8 @@ package cz.spiffyk.flpmanager.application.controls.workspace;
 
 import cz.spiffyk.flpmanager.data.WorkspaceNode;
 import javafx.scene.control.Label;
+import javafx.scene.input.ContextMenuEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
@@ -60,5 +62,13 @@ public abstract class WorkspaceNodeTreeCellContent<N extends WorkspaceNode> exte
 		HBox.setHgrow(separatorRegion, Priority.ALWAYS);
 		
 		this.getChildren().addAll(this.leftBox, this.label, this.rightBox, separatorRegion, this.buttonBox);
+	}
+
+	public void onContextMenu(final ContextMenuEvent event) {
+		// to be overriden if needed
+	}
+
+	public void onMouseClick(final MouseEvent event) {
+		// to be overriden if needed
 	}
 }

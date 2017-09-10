@@ -31,6 +31,18 @@ public class WorkspaceNodeTreeCell extends TreeCell<WorkspaceNode> {
 	public WorkspaceNodeTreeCell() {
 		super();
 		this.setText(null);
+
+		this.setOnContextMenuRequested((event) -> {
+			if (this.getGraphic() instanceof WorkspaceNodeTreeCellContent) {
+				((WorkspaceNodeTreeCellContent) this.getGraphic()).onContextMenu(event);
+			}
+		});
+
+		this.setOnMouseClicked((event) -> {
+			if (this.getGraphic() instanceof WorkspaceNodeTreeCellContent) {
+				((WorkspaceNodeTreeCellContent) this.getGraphic()).onMouseClick(event);
+			}
+		});
 	}
 	
 	

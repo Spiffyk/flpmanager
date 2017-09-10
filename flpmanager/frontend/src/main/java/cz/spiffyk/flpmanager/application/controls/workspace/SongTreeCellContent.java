@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
+import javafx.scene.input.ContextMenuEvent;
 import org.apache.commons.io.FileUtils;
 
 import cz.spiffyk.flpmanager.Text;
@@ -63,10 +64,9 @@ public class SongTreeCellContent extends WorkspaceNodeTreeCellContent<Song> impl
 	public SongTreeCellContent(Song node) {
 		super(node);
 		this.contextMenu = new SongContextMenu();
-		this.setOnContextMenuRequested((event) -> {
-			this.contextMenu.show(this.getScene().getWindow(), event.getScreenX(), event.getScreenY());
-			event.consume();
-		});
+//		this.setOnContextMenuRequested((event) -> {
+//
+//		});
 		getStyleClass().add("song-cell");
 		this.song = node;
 		node.addObserver(this);
@@ -102,6 +102,12 @@ public class SongTreeCellContent extends WorkspaceNodeTreeCellContent<Song> impl
 		} else {
 			getLabel().setText(song.getAuthor() + " - " + song.getName());
 		}
+	}
+
+	@Override
+	public void onContextMenu(final ContextMenuEvent event) {
+		this.contextMenu.show(this.getScene().getWindow(), event.getScreenX(), event.getScreenY());
+		event.consume();
 	}
 	
 	

@@ -16,6 +16,8 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.input.ContextMenuEvent;
+import javafx.scene.input.MouseEvent;
 
 /**
  * The content box of a tree cell representing a {@link Project}
@@ -47,11 +49,7 @@ public class ProjectTreeCellContent extends WorkspaceNodeTreeCellContent<Project
 		this.project = node;
 		
 		this.contextMenu = new ProjectContextMenu();
-		this.setOnContextMenuRequested((event) -> {
-			this.contextMenu.show(this.getScene().getWindow(), event.getScreenX(), event.getScreenY());
-			event.consume();
-		});
-		
+
 		getStyleClass().add("project-cell");
 		getLabel().setText(node.getName());
 		final Button openButton = new Button(text.get("project.open"));
@@ -59,11 +57,6 @@ public class ProjectTreeCellContent extends WorkspaceNodeTreeCellContent<Project
 			node.openProject();
 		});
 		
-		this.setOnMouseClicked((event) -> {
-			if (event.getClickCount() == 2) {
-				node.openProject();
-			}
-		});
 		getButtonBox().getChildren().add(openButton);
 	}
 
@@ -80,9 +73,20 @@ public class ProjectTreeCellContent extends WorkspaceNodeTreeCellContent<Project
 	private void update() {
 		getLabel().setText(project.getName());
 	}
-	
-	
-	
+
+	@Override
+	public void onContextMenu(ContextMenuEvent event) {
+		this.contextMenu.show(this.getScene().getWindow(), event.getScreenX(), event.getScreenY());
+		event.consume();
+	}
+
+	@Override
+	public void onMouseClick(MouseEvent event) {
+		if (event.getClickCount() == 2) {
+			project.openProject();
+		}
+	}
+
 	/**
 	 * Context menu for the content
 	 * @author spiffyk
