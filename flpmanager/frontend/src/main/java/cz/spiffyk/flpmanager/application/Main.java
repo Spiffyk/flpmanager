@@ -1,17 +1,11 @@
 package cz.spiffyk.flpmanager.application;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Properties;
 
 import cz.spiffyk.flpmanager.*;
-import org.apache.commons.lang3.SystemUtils;
+import cz.spiffyk.flpmanager.application.screens.FirstTimeSettingsDialog;
 
 import cz.spiffyk.flpmanager.application.screens.MainScreen;
-import cz.spiffyk.flpmanager.application.screens.SetupDialog;
 import cz.spiffyk.flpmanager.data.Workspace;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -43,7 +37,7 @@ public class Main extends Application {
 		if (appConfiguration.isLoaded()) {
 			startApplication(primaryStage);
 		} else {
-			SetupDialog setupDialog = new SetupDialog();
+			FirstTimeSettingsDialog setupDialog = new FirstTimeSettingsDialog();
 			setupDialog.showAndWait().ifPresent((b) -> {
 				if (b.booleanValue()) {
 					appConfiguration.save();

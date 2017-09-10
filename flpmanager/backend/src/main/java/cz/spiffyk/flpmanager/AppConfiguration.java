@@ -24,32 +24,32 @@ public class AppConfiguration {
 	/**
 	 * The path to the FL Studio project template
 	 */
-	@Getter @Setter @NonNull private String flpTemplatePath;
+	@Getter @Setter @NonNull private String flpTemplatePath = "";
 	
 	/**
 	 * The path to the FL Studio executable
 	 */
-	@Getter @Setter @NonNull private String flExecutablePath;
+	@Getter @Setter @NonNull private String flExecutablePath = "";
 	
 	/**
 	 * The path to the user's workspace
 	 */
-	@Getter @Setter @NonNull private String workspacePath;
+	@Getter @Setter @NonNull private String workspacePath = "";
 	
 	/**
 	 * Whether FLP Manager should check for updates on startup
 	 */
-	@Getter @Setter private boolean autoUpdateCheck;
+	@Getter @Setter private boolean autoUpdateCheck = true;
 	
 	/**
 	 * Whether pre-release updates should be ignored
 	 */
-	@Getter @Setter private boolean ignoreUpdatePreReleases;
+	@Getter @Setter private boolean ignoreUpdatePreReleases = true;
 
 	/**
 	 * Whether non-favorited {@link cz.spiffyk.flpmanager.data.Song}s should be hidden
 	 */
-	@Getter @Setter private boolean hideNotFavorited;
+	@Getter @Setter private boolean hideNotFavorited = true;
 	
 	
 	

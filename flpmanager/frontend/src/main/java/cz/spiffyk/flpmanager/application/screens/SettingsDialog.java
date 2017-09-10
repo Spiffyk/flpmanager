@@ -40,14 +40,9 @@ public class SettingsDialog extends Dialog<Boolean> {
 	
 	
 	/**
-	 * Path to FL Studio executable
-	 */
-	File pathToExeFile = new File(appConfiguration.getFlExecutablePath());
-	
-	/**
 	 * Text field containing path to FL Studio executable
 	 */
-	@FXML private TextField pathToExe;
+	@FXML protected TextField pathToExe;
 	
 	/**
 	 * File chooser for FL Studio executable
@@ -55,7 +50,9 @@ public class SettingsDialog extends Dialog<Boolean> {
 	private final FileChooser exeFileChooser = new FileChooser();
 	{
 		exeFileChooser.setTitle(text.get("settings.fl_exe_title"));
-		exeFileChooser.setInitialDirectory(pathToExeFile);
+		if (!appConfiguration.getFlExecutablePath().isEmpty()) {
+			exeFileChooser.setInitialDirectory(new File(appConfiguration.getFlExecutablePath()));
+		}
 		exeFileChooser.getExtensionFilters().addAll(
 				new ExtensionFilter(text.get("file_type.executable"), "*.exe", "*.bat", "*.sh"),
 				new ExtensionFilter(text.get("file_type.exe"), "*.exe"),
@@ -67,14 +64,9 @@ public class SettingsDialog extends Dialog<Boolean> {
 	
 	
 	/**
-	 * Path to FLP template
-	 */
-	File pathToTemplateFile = new File(appConfiguration.getFlpTemplatePath());
-	
-	/**
 	 * Text field containing path to FLP template
 	 */
-	@FXML private TextField pathToTemplate;
+	@FXML protected TextField pathToTemplate;
 	
 	/**
 	 * File chooser for FLP template
@@ -82,7 +74,9 @@ public class SettingsDialog extends Dialog<Boolean> {
 	private final FileChooser templateFileChooser = new FileChooser();
 	{
 		templateFileChooser.setTitle(text.get("settings.template_title"));
-		templateFileChooser.setInitialDirectory(pathToTemplateFile);
+		if (!appConfiguration.getFlpTemplatePath().isEmpty()) {
+			templateFileChooser.setInitialDirectory(new File(appConfiguration.getFlpTemplatePath()));
+		}
 		templateFileChooser.getExtensionFilters().addAll(
 				new ExtensionFilter(text.get("file_type.flp"), "*.flp"),
 				new ExtensionFilter(text.get("file_type.all"), "*.*"));
@@ -93,7 +87,7 @@ public class SettingsDialog extends Dialog<Boolean> {
 	/**
 	 * Text field containing path to workspace
 	 */
-	@FXML private TextField pathToWorkspace;
+	@FXML protected TextField pathToWorkspace;
 	
 	/**
 	 * Directory chooser for workspace
@@ -161,7 +155,7 @@ public class SettingsDialog extends Dialog<Boolean> {
 	/**
 	 * Initializes the fields to the current configured values
 	 */
-	@FXML private void initialize() {
+	@FXML protected void initialize() {
 		pathToExe.setText(appConfiguration.getFlExecutablePath());
 		pathToTemplate.setText(appConfiguration.getFlpTemplatePath());
 		pathToWorkspace.setText(appConfiguration.getWorkspacePath());
@@ -238,7 +232,7 @@ public class SettingsDialog extends Dialog<Boolean> {
 	/**
 	 * Called when path to executable button is clicked
 	 */
-	@FXML private void setPathToExe() {
+	@FXML protected void setPathToExe() {
 		File f = exeFileChooser.showOpenDialog(null);
 		if (f != null) {
 			pathToExe.setText(f.getAbsolutePath());
@@ -248,7 +242,7 @@ public class SettingsDialog extends Dialog<Boolean> {
 	/**
 	 * Called when path to template button is clicked
 	 */
-	@FXML private void setPathToTemplate() {
+	@FXML protected void setPathToTemplate() {
 		File f = templateFileChooser.showOpenDialog(null);
 		if (f != null) {
 			pathToTemplate.setText(f.getAbsolutePath());
