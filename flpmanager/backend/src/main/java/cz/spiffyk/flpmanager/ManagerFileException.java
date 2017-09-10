@@ -5,8 +5,7 @@ package cz.spiffyk.flpmanager;
  * @author spiffyk
  */
 public class ManagerFileException extends RuntimeException {
-	private static final long serialVersionUID = -3895986134500637307L;
-	
+
 	public ManagerFileException() {
 		super();
 	}

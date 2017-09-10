@@ -2,10 +2,16 @@ package cz.spiffyk.flpmanager.data;
 
 import java.awt.Desktop;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.nio.channels.FileChannel;
+import java.nio.channels.FileLock;
+import java.nio.channels.OverlappingFileLockException;
 import java.util.Observable;
 import java.util.UUID;
 
+import cz.spiffyk.flpmanager.WorkspaceInUseException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -37,6 +43,11 @@ public class Workspace extends Observable {
 	 * The name of the XML tag representing a workspace
 	 */
 	public static final String WORKSPACE_TAGNAME = "workspace";
+
+	/**
+	 * The filename of workspace lockfile
+	 */
+	private static final String LOCK_FILE_NAME = ".flpm_lock";
 	
 	/**
 	 * The directory containing the workspace
@@ -57,6 +68,8 @@ public class Workspace extends Observable {
 	 * The map of {@link Tag}s mapped by their UUID.
 	 */
 	private ObservableMap<UUID, Tag> tagMap = FXCollections.observableHashMap();
+
+	private FileLock fileLock;
 	
 	
 	
@@ -118,9 +131,63 @@ public class Workspace extends Observable {
 		
 		return workspace;
 	}
-	
-	
-	
+
+
+	/**
+	 * Locks the workspace and checks whether the application exited gracefully the last time.
+	 *
+	 * @return {@code true} if application ended gracefully the last time it was used, otherwise {@code false}
+	 */
+	public boolean lock() {
+		final File lockFile = new File(directory, LOCK_FILE_NAME);
+		boolean existed = lockFile.exists();
+		if (!existed) {
+			try {
+				if (!lockFile.createNewFile()) {
+					throw new RuntimeException("Could not create lockfile!");
+				}
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+		}
+
+		try {
+			final RandomAccessFile lockRAFile = new RandomAccessFile(lockFile, "rw");
+			final FileChannel fileChannel = lockRAFile.getChannel();
+
+			try {
+				final FileLock lock = fileChannel.tryLock();
+				if (lock == null) {
+					throw new WorkspaceInUseException("Workspace is in use!");
+				}
+				this.fileLock = lock;
+			} catch (OverlappingFileLockException e) {
+				throw new WorkspaceInUseException("Workspace is in use!", e);
+			}
+		} catch (FileNotFoundException e) {
+			throw new RuntimeException("Lock file not found (even though its creation was successful???)", e);
+		} catch (IOException e) {
+			throw new RuntimeException("Could not lock file due to an I/O error!", e);
+		}
+
+		return !existed;
+	}
+
+	/**
+	 * Unlocks the workspace and deletes the lockfile to indicate graceful exit.
+	 */
+	public void unlock() {
+		final File lockFile = new File(directory, LOCK_FILE_NAME);
+		try {
+			fileLock.release();
+		} catch (IOException e) {
+			throw new RuntimeException("Could not release file due to an I/O error!", e);
+		}
+		if (!lockFile.delete()) {
+			throw new RuntimeException("Could not delete lockfile!");
+		}
+	}
+
 	/**
 	 * Adds tags into the workspace
 	 * @param inputTagIterable The iterable containing the tags to add into the workspace

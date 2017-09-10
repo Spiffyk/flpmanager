@@ -7,12 +7,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+import cz.spiffyk.flpmanager.*;
 import org.apache.commons.lang3.SystemUtils;
 
-import cz.spiffyk.flpmanager.AppConfiguration;
-import cz.spiffyk.flpmanager.ManagerFileException;
-import cz.spiffyk.flpmanager.ManagerFileHandler;
-import cz.spiffyk.flpmanager.Text;
 import cz.spiffyk.flpmanager.application.screens.MainScreen;
 import cz.spiffyk.flpmanager.application.screens.SetupDialog;
 import cz.spiffyk.flpmanager.data.Workspace;
@@ -70,6 +67,12 @@ public class Main extends Application {
 		
 		try {
 			final Workspace workspace = ManagerFileHandler.loadWorkspace(appConfiguration.getWorkspacePath());
+			if (!workspace.lock()) {
+				final Alert alert = new Alert(AlertType.WARNING);
+				alert.setHeaderText(text.get("init.last_exit_not_graceful"));
+				alert.setContentText(text.get("init.last_exit_not_graceful_content"));
+				alert.showAndWait();
+			}
 			mainScreen.setWorkspace(workspace);
 		
 			primaryStage.setScene(scene);
@@ -77,6 +80,7 @@ public class Main extends Application {
 			primaryStage.setOnCloseRequest((e) -> {
 				appConfiguration.save();
 				ManagerFileHandler.saveWorkspace(workspace);
+				workspace.unlock();
 				Platform.exit();
 			});
 			primaryStage.show();
@@ -94,6 +98,14 @@ public class Main extends Application {
 			final Alert alert = new Alert(AlertType.ERROR);
 			alert.setHeaderText(text.get("init.workspace_error"));
 			alert.setContentText(e.getMessage());
+			alert.showAndWait();
+			Platform.exit();
+		} catch (WorkspaceInUseException e) {
+			e.printStackTrace();
+
+			final Alert alert = new Alert(AlertType.ERROR);
+			alert.setHeaderText(null);
+			alert.setContentText(text.get("init.workspace_in_use"));
 			alert.showAndWait();
 			Platform.exit();
 		}
