@@ -17,8 +17,8 @@
 		<url>https://github.com/Spiffyk/flpmanager</url>
 	</scm>
 	<modules>
-		<module>frontend</module>
-		<module>backend</module>
+		<module>flpmanager-fx</module>
+		<module>libflpmanager</module>
 		<module>util</module>
 		<module>bundle</module>
 	</modules>

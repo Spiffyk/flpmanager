@@ -40,7 +40,7 @@ To package the project as a `.jar`, run:
 $ mvn package
 ```
 
-The executable `.jar` is then located at `flpmanager/bundle/target/flpmanager-<version>-r<revision>.jar`.
+The executable `.jar` is then located at `flpmanager/flpmanager-fx/target/flpmanager-fx-<version>-r<revision>.jar`.
 
 ## Legal
 

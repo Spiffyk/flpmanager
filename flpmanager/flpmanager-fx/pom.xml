@@ -6,17 +6,22 @@
 		<artifactId>flpmanager</artifactId>
 		<version>0.3</version>
 	</parent>
-	<artifactId>bundle</artifactId>
+	<artifactId>flpmanager-fx</artifactId>
 	<dependencies>
 		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>frontend</artifactId>
+			<groupId>cz.spiffyk.flpmanager</groupId>
+			<artifactId>libflpmanager</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>cz.spiffyk.flpmanager</groupId>
+			<artifactId>util</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 
 	<build>
-		<finalName>flpmanager-${project.version}-r${buildNumber}</finalName>
+		<finalName>flpmanager-fx-${project.version}-r${buildNumber}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -25,7 +30,7 @@
 				<configuration>
 					<transformers>
 						<transformer
-							implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+								implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 							<mainClass>cz.spiffyk.flpmanager.application.Main</mainClass>
 						</transformer>
 					</transformers>
@@ -39,7 +44,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			
+
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>buildnumber-maven-plugin</artifactId>
@@ -58,7 +63,7 @@
 					<shortRevisionLength>5</shortRevisionLength>
 				</configuration>
 			</plugin>
-			
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>

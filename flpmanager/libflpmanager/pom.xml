@@ -5,7 +5,7 @@
         <artifactId>flpmanager</artifactId>
         <version>0.3</version>
     </parent>
-  <artifactId>backend</artifactId>
+  <artifactId>libflpmanager</artifactId>
   <dependencies>
   	<dependency>
   		<groupId>${project.groupId}</groupId>
