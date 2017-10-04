@@ -9,14 +9,8 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.DialogPane;
-import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -36,6 +30,9 @@ public class SettingsDialog extends Dialog<Boolean> {
 	 * Language API
 	 */
 	private static final Text text = Text.get();
+
+	private static final ButtonType ALLOW_PRERELEASES_BUTTON =
+			new ButtonType(text.get("settings.prerelease_ok"), ButtonBar.ButtonData.OK_DONE);
 	
 	
 	
@@ -202,13 +199,14 @@ public class SettingsDialog extends Dialog<Boolean> {
 		}
 		
 		if (doUpdatePreReleasesModified && doUpdatePreReleases.isSelected()) {
-			final Alert alert = new Alert(AlertType.WARNING, null, ButtonType.CANCEL, ButtonType.OK);
+			final Alert alert =
+					new Alert(AlertType.WARNING, null, ButtonType.CANCEL, ALLOW_PRERELEASES_BUTTON);
 			alert.initOwner(this.getDialogPane().getScene().getWindow());
 			alert.setHeaderText(text.get("settings.prerelease_warning"));
 			alert.setContentText(text.get("settings.prerelease_confirmation"));
 			ButtonType b = alert.showAndWait().orElse(ButtonType.CANCEL);
 			
-			if (b == ButtonType.CANCEL) {
+			if (b.getButtonData() == ButtonBar.ButtonData.CANCEL_CLOSE) {
 				event.consume();
 				return;
 			}

@@ -13,15 +13,7 @@ import cz.spiffyk.flpmanager.util.ManagerUtils;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.DialogPane;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import lombok.Getter;
 import lombok.NonNull;
@@ -29,10 +21,13 @@ import lombok.NonNull;
 public class TagsEditorDialog extends Dialog<Boolean> {
 	
 	private static final Text text = Text.get();
+
+	private static final Map<Tag, TagListCellContent> contents = new HashMap<>();
+
+	private static final ButtonType DELETE_BUTTON =
+			new ButtonType(text.get("tag.delete_ok"), ButtonBar.ButtonData.OK_DONE);
 	
 	@Getter private final Workspace workspace;
-	
-	private static final Map<Tag, TagListCellContent> contents = new HashMap<>();
 	
 	@FXML private ListView<Tag> tags;
 	
@@ -98,12 +93,12 @@ public class TagsEditorDialog extends Dialog<Boolean> {
 			
 			MenuItem deleteItem = new MenuItem(text.get("tag.ctx.delete"));
 			deleteItem.setOnAction((event) -> {
-				final Alert alert = new Alert(AlertType.CONFIRMATION);
+				final Alert alert = new Alert(
+						AlertType.CONFIRMATION, text.get("tag.delete_confirm"), ButtonType.CANCEL, DELETE_BUTTON);
 				alert.initOwner(getScene().getWindow());
 				alert.setHeaderText(null);
-				alert.setContentText(text.get("tag.delete_confirm"));
 				ButtonType bt = alert.showAndWait().orElse(ButtonType.CANCEL);
-				if (bt == ButtonType.OK) {
+				if (bt.getButtonData() == ButtonBar.ButtonData.OK_DONE) {
 					workspace.getTags().remove(tag);
 				}
 			});

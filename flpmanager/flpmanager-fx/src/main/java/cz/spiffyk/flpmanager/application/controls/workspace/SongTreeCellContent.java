@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
+import javafx.scene.control.*;
 import javafx.scene.input.ContextMenuEvent;
 import org.apache.commons.io.FileUtils;
 
@@ -16,13 +17,6 @@ import cz.spiffyk.flpmanager.data.Project;
 import cz.spiffyk.flpmanager.data.Song;
 import cz.spiffyk.flpmanager.util.Messenger;
 import cz.spiffyk.flpmanager.util.Messenger.MessageType;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.SeparatorMenuItem;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.scene.control.Alert.AlertType;
@@ -34,6 +28,9 @@ import javafx.scene.control.Alert.AlertType;
 public class SongTreeCellContent extends WorkspaceNodeTreeCellContent<Song> implements Observer {
 	
 	private static final Text text = Text.get();
+
+	private static final ButtonType DELETE_BUTTON =
+			new ButtonType(text.get("song.delete_ok"), ButtonBar.ButtonData.OK_DONE);
 	
 	/**
 	 * The {@link Song} to represent
@@ -179,12 +176,12 @@ public class SongTreeCellContent extends WorkspaceNodeTreeCellContent<Song> impl
 			
 			MenuItem deleteItem = new MenuItem(text.get("song.ctx.delete"));
 			deleteItem.setOnAction((event) -> {
-				final Alert alert = new Alert(AlertType.CONFIRMATION);
+				final Alert alert = new Alert(
+						AlertType.CONFIRMATION, text.get("song.delete_confirm"), ButtonType.CANCEL, DELETE_BUTTON);
 				alert.initOwner(this.getOwnerWindow());
 				alert.setHeaderText(null);
-				alert.setContentText(text.get("song.delete_confirm"));
 				ButtonType bt = alert.showAndWait().orElse(ButtonType.CANCEL);
-				if (bt == ButtonType.OK) {
+				if (bt.getButtonData() == ButtonBar.ButtonData.OK_DONE) {
 					song.getParent().getSongs().remove(song);
 					song.delete();
 				}

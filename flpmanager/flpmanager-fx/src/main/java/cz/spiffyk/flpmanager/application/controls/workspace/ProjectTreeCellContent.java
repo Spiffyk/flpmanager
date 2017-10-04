@@ -7,14 +7,7 @@ import cz.spiffyk.flpmanager.Text;
 import cz.spiffyk.flpmanager.application.screens.ProjectEditorDialog;
 import cz.spiffyk.flpmanager.data.Project;
 import cz.spiffyk.flpmanager.data.Project.RenderFormat;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
@@ -26,6 +19,9 @@ import javafx.scene.input.MouseEvent;
 public class ProjectTreeCellContent extends WorkspaceNodeTreeCellContent<Project> implements Observer {
 	
 	private static final Text text = Text.get();
+
+	private static final ButtonType DELETE_BUTTON =
+			new ButtonType(text.get("project.delete_ok"), ButtonBar.ButtonData.OK_DONE);
 	
 	/**
 	 * The context menu
@@ -133,12 +129,12 @@ public class ProjectTreeCellContent extends WorkspaceNodeTreeCellContent<Project
 			
 			MenuItem deleteItem = new MenuItem(text.get("project.ctx.delete"));
 			deleteItem.setOnAction((event) -> {
-				final Alert alert = new Alert(AlertType.CONFIRMATION);
+				final Alert alert = new Alert(
+						AlertType.CONFIRMATION, text.get("project.delete_confirm"), ButtonType.CANCEL, DELETE_BUTTON);
 				alert.initOwner(this.getOwnerWindow());
 				alert.setHeaderText(null);
-				alert.setContentText(text.get("project.delete_confirm"));
 				ButtonType bt = alert.showAndWait().orElse(ButtonType.CANCEL);
-				if (bt == ButtonType.OK) {
+				if (bt.getButtonData() == ButtonBar.ButtonData.OK_DONE) {
 					project.getParent().getProjects().remove(project);
 					project.delete();
 				}
